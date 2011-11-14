@@ -4,6 +4,7 @@ gem 'rails', '3.1.1'
 
 # Bundle edge Rails instead:
 # gem 'rails',     :git => 'git://github.com/rails/rails.git'
+gem 'paperclip'
 
 group :development, :test do
 	gem 'sqlite3'
@@ -13,6 +14,7 @@ gem 'heroku'
 
 group :production do
 	gem 'pg'
+	gem 'aws-s3', :require => 'aws/s3'
 end
 
 gem 'shopify_app'
