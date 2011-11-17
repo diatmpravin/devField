@@ -1,9 +1,3 @@
-GIT
-  remote: git://github.com/optoro/amazon-mws.git
-  revision: 289846ac7b632c3d2530fa12d3fce4a444289c86
-  specs:
-    amazon-mws (0.1.0)
-
 GEM
   remote: http://rubygems.org/
   specs:
@@ -36,6 +30,7 @@ GEM
     activesupport (3.1.1)
       multi_json (~> 1.0)
     addressable (2.2.6)
+    amazon-mws (0.1.0)
     ansi (1.4.1)
     arel (2.2.1)
     aws-s3 (0.6.2)
@@ -73,6 +68,7 @@ GEM
       treetop (~> 1.4.8)
     mime-types (1.17.2)
     multi_json (1.0.3)
+    nokogiri (1.5.0-x86-mingw32)
     paperclip (2.4.5)
       activerecord (>= 2.3.0)
       activesupport (>= 2.3.2)
@@ -109,6 +105,10 @@ GEM
       json (~> 1.4)
     rest-client (1.6.7)
       mime-types (>= 1.16)
+    roxml (3.1.6)
+      activesupport (>= 2.3.0)
+      nokogiri (>= 1.3.3)
+    ruby-hmac (0.4.0)
     rubyzip (0.9.4)
     sass (3.1.10)
     sass-rails (3.1.4)
@@ -146,7 +146,7 @@ PLATFORMS
   x86-mingw32
 
 DEPENDENCIES
-  amazon-mws!
+  amazon-mws
   aws-s3
   coffee-rails (~> 3.1.1)
   heroku
@@ -154,6 +154,8 @@ DEPENDENCIES
   paperclip
   pg
   rails (= 3.1.1)
+  roxml
+  ruby-hmac
   sass-rails (~> 3.1.4)
   shopify_app
   sqlite3

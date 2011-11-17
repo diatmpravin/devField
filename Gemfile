@@ -17,7 +17,10 @@ group :production do
 	gem 'aws-s3', :require => 'aws/s3'
 end
 
-gem 'amazon-mws', :git => 'git://github.com/optoro/amazon-mws.git'
+gem 'amazon-mws' #, :git => 'git://github.com/optoro/amazon-mws.git'
+#gem 'jeweler'
+gem 'ruby-hmac'
+gem 'roxml'
 
 gem 'shopify_app'
 
