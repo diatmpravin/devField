@@ -17,6 +17,8 @@ group :production do
 	gem 'aws-s3', :require => 'aws/s3'
 end
 
+gem 'amazon-mws', :git => 'git://github.com/optoro/amazon-mws.git'
+
 gem 'shopify_app'
 
 # Gems used only for assets and not required

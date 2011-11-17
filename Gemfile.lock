@@ -1,3 +1,9 @@
+GIT
+  remote: git://github.com/optoro/amazon-mws.git
+  revision: 289846ac7b632c3d2530fa12d3fce4a444289c86
+  specs:
+    amazon-mws (0.1.0)
+
 GEM
   remote: http://rubygems.org/
   specs:
@@ -140,6 +146,7 @@ PLATFORMS
   x86-mingw32
 
 DEPENDENCIES
+  amazon-mws!
   aws-s3
   coffee-rails (~> 3.1.1)
   heroku
