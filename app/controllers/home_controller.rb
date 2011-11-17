@@ -10,7 +10,7 @@ class HomeController < ApplicationController
     
 		mws = Amazon::MWS::Base.new(
    		"access_key"=>"AKIAIIPPIV2ZWUHDD5HA",
-   		"secret_access_key"=>"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",
+   		"secret_access_key"=>ENV['MWS_SECRET_HDO'],#"M0JeWIHo4yKAebHR4Q+m+teUgjwR0hHJPeCpsBTx",
    		"merchant_id"=>"A3VX72MEBB21JI",
    		"marketplace_id"=>"ATVPDKIKX0DER"
 		)
