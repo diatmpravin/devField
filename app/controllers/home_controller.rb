@@ -1,5 +1,3 @@
-include Amazon::MWS
-
 class HomeController < ApplicationController
   
   around_filter :shopify_session, :except => 'welcome'
