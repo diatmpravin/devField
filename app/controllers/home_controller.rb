@@ -1,3 +1,4 @@
+include Amazon::MWS
 
 class HomeController < ApplicationController
   
