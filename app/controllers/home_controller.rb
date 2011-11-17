@@ -1,4 +1,5 @@
 #require "amazonmws"
+include AmazonMWS
 
 class HomeController < ApplicationController
   
