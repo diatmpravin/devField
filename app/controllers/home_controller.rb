@@ -1,5 +1,3 @@
-#require "amazonmws"
-include AmazonMWS
 
 class HomeController < ApplicationController
   
@@ -17,7 +15,7 @@ class HomeController < ApplicationController
     # get latest 3 orders
     @orders   = ShopifyAPI::Order.find(:all, :params => {:limit => 3, :order => "created_at DESC" })
 
-		mws = AmazonMWS::Base.new(
+		mws = Amazon::MWS::Base.new(
    		"access_key"=>"AKIAIIPPIV2ZWUHDD5HA",
    		"secret_access_key"=>"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",
    		"merchant_id"=>"A3VX72MEBB21JI",
