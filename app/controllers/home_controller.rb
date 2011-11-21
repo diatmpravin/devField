@@ -102,7 +102,6 @@ class HomeController < ApplicationController
 			end
 		elsif request.request_type=="ListOrderItems"		
 			page.order_items.each do |i|
-				# TODO returns an order_item_id that I'm ignoring, or an error code, impossible to distinguish between the two, however
 				process_order_item(i,response.amazon_order_id)
 			end
 		end
@@ -115,15 +114,13 @@ class HomeController < ApplicationController
 		h['response_id'] = response_id
 		amz_order = Order.find_or_create_by_amazon_order_id(order.amazon_order_id)
 		amz_order.update_attributes(h)
-		
-		# need to do error checking, sometimes get_order_items will return an error on a page
 		return get_order_items(mws_connection, amz_order.amazon_order_id)
-		#return amz_order.id
 	end
 	
 	
 	def process_order_item(item, amazon_order_id)
 		h = instance_vars_to_hash(item)
+		h['amazon_order_id'] = amazon_order_id
 		amz_item = OrderItem.find_or_create_by_amazon_order_item_id_and_order_id(item.amazon_order_item_id,Order.find_by_amazon_order_id(amazon_order_id).id)		
 		amz_item.update_attributes(h)
 	end
