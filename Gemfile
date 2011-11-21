@@ -5,6 +5,12 @@ gem 'rails', '3.1.1'
 # Bundle edge Rails instead:
 # gem 'rails',     :git => 'git://github.com/rails/rails.git'
 gem 'paperclip'
+gem 'heroku'
+gem 'aws-s3', :require => 'aws/s3'
+
+group :production do
+	gem 'pg'
+end
 
 group :development, :test do
 	gem 'sqlite3'
@@ -12,16 +18,8 @@ group :development, :test do
 	gem 'ruby-debug19', "0.11.6"
 end
 
-gem 'heroku'
-
-group :production do
-	gem 'pg'
-	gem 'aws-s3', :require => 'aws/s3'
-	
-end
-
-gem 'amazon-mws', :path => "/Ruby/fieldday/amazon-mws"
-#gem 'amazon-mws', :git => 'git://github.com/adamwible/amazon-mws.git'
+#gem 'amazon-mws', :path => "/Ruby/fieldday/amazon-mws"
+gem 'amazon-mws', :git => 'git://github.com/adamwible/amazon-mws.git'
 
 
 #gem 'jeweler'
@@ -29,7 +27,6 @@ gem 'ruby-hmac'
 gem 'roxml'
 gem 'haml'
 gem 'slowweb'
-
 gem 'shopify_app'
 
 # Gems used only for assets and not required

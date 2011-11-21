@@ -1,5 +1,6 @@
-PATH
-  remote: amazon-mws
+GIT
+  remote: git://github.com/adamwible/amazon-mws.git
+  revision: d88b78b536c925a8e06be328362976d5069734e1
   specs:
     amazon-mws (0.1.0)
 
