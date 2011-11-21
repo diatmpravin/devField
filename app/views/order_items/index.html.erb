@@ -1,0 +1,69 @@
+<h1>Listing order_items</h1>
+
+<table>
+  <tr>
+    <th>Asin</th>
+    <th>Order item</th>
+    <th>Seller sku</th>
+    <th>Title</th>
+    <th>Quantity ordered</th>
+    <th>Quantity shipped</th>
+    <th>Item price</th>
+    <th>Item price currency</th>
+    <th>Shipping price</th>
+    <th>Shipping price currency</th>
+    <th>Gift price</th>
+    <th>Gift price currency</th>
+    <th>Item tax</th>
+    <th>Item tax currency</th>
+    <th>Shipping tax</th>
+    <th>Shipping tax currency</th>
+    <th>Gift tax</th>
+    <th>Gift tax currency</th>
+    <th>Shipping discount</th>
+    <th>Shipping discount currency</th>
+    <th>Promotion discount</th>
+    <th>Promotion discount currency</th>
+    <th>Gift wrap level</th>
+    <th>Gift message text</th>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @order_items.each do |order_item| %>
+  <tr>
+    <td><%= order_item.asin %></td>
+    <td><%= order_item.order_item_id %></td>
+    <td><%= order_item.seller_sku %></td>
+    <td><%= order_item.title %></td>
+    <td><%= order_item.quantity_ordered %></td>
+    <td><%= order_item.quantity_shipped %></td>
+    <td><%= order_item.item_price %></td>
+    <td><%= order_item.item_price_currency %></td>
+    <td><%= order_item.shipping_price %></td>
+    <td><%= order_item.shipping_price_currency %></td>
+    <td><%= order_item.gift_price %></td>
+    <td><%= order_item.gift_price_currency %></td>
+    <td><%= order_item.item_tax %></td>
+    <td><%= order_item.item_tax_currency %></td>
+    <td><%= order_item.shipping_tax %></td>
+    <td><%= order_item.shipping_tax_currency %></td>
+    <td><%= order_item.gift_tax %></td>
+    <td><%= order_item.gift_tax_currency %></td>
+    <td><%= order_item.shipping_discount %></td>
+    <td><%= order_item.shipping_discount_currency %></td>
+    <td><%= order_item.promotion_discount %></td>
+    <td><%= order_item.promotion_discount_currency %></td>
+    <td><%= order_item.gift_wrap_level %></td>
+    <td><%= order_item.gift_message_text %></td>
+    <td><%= link_to 'Show', order_item %></td>
+    <td><%= link_to 'Edit', edit_order_item_path(order_item) %></td>
+    <td><%= link_to 'Destroy', order_item, confirm: 'Are you sure?', method: :delete %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New Order item', new_order_item_path %>

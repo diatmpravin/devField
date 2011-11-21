@@ -11,6 +11,9 @@ end
 
 module Fieldday
   class Application < Rails::Application
+
+		# Throttling for Amazon API
+		SlowWeb.limit('amazonservices.com', 10000, 3600)
     
     # Shopify API connection credentials:
     config.shopify.api_key = "04b6a9a830b55a658e6ccafa26f8e4ac"
@@ -48,6 +51,6 @@ module Fieldday
     config.assets.enabled = true
 
     # Version of your assets, change this if you want to expire all your assets
-    config.assets.version = '1.0'
+    config.assets.version = '1.0' 
   end
 end

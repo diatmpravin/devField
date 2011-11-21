@@ -1,0 +1,13 @@
+%h1.green
+	API Interface
+
+%p
+	Control sheet for the API interface.
+
+%h2= "MWS HDO Orders Response"
+- @my_orders.each do |o|
+	= "#{o.buyer_name} (#{o.amazon_order_id}):"
+	%ul
+		- o.order_items.each do |i|
+			%li= "#{i.title} (#{i.seller_sku}): #{i.item_price_currency} + #{i.item_price} / #{i.quantity_ordered} = #{i.item_price / i.quantity_ordered}"
+

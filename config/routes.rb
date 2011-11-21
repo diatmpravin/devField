@@ -1,5 +1,15 @@
 Fieldday::Application.routes.draw do
+  resources :responses
+
+  resources :requests
+
+  resources :order_items
+
+  resources :orders
+
   match 'welcome'            => 'home#welcome'
+  
+  match 'mws'								 => 'home#mws'
 
   match 'design'             => 'home#design'
 

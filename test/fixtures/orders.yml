@@ -1,0 +1,59 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  amazon_order_id: MyString
+  seller_order_id: MyString
+  purchase_date: 2011-11-19 17:47:21
+  last_update_date: 2011-11-19 17:47:21
+  order_status: MyString
+  fulfillment_channel: MyString
+  sales_channel: MyString
+  order_channel: MyString
+  ship_service_level: MyString
+  amount: 1.5
+  currency_code: MyString
+  address_line_1: MyString
+  address_line_2: MyString
+  address_line_3: MyString
+  city: MyString
+  county: MyString
+  district: MyString
+  state_or_region: MyString
+  postal_code: MyString
+  country_code: MyString
+  phone: MyString
+  number_of_items_shipped: 1
+  number_of_items_unshipped: 1
+  marketplace_id: MyString
+  buyer_name: MyString
+  buyer_email: MyString
+  ship_service_level_category: MyString
+
+two:
+  amazon_order_id: MyString
+  seller_order_id: MyString
+  purchase_date: 2011-11-19 17:47:21
+  last_update_date: 2011-11-19 17:47:21
+  order_status: MyString
+  fulfillment_channel: MyString
+  sales_channel: MyString
+  order_channel: MyString
+  ship_service_level: MyString
+  amount: 1.5
+  currency_code: MyString
+  address_line_1: MyString
+  address_line_2: MyString
+  address_line_3: MyString
+  city: MyString
+  county: MyString
+  district: MyString
+  state_or_region: MyString
+  postal_code: MyString
+  country_code: MyString
+  phone: MyString
+  number_of_items_shipped: 1
+  number_of_items_unshipped: 1
+  marketplace_id: MyString
+  buyer_name: MyString
+  buyer_email: MyString
+  ship_service_level_category: MyString

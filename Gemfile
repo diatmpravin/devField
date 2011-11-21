@@ -8,6 +8,8 @@ gem 'paperclip'
 
 group :development, :test do
 	gem 'sqlite3'
+	gem 'ruby-debug-base19', "0.11.24"
+	gem 'ruby-debug19', "0.11.6"
 end
 
 gem 'heroku'
@@ -15,12 +17,18 @@ gem 'heroku'
 group :production do
 	gem 'pg'
 	gem 'aws-s3', :require => 'aws/s3'
+	
 end
 
-gem 'amazon-mws' #, :git => 'git://github.com/optoro/amazon-mws.git'
+gem 'amazon-mws', :path => "/Ruby/fieldday/amazon-mws"
+#gem 'amazon-mws', :git => 'git://github.com/adamwible/amazon-mws.git'
+
+
 #gem 'jeweler'
 gem 'ruby-hmac'
 gem 'roxml'
+gem 'haml'
+gem 'slowweb'
 
 gem 'shopify_app'
 
