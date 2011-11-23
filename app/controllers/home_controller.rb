@@ -37,7 +37,7 @@ class HomeController < ApplicationController
 		)		
 
 		 
-		response_id = Order.get_orders(mws_hdo, Time.current().yesterday)
+		response_id = Order.get_amz_orders(mws_hdo, Time.current().yesterday)
 		if !response_id.nil?
 			response = Response.find(response_id)	
 			flash[:notice] = "Error - #{response.error_code}: #{response.error_message}"
