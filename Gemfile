@@ -20,7 +20,7 @@ end
 
 #gem 'amazon-mws', :path => "/Ruby/fieldday/amazon-mws"
 gem 'amazon-mws', :git => 'git://github.com/adamwible/amazon-mws.git'
-
+gem 'mechanize'
 
 #gem 'jeweler'
 gem 'ruby-hmac'
@@ -38,6 +38,12 @@ group :assets do
 end
 
 gem 'jquery-rails'
+#gem 'spree', '~> 0.70.3'
+#group :production do
+#	gem 'spree_heroku'
+#end
+#gem 'spree_rdr_theme', :git => 'git://github.com/spree/spree_rdr_theme.git'
+
 
 # To use ActiveModel has_secure_password
 # gem 'bcrypt-ruby', '~> 3.0.0'

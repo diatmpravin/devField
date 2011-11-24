@@ -1,4 +1,6 @@
 Fieldday::Application.routes.draw do
+  resources :imports
+
   resources :responses
 
   resources :requests

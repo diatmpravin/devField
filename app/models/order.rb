@@ -1,8 +1,40 @@
+require 'amazon/mws'
+
 class Order < ActiveRecord::Base
 	belongs_to :response
 	has_many :order_items
 	validates_uniqueness_of :amazon_order_id
 	validates_presence_of :response_id
+	
+	US_MKT = "ATVPDKIKX0DER" 
+
+	def self.fetch_amazon_orders(which)
+		
+		if which=="hdo"
+			mws_connection = Amazon::MWS::Base.new(
+				"access_key"=>"AKIAIIPPIV2ZWUHDD5HA",
+  			"secret_access_key"=>"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",
+  			"merchant_id"=>"A3VX72MEBB21JI",
+  			"marketplace_id"=>US_MKT
+			)
+			cutoff_time = Time.current().yesterday
+		else
+			mws_connection = Amazon::MWS::Base.new(
+		  	"access_key"=>"AKIAIUCCPIMBYXZOZMXQ",
+  			"secret_access_key"=>"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",
+  			"merchant_id"=>"A39CG4I2IXB4I2",
+  			"marketplace_id"=>US_MKT
+  		)		 
+ 			cutoff_time = Time.current().yesterday
+ 		end
+ 		
+		response_id = Order.get_amz_orders(mws_connection,cutoff_time)
+		if !response_id.nil?
+			response = Response.find(response_id)	
+			return "Error - #{response.error_code}: #{response.error_message}"
+		end
+		return "OK"
+	end
 
 	def self.get_amz_orders(mws_connection,date_since)
 		max_pages = 1
