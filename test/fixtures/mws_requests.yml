@@ -1,0 +1,9 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  amazon_request_id: MyString
+  request_type: MyString
+
+two:
+  amazon_request_id: MyString
+  request_type: MyString

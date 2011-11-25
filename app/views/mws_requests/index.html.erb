@@ -1,0 +1,25 @@
+<h1>Listing mws_requests</h1>
+
+<table>
+  <tr>
+    <th>Amazon request</th>
+    <th>Request type</th>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @mws_requests.each do |mws_request| %>
+  <tr>
+    <td><%= mws_request.amazon_request_id %></td>
+    <td><%= mws_request.request_type %></td>
+    <td><%= link_to 'Show', mws_request %></td>
+    <td><%= link_to 'Edit', edit_mws_request_path(mws_request) %></td>
+    <td><%= link_to 'Destroy', mws_request, confirm: 'Are you sure?', method: :delete %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New Mws request', new_mws_request_path %>

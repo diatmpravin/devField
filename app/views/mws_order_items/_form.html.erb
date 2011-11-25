@@ -1,0 +1,121 @@
+<%= form_for(@mws_order_item) do |f| %>
+  <% if @mws_order_item.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@mws_order_item.errors.count, "error") %> prohibited this mws_order_item from being saved:</h2>
+
+      <ul>
+      <% @mws_order_item.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :asin %><br />
+    <%= f.text_field :asin %>
+  </div>
+  <div class="field">
+    <%= f.label :amazon_order_item_id %><br />
+    <%= f.text_field :amazon_order_item_id %>
+  </div>
+  <div class="field">
+    <%= f.label :seller_sku %><br />
+    <%= f.text_field :seller_sku %>
+  </div>
+  <div class="field">
+    <%= f.label :title %><br />
+    <%= f.text_field :title %>
+  </div>
+  <div class="field">
+    <%= f.label :quantity_ordered %><br />
+    <%= f.number_field :quantity_ordered %>
+  </div>
+  <div class="field">
+    <%= f.label :quantity_shipped %><br />
+    <%= f.number_field :quantity_shipped %>
+  </div>
+  <div class="field">
+    <%= f.label :item_price %><br />
+    <%= f.text_field :item_price %>
+  </div>
+  <div class="field">
+    <%= f.label :item_price_currency %><br />
+    <%= f.text_field :item_price_currency %>
+  </div>
+  <div class="field">
+    <%= f.label :shipping_price %><br />
+    <%= f.text_field :shipping_price %>
+  </div>
+  <div class="field">
+    <%= f.label :shipping_price_currency %><br />
+    <%= f.text_field :shipping_price_currency %>
+  </div>
+  <div class="field">
+    <%= f.label :gift_price %><br />
+    <%= f.text_field :gift_price %>
+  </div>
+  <div class="field">
+    <%= f.label :gift_price_currency %><br />
+    <%= f.text_field :gift_price_currency %>
+  </div>
+  <div class="field">
+    <%= f.label :item_tax %><br />
+    <%= f.text_field :item_tax %>
+  </div>
+  <div class="field">
+    <%= f.label :item_tax_currency %><br />
+    <%= f.text_field :item_tax_currency %>
+  </div>
+  <div class="field">
+    <%= f.label :shipping_tax %><br />
+    <%= f.text_field :shipping_tax %>
+  </div>
+  <div class="field">
+    <%= f.label :shipping_tax_currency %><br />
+    <%= f.text_field :shipping_tax_currency %>
+  </div>
+  <div class="field">
+    <%= f.label :gift_tax %><br />
+    <%= f.text_field :gift_tax %>
+  </div>
+  <div class="field">
+    <%= f.label :gift_tax_currency %><br />
+    <%= f.text_field :gift_tax_currency %>
+  </div>
+  <div class="field">
+    <%= f.label :shipping_discount %><br />
+    <%= f.text_field :shipping_discount %>
+  </div>
+  <div class="field">
+    <%= f.label :shipping_discount_currency %><br />
+    <%= f.text_field :shipping_discount_currency %>
+  </div>
+  <div class="field">
+    <%= f.label :promotion_discount %><br />
+    <%= f.text_field :promotion_discount %>
+  </div>
+  <div class="field">
+    <%= f.label :promotion_discount_currency %><br />
+    <%= f.text_field :promotion_discount_currency %>
+  </div>
+  <div class="field">
+    <%= f.label :gift_wrap_level %><br />
+    <%= f.text_field :gift_wrap_level %>
+  </div>
+  <div class="field">
+    <%= f.label :gift_message_text %><br />
+    <%= f.text_field :gift_message_text %>
+  </div>
+  <div class="field">
+    <%= f.label :mws_order_id %><br />
+    <%= f.number_field :mws_order_id %>
+  </div>
+  <div class="field">
+    <%= f.label :amazon_order_id %><br />
+    <%= f.text_field :amazon_order_id %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

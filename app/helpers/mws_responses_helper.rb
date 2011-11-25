@@ -1,0 +1,2 @@
+module MwsResponsesHelper
+end

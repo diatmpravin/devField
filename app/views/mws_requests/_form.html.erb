@@ -1,0 +1,25 @@
+<%= form_for(@mws_request) do |f| %>
+  <% if @mws_request.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@mws_request.errors.count, "error") %> prohibited this mws_request from being saved:</h2>
+
+      <ul>
+      <% @mws_request.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :amazon_request_id %><br />
+    <%= f.text_field :amazon_request_id %>
+  </div>
+  <div class="field">
+    <%= f.label :request_type %><br />
+    <%= f.text_field :request_type %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

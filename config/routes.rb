@@ -1,4 +1,12 @@
 Fieldday::Application.routes.draw do
+  resources :mws_order_items
+
+  resources :mws_orders
+
+  resources :mws_responses
+
+  resources :mws_requests
+
   resources :imports
 
   resources :responses

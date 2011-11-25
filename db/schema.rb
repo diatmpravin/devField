@@ -11,9 +11,19 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20111121070414) do
+ActiveRecord::Schema.define(:version => 20111125073051) do
 
-  create_table "order_items", :force => true do |t|
+  create_table "imports", :force => true do |t|
+    t.string   "datatype"
+    t.integer  "processed"
+    t.string   "csv_file_name"
+    t.string   "csv_content_type"
+    t.integer  "csv_file_size"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "mws_order_items", :force => true do |t|
     t.string   "asin"
     t.string   "amazon_order_item_id"
     t.string   "seller_sku"
@@ -38,13 +48,13 @@ ActiveRecord::Schema.define(:version => 20111121070414) do
     t.string   "promotion_discount_currency"
     t.string   "gift_wrap_level"
     t.string   "gift_message_text"
+    t.integer  "mws_order_id"
+    t.string   "amazon_order_id"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.integer  "order_id"
-    t.string   "amazon_order_id"
   end
 
-  create_table "orders", :force => true do |t|
+  create_table "mws_orders", :force => true do |t|
     t.string   "amazon_order_id"
     t.string   "seller_order_id"
     t.datetime "purchase_date"
@@ -72,20 +82,20 @@ ActiveRecord::Schema.define(:version => 20111121070414) do
     t.string   "buyer_name"
     t.string   "buyer_email"
     t.string   "ship_service_level_category"
+    t.integer  "mws_response_id"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.integer  "response_id"
   end
 
-  create_table "requests", :force => true do |t|
+  create_table "mws_requests", :force => true do |t|
     t.string   "amazon_request_id"
     t.string   "request_type"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
-  create_table "responses", :force => true do |t|
-    t.integer  "request_id"
+  create_table "mws_responses", :force => true do |t|
+    t.integer  "mws_request_id"
     t.string   "amazon_request_id"
     t.text     "next_token"
     t.datetime "last_updated_before"
@@ -94,9 +104,9 @@ ActiveRecord::Schema.define(:version => 20111121070414) do
     t.integer  "page_num"
     t.string   "error_code"
     t.text     "error_message"
+    t.string   "amazon_order_id"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string   "amazon_order_id"
   end
 
 end

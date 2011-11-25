@@ -1,0 +1,129 @@
+<%= form_for(@mws_order) do |f| %>
+  <% if @mws_order.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@mws_order.errors.count, "error") %> prohibited this mws_order from being saved:</h2>
+
+      <ul>
+      <% @mws_order.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :amazon_order_id %><br />
+    <%= f.text_field :amazon_order_id %>
+  </div>
+  <div class="field">
+    <%= f.label :seller_order_id %><br />
+    <%= f.text_field :seller_order_id %>
+  </div>
+  <div class="field">
+    <%= f.label :purchase_date %><br />
+    <%= f.datetime_select :purchase_date %>
+  </div>
+  <div class="field">
+    <%= f.label :last_update_date %><br />
+    <%= f.datetime_select :last_update_date %>
+  </div>
+  <div class="field">
+    <%= f.label :order_status %><br />
+    <%= f.text_field :order_status %>
+  </div>
+  <div class="field">
+    <%= f.label :fulfillment_channel %><br />
+    <%= f.text_field :fulfillment_channel %>
+  </div>
+  <div class="field">
+    <%= f.label :sales_channel %><br />
+    <%= f.text_field :sales_channel %>
+  </div>
+  <div class="field">
+    <%= f.label :order_channel %><br />
+    <%= f.text_field :order_channel %>
+  </div>
+  <div class="field">
+    <%= f.label :ship_service_level %><br />
+    <%= f.text_field :ship_service_level %>
+  </div>
+  <div class="field">
+    <%= f.label :amount %><br />
+    <%= f.text_field :amount %>
+  </div>
+  <div class="field">
+    <%= f.label :currency_code %><br />
+    <%= f.text_field :currency_code %>
+  </div>
+  <div class="field">
+    <%= f.label :address_line_1 %><br />
+    <%= f.text_field :address_line_1 %>
+  </div>
+  <div class="field">
+    <%= f.label :address_line_2 %><br />
+    <%= f.text_field :address_line_2 %>
+  </div>
+  <div class="field">
+    <%= f.label :address_line_3 %><br />
+    <%= f.text_field :address_line_3 %>
+  </div>
+  <div class="field">
+    <%= f.label :city %><br />
+    <%= f.text_field :city %>
+  </div>
+  <div class="field">
+    <%= f.label :county %><br />
+    <%= f.text_field :county %>
+  </div>
+  <div class="field">
+    <%= f.label :district %><br />
+    <%= f.text_field :district %>
+  </div>
+  <div class="field">
+    <%= f.label :state_or_region %><br />
+    <%= f.text_field :state_or_region %>
+  </div>
+  <div class="field">
+    <%= f.label :postal_code %><br />
+    <%= f.text_field :postal_code %>
+  </div>
+  <div class="field">
+    <%= f.label :country_code %><br />
+    <%= f.text_field :country_code %>
+  </div>
+  <div class="field">
+    <%= f.label :phone %><br />
+    <%= f.text_field :phone %>
+  </div>
+  <div class="field">
+    <%= f.label :number_of_items_shipped %><br />
+    <%= f.number_field :number_of_items_shipped %>
+  </div>
+  <div class="field">
+    <%= f.label :number_of_items_unshipped %><br />
+    <%= f.number_field :number_of_items_unshipped %>
+  </div>
+  <div class="field">
+    <%= f.label :marketplace_id %><br />
+    <%= f.text_field :marketplace_id %>
+  </div>
+  <div class="field">
+    <%= f.label :buyer_name %><br />
+    <%= f.text_field :buyer_name %>
+  </div>
+  <div class="field">
+    <%= f.label :buyer_email %><br />
+    <%= f.text_field :buyer_email %>
+  </div>
+  <div class="field">
+    <%= f.label :ship_service_level_category %><br />
+    <%= f.text_field :ship_service_level_category %>
+  </div>
+  <div class="field">
+    <%= f.label :mws_response_id %><br />
+    <%= f.number_field :mws_response_id %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

@@ -1,0 +1,41 @@
+<h1>Listing mws_responses</h1>
+
+<table>
+  <tr>
+    <th>Mws request</th>
+    <th>Amazon request</th>
+    <th>Next token</th>
+    <th>Last updated before</th>
+    <th>Created before</th>
+    <th>Request type</th>
+    <th>Page num</th>
+    <th>Error code</th>
+    <th>Error message</th>
+    <th>Amazon order</th>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @mws_responses.each do |mws_response| %>
+  <tr>
+    <td><%= mws_response.mws_request_id %></td>
+    <td><%= mws_response.amazon_request_id %></td>
+    <td><%= mws_response.next_token %></td>
+    <td><%= mws_response.last_updated_before %></td>
+    <td><%= mws_response.created_before %></td>
+    <td><%= mws_response.request_type %></td>
+    <td><%= mws_response.page_num %></td>
+    <td><%= mws_response.error_code %></td>
+    <td><%= mws_response.error_message %></td>
+    <td><%= mws_response.amazon_order_id %></td>
+    <td><%= link_to 'Show', mws_response %></td>
+    <td><%= link_to 'Edit', edit_mws_response_path(mws_response) %></td>
+    <td><%= link_to 'Destroy', mws_response, confirm: 'Are you sure?', method: :delete %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New Mws response', new_mws_response_path %>
