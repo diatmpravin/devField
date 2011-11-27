@@ -21,6 +21,14 @@ class MwsOrder < ActiveRecord::Base
   			"marketplace_id"=>US_MKT
 			)
 			cutoff_time = Time.current().yesterday
+		elsif which=="hdo_webstore"
+			mws_connection = Amazon::MWS::Base.new(
+				"access_key"=>"AKIAJLQG3YW3XKDQVDIQ",
+  			"secret_access_key"=>"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",
+  			"merchant_id"=>"A3HFI0FEL8PQWZ",
+  			"marketplace_id"=>"A1MY0E7E4IHPQT"
+			)
+			cutoff_time = Time.current().yesterday			
 		else
 			mws_connection = Amazon::MWS::Base.new(
 		  	"access_key"=>"AKIAIUCCPIMBYXZOZMXQ",
