@@ -41,7 +41,8 @@ group :assets do
 end
 
 gem 'jquery-rails'
-gem 'spree', :git => 'git://github.com/spree/spree.git'
+gem 'spree', '~> 0.70.3'
+#gem 'spree', :git => 'git://github.com/spree/spree.git'
 group :production do
 	gem 'spree_heroku'
 end
