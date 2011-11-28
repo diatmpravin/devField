@@ -1,34 +1,19 @@
 Fieldday::Application.routes.draw do
-  resources :mws_order_items
-
-  resources :mws_orders
-
-  resources :mws_responses
+  # Mount Spree's routes
+  mount Spree::Core::Engine, :at => '/spree'
 
   resources :mws_requests
-
+  resources :mws_responses
+  resources :mws_orders
+  resources :mws_order_items
   resources :imports
-
-  resources :responses
-
-  resources :requests
-
-  resources :order_items
-
-  resources :orders
-
+	
+  match 'omx'       		     => 'home#omx'
   match 'welcome'            => 'home#welcome'
-  
-  match 'mws'								 => 'home#mws'
-
   match 'design'             => 'home#design'
-
   match 'login'              => 'login#index',        :as => :login
-
   match 'login/authenticate' => 'login#authenticate', :as => :authenticate
-
   match 'login/finalize'     => 'login#finalize',     :as => :finalize
-
   match 'login/logout'       => 'login#logout',       :as => :logout
 
   root :to                   => 'home#index'

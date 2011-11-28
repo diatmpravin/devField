@@ -4,7 +4,7 @@ gem 'rails', '3.1.3'
 
 # Bundle edge Rails instead:
 # gem 'rails',     :git => 'git://github.com/rails/rails.git'
-gem 'paperclip'
+gem 'paperclip', '=2.4.1'
 gem 'heroku'
 gem 'aws-s3', :require => 'aws/s3'
 
@@ -22,6 +22,9 @@ end
 gem 'amazon-mws', :git => 'git://github.com/adamwible/amazon-mws.git'
 gem 'mechanize'
 
+#gem 'RubyOmx', :path => "/Ruby/fieldday/RubyOmx"
+gem 'RubyOmx', :git => 'git://github.com/adamwible/RubyOmx.git'
+
 #gem 'jeweler'
 gem 'ruby-hmac'
 gem 'roxml'
@@ -38,10 +41,10 @@ group :assets do
 end
 
 gem 'jquery-rails'
-#gem 'spree', '~> 0.70.3'
-#group :production do
-#	gem 'spree_heroku'
-#end
+gem 'spree', :git => 'git://github.com/spree/spree.git'
+group :production do
+	gem 'spree_heroku'
+end
 #gem 'spree_rdr_theme', :git => 'git://github.com/spree/spree_rdr_theme.git'
 
 

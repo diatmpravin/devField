@@ -11,6 +11,16 @@ end
 
 module Fieldday
   class Application < Rails::Application
+    config.middleware.use "Spree::Core::Middleware::SeoAssist"
+    config.middleware.use "Spree::Core::Middleware::RedirectLegacyProductUrl"
+
+    config.to_prepare do
+      #loads application's model / class decorators
+      Dir.glob(File.join(File.dirname(__FILE__), "../app/**/*_decorator*.rb")) do |c|
+        Rails.configuration.cache_classes ? require(c) : load(c)
+      end
+    end
+
 
 		# Throttling for Amazon API
 		SlowWeb.limit('amazonservices.com', 10000, 3600)
