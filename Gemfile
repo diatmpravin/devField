@@ -4,7 +4,7 @@ gem 'rails', '3.1.3'
 
 # Bundle edge Rails instead:
 # gem 'rails',     :git => 'git://github.com/rails/rails.git'
-gem 'paperclip', '=2.4.1'
+gem 'paperclip'
 gem 'heroku'
 gem 'aws-s3', :require => 'aws/s3'
 
@@ -41,11 +41,11 @@ group :assets do
 end
 
 gem 'jquery-rails'
-gem 'spree', '~> 0.70.3'
+#gem 'spree', '~> 0.70.3'
 #gem 'spree', :git => 'git://github.com/spree/spree.git'
-group :production do
-	gem 'spree_heroku'
-end
+#group :production do
+#	gem 'spree_heroku'
+#end
 #gem 'spree_rdr_theme', :git => 'git://github.com/spree/spree_rdr_theme.git'
 
 

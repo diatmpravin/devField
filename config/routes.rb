@@ -1,7 +1,4 @@
 Fieldday::Application.routes.draw do
-  # Mount Spree's routes
-  mount Spree::Core::Engine, :at => '/spree'
-
   resources :mws_requests
   resources :mws_responses
   resources :mws_orders

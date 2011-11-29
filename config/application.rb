@@ -11,8 +11,6 @@ end
 
 module Fieldday
   class Application < Rails::Application
-    config.middleware.use "Spree::Core::Middleware::SeoAssist"
-    config.middleware.use "Spree::Core::Middleware::RedirectLegacyProductUrl"
 
     config.to_prepare do
       #loads application's model / class decorators
