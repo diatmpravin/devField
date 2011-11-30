@@ -1,15 +1,14 @@
 GIT
-  remote: git://github.com/adamwible/RubyOmx.git
-  revision: 0368c932841589064ad987e7e2aa6510af9a50cb
+  remote: git://github.com/adamwible/amazon-mws.git
+  revision: 1086bbd442c01a931619ae4f35d5f3b120e9b9fc
+  specs:
+    amazon-mws (0.1.0)
+
+PATH
+  remote: RubyOmx
   specs:
     RubyOmx (0.0.1)
       rails (~> 3.1.3)
-
-GIT
-  remote: git://github.com/adamwible/amazon-mws.git
-  revision: d88b78b536c925a8e06be328362976d5069734e1
-  specs:
-    amazon-mws (0.1.0)
 
 GEM
   remote: http://rubygems.org/
@@ -93,7 +92,7 @@ GEM
     net-http-digest_auth (1.2)
     net-http-persistent (1.9)
     nokogiri (1.5.0-x86-mingw32)
-    paperclip (2.4.1)
+    paperclip (2.4.5)
       activerecord (>= 2.3.0)
       activesupport (>= 2.3.2)
       cocaine (>= 0.0.2)
@@ -168,8 +167,8 @@ GEM
     treetop (1.4.10)
       polyglot
       polyglot (>= 0.3.1)
-    turn (0.8.3)
-      ansi
+    turn (0.8.2)
+      ansi (>= 1.2.2)
     tzinfo (0.3.31)
     uglifier (1.1.0)
       execjs (>= 0.3.0)
@@ -201,5 +200,5 @@ DEPENDENCIES
   shopify_app
   slowweb
   sqlite3
-  turn
+  turn (= 0.8.2)
   uglifier (>= 1.0.3)
