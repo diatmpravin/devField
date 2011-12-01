@@ -1,0 +1,2 @@
+module OmxResponsesHelper
+end

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20111127170109) do
+ActiveRecord::Schema.define(:version => 20111201120520) do
 
   create_table "imports", :force => true do |t|
     t.string   "datatype"
@@ -92,6 +92,7 @@ ActiveRecord::Schema.define(:version => 20111127170109) do
     t.string   "request_type"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "store",             :default => "HDO"
   end
 
   create_table "mws_responses", :force => true do |t|
@@ -105,6 +106,25 @@ ActiveRecord::Schema.define(:version => 20111127170109) do
     t.string   "error_code"
     t.text     "error_message"
     t.string   "amazon_order_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "omx_requests", :force => true do |t|
+    t.string   "request_type"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "mws_order_id"
+    t.string   "keycode"
+    t.boolean  "queue_flag"
+    t.boolean  "verify_flag"
+  end
+
+  create_table "omx_responses", :force => true do |t|
+    t.integer  "omx_request_id"
+    t.integer  "success"
+    t.string   "ordermotion_response_id"
+    t.string   "ordermotion_order_number"
     t.datetime "created_at"
     t.datetime "updated_at"
   end

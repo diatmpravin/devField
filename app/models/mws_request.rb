@@ -50,5 +50,9 @@ class MwsRequest < ActiveRecord::Base
 		end
 		return response.next_token
 	end
+
+	def get_last_date
+		self.mws_responses.order('last_updated_before DESC').first.last_updated_before
+	end
 	
 end

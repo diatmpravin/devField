@@ -1,0 +1,25 @@
+<%= form_for(@omx_request) do |f| %>
+  <% if @omx_request.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@omx_request.errors.count, "error") %> prohibited this omx_request from being saved:</h2>
+
+      <ul>
+      <% @omx_request.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :ordermotion_request_id %><br />
+    <%= f.text_field :ordermotion_request_id %>
+  </div>
+  <div class="field">
+    <%= f.label :request_type %><br />
+    <%= f.text_field :request_type %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

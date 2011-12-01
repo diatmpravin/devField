@@ -1,0 +1,25 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>Omx request:</b>
+  <%= @omx_response.omx_request_id %>
+</p>
+
+<p>
+  <b>Success:</b>
+  <%= @omx_response.success %>
+</p>
+
+<p>
+  <b>Ordermotion response:</b>
+  <%= @omx_response.ordermotion_response_id %>
+</p>
+
+<p>
+  <b>Ordermotion order number:</b>
+  <%= @omx_response.ordermotion_order_number %>
+</p>
+
+
+<%= link_to 'Edit', edit_omx_response_path(@omx_response) %> |
+<%= link_to 'Back', omx_responses_path %>
