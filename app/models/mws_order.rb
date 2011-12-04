@@ -107,8 +107,14 @@ class MwsOrder < ActiveRecord::Base
 		end
 	end
 
+	#TODO change this to work off a table, add missing items to the table for mapping
 	def omx_state
-		return @@state_lookup[self.state_or_region.upcase]
+		state = @@state_lookup[self.state_or_region.upcase]
+		if state.nil?
+			return self.state_or_region
+		else
+			return state
+		end  
 	end
 	
 	#TODO must deal with gift wrapping, line item by line item
@@ -161,7 +167,7 @@ class MwsOrder < ActiveRecord::Base
 			:first_name => self.omx_first_name,
 			:last_name => self.omx_last_name,
 			:address1 => self.address_line_1,
-			:address2 => "#{self.address_line_2}#{self.address_line_3}",
+			:address2 => "#{self.address_line_2} #{self.address_line_3}",
 			:city => self.city,
 			:state => self.omx_state,
 			:zip => self.postal_code,
