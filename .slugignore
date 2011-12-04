@@ -1,0 +1,9 @@
+*.psd
+*.pdf
+test
+spec
+doc
+public
+amazon-mws
+XMLSandbox
+RubyOmx
