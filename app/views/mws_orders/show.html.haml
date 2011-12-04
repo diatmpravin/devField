@@ -1,5 +1,7 @@
 %p#notice= notice
 
+%h1= "Order Detail Received From Amazon"
+
 %p
 	%b="Amazon order:"
 	= @mws_order.amazon_order_id
@@ -129,7 +131,7 @@
 
 %p= "OMX Requests: #{@mws_order.omx_requests.count}"
 - @mws_order.omx_requests.each do |r|
-	- omx_response = r.omx_responses.first
+	- omx_response = r.omx_response
 	%p= link_to "#{r.request_type}, success:#{omx_response.success}", r
 
 %p

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20111204094140) do
+ActiveRecord::Schema.define(:version => 20111204122856) do
 
   create_table "imports", :force => true do |t|
     t.string   "datatype"
@@ -52,6 +52,7 @@ ActiveRecord::Schema.define(:version => 20111204094140) do
     t.string   "amazon_order_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "mws_response_id"
   end
 
   create_table "mws_orders", :force => true do |t|

@@ -6,7 +6,6 @@
 		%th="Queue flag"
 		%th="Verify flag"
 		%th="Created at"
-		%th="Responses"
 		%th
 		%th
 		%th
@@ -17,7 +16,6 @@
 			%td= omx_request.queue_flag
 			%td= omx_request.verify_flag
 			%td= omx_request.created_at
-			%td= omx_request.omx_responses.count
 			%td
 				- o = omx_request.mws_order
 				- if o

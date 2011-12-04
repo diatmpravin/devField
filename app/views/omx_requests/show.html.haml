@@ -24,22 +24,22 @@
 	%b="Verify flag:"
 	= @omx_request.verify_flag
 
-- @omx_request.omx_responses.each do |r|
-	%p
-		%b="Success:"
-		= r.success
-	
-	%p
-		%b="Ordermotion response:"
-		= r.ordermotion_response_id
+- r = @omx_request.omx_response
+%p
+	%b="Success:"
+	= r.success
 
-	%p
-		%b="Ordermotion order number:"
-		= r.ordermotion_order_number
+%p
+	%b="Ordermotion response:"
+	= r.ordermotion_response_id
 
-	%p
-		%b="Errors:"
-		= r.error_data
+%p
+	%b="Ordermotion order number:"
+	= r.ordermotion_order_number
+
+%p
+	%b="Errors:"
+	= r.error_data
 
 = link_to 'Edit', edit_omx_request_path(@omx_request)
 =" | "

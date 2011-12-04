@@ -1,46 +1,38 @@
-%h1="Listing mws_orders"
+%h1="Listing Orders Received From Amazon"
 
 %table
 	%tr
-		%th="Purchase date"
-		%th="Order status"
-		%th="Fulfillment channel"
-		%th="Ship service level"
+		%th="Purchase time (UTC)"
+		%th="Ship to name"
+		%th="Shipping"
 		%th="Amount"
-		%th="Address lines"
+		%th="Address"
 		%th="City"
 		%th="State or region"
 		%th="Postal code"
 		%th="Country code"
-		%th="Number of items shipped"
 		%th="Number of items unshipped"
 		%th="Items loaded"
-		%th="Buyer name"
-		%th
-		%th
+		%th="Store"
+		%th="Pushed to OMX?"
 		%th
 
 	- @mws_orders.each do |mws_order|
 		%tr
-			%td= mws_order.purchase_date
-			%td= mws_order.order_status
-			%td= mws_order.fulfillment_channel
-			%td= mws_order.ship_service_level
+			%td= mws_order.purchase_date.to_s(:db)
+			%td= mws_order.name
+			%td= mws_order.shipment_service_level_category
 			%td= mws_order.amount
 			%td= mws_order.address_line_1.to_s + mws_order.address_line_2.to_s + mws_order.address_line_3.to_s
 			%td= mws_order.city
 			%td= mws_order.omx_state
 			%td= mws_order.postal_code
 			%td= mws_order.country_code
-			%td= mws_order.number_of_items_shipped
 			%td= mws_order.number_of_items_unshipped
 			%td= mws_order.item_quantity
-			%td= mws_order.buyer_name
-			%td= mws_order.mws_response_id
+			%td= mws_order.mws_response.mws_request.store.name
+			%td= mws_order.pushed_to_omx?
 			%td= link_to 'Show', mws_order
-			%td= link_to 'Edit', edit_mws_order_path(mws_order)
-			%td= link_to 'Destroy', mws_order, confirm: 'Are you sure?', method: :delete
-			 
 %br
 
 = link_to 'New Mws order', new_mws_order_path

@@ -26,8 +26,12 @@ class Store < ActiveRecord::Base
 	private
 	def init_mws_connection
 
-		#@cutoff_time = self.mws_requests.where(:request_type => "ListOrders").order('updated_at DESC').first.get_last_date
-		@cutoff_time = Time.now.yesterday
+		reqs = self.mws_requests.where(:request_type => "ListOrders")
+		if reqs.count >0
+			@cutoff_time = reqs.order('updated_at DESC').first.get_last_date
+		else
+			@cutoff_time = Time.now.yesterday # Hack to handle first request, 1 day back
+		end
 		
 		if self.name=="HDO"
 			@mws_connection = Amazon::MWS::Base.new(

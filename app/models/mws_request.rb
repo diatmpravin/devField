@@ -53,9 +53,9 @@ class MwsRequest < ActiveRecord::Base
 		elsif self.request_type=="ListOrderItems"
 			response.amazon_order_id = response_xml.amazon_order_id
 			response.save!
+			amz_order = MwsOrder.find_by_amazon_order_id(response.amazon_order_id)
 			response_xml.order_items.each do |i|
-				amz_order = MwsOrder.find_by_amazon_order_id(response.amazon_order_id)
-				amz_order.process_order_item(i)
+				amz_order.process_order_item(i,response.id)
 			end
 		end
 		return response.next_token
