@@ -5,7 +5,7 @@ class MwsOrdersController < ApplicationController
   # GET /mws_orders
   # GET /mws_orders.json
   def index
-    @mws_orders = MwsOrder.all
+    @mws_orders = MwsOrder.order('purchase_date DESC')
 
     respond_to do |format|
       format.html # index.html.erb
