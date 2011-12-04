@@ -30,7 +30,7 @@ class Store < ActiveRecord::Base
 		if reqs.count >0
 			@cutoff_time = reqs.order('updated_at DESC').first.get_last_date
 		else
-			@cutoff_time = Time.now.yesterday # Hack to handle first request, 1 day back
+			@cutoff_time = Time.now.ago(60*60*6) # Hack to handle first request, 1 day back
 		end
 		
 		if self.name=="HDO"
