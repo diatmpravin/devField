@@ -10,6 +10,25 @@
   <%= @store.store_type %>
 </p>
 
+<p>
+  <b>Queue Flag:</b>
+  <%= @store.queue_flag %>
+</p>
+
+<p>
+  <b>Verify Flag:</b>
+  <%= @store.verify_flag %>
+</p>
+
+<p>
+  <b>Orders / Page:</b>
+  <%= @store.order_results_per_page %>
+</p>
+
+<p>
+  <b>Max pages:</b>
+  <%= @store.max_order_pages %>
+</p>
 
 <%= link_to 'Edit', edit_store_path(@store) %> |
 <%= link_to 'Back', stores_path %>

@@ -1,8 +1,11 @@
 class OmxResponsesController < ApplicationController
+
+	#around_filter :shopify_session
+	
   # GET /omx_responses
   # GET /omx_responses.json
   def index
-    @omx_responses = OmxResponse.where(:success => 1)
+    @omx_responses = OmxResponse.all
 
     respond_to do |format|
       format.html # index.html.erb

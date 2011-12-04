@@ -1,4 +1,7 @@
 class MwsOrderItemsController < ApplicationController
+  
+  around_filter :shopify_session
+  
   # GET /mws_order_items
   # GET /mws_order_items.json
   def index

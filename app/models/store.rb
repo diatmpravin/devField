@@ -8,8 +8,6 @@ class Store < ActiveRecord::Base
 	after_initialize :init_mws_connection
 	
 	US_MKT = "ATVPDKIKX0DER"
-	MAX_ORDER_PAGES = 1
-	ORDER_RESULTS_PER_PAGE = 1 #1-100
 	MAX_FAILURE_COUNT = 2
 	ORDER_FAIL_WAIT = 60
 	
@@ -59,7 +57,7 @@ class Store < ActiveRecord::Base
 		request = MwsRequest.create!(:request_type => "ListOrders", :store_id => self.id) 
 		response = @mws_connection.get_orders_list(      
 			:last_updated_after => @cutoff_time.iso8601,
-			:results_per_page => ORDER_RESULTS_PER_PAGE,
+			:results_per_page => self.order_results_per_page,
       :fulfillment_channel => ["MFN"], #TODO include AFN?
 			:order_status => ["Unshipped", "PartiallyShipped"], #TODO include shipped?
 			:marketplace_id => [US_MKT]
@@ -71,7 +69,7 @@ class Store < ActiveRecord::Base
 		
 		page_num = 1
 		failure_count = 0
-		while next_token.is_a?(String) && page_num<MAX_ORDER_PAGES do
+		while next_token.is_a?(String) && page_num<self.max_order_pages do
 			response = @mws_connection.get_orders_list_by_next_token(:next_token => next_token)
 			n = request.process_response(@mws_connection,response,page_num,ORDER_FAIL_WAIT)
 			if n.is_a?(Numeric)

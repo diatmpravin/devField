@@ -6,4 +6,8 @@
 #   cities = City.create([{ name: 'Chicago' }, { name: 'Copenhagen' }])
 #   Mayor.create(name: 'Emanuel', city: cities.first)
 
-stores = Store.create( [ {name:"HDO", store_type:"MWS" }, {name:"HDO Webstore", store_type:"MWS" },{name:"FieldDay", store_type:"MWS" } ] )
+stores = Store.create( [ 
+  {name:"HDO", store_type:"MWS", queue_flag:"False", verify_flag:"True", max_order_pages:2, order_results_per_page:2 },
+  {name:"HDO Webstore", store_type:"MWS", queue_flag:"False", verify_flag:"True", max_order_pages:2, order_results_per_page:2 },
+  {name:"FieldDay", store_type:"MWS", queue_flag:"False", verify_flag:"True", max_order_pages:2, order_results_per_page:2 }
+] )

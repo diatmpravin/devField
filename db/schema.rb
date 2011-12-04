@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20111204011740) do
+ActiveRecord::Schema.define(:version => 20111204094140) do
 
   create_table "imports", :force => true do |t|
     t.string   "datatype"
@@ -119,6 +119,8 @@ ActiveRecord::Schema.define(:version => 20111204011740) do
     t.string   "keycode"
     t.string   "verify_flag",  :default => "True"
     t.string   "queue_flag",   :default => "False"
+    t.string   "vendor"
+    t.string   "store_code"
   end
 
   create_table "omx_responses", :force => true do |t|
@@ -136,6 +138,10 @@ ActiveRecord::Schema.define(:version => 20111204011740) do
     t.string   "store_type"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "order_results_per_page"
+    t.integer  "max_order_pages"
+    t.string   "queue_flag"
+    t.string   "verify_flag"
   end
 
 end

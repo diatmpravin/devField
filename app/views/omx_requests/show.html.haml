@@ -9,6 +9,14 @@
 	= @omx_request.created_at
 
 %p
+	%b="Store code:"
+	= @omx_request.store_code
+
+%p
+	%b="Vendor:"
+	= @omx_request.vendor
+
+%p
 	%b="Queue flag:"
 	= @omx_request.queue_flag
 
@@ -28,6 +36,10 @@
 	%p
 		%b="Ordermotion order number:"
 		= r.ordermotion_order_number
+
+	%p
+		%b="Errors:"
+		= r.error_data
 
 = link_to 'Edit', edit_omx_request_path(@omx_request)
 =" | "

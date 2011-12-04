@@ -1,8 +1,11 @@
 class OmxRequestsController < ApplicationController
+
+	#around_filter :shopify_session
+	
   # GET /omx_requests
   # GET /omx_requests.json
   def index
-    @omx_requests = OmxRequest.where("mws_order_id is not null").order('created_at DESC')
+    @omx_requests = OmxRequest.all
 
     respond_to do |format|
       format.html # index.html.erb

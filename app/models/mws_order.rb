@@ -23,9 +23,8 @@ class MwsOrder < ActiveRecord::Base
 	end
 
 	# Process XML order into ActiveRecord, and process items on order
-	def process_order(mws_connection)
+	def process_order(mws_connection)		
 		return_code = fetch_order_items(mws_connection)
-		logger.debug "#{self.mws_order_items.count} vs. #{self.number_of_items_unshipped} + #{self.number_of_items_shipped}"
 		raise Exception unless (self.item_quantity == (self.number_of_items_unshipped + self.number_of_items_shipped))
 		if self.fulfillment_channel == "MFN"
 			append_to_omx
@@ -59,9 +58,9 @@ class MwsOrder < ActiveRecord::Base
 	end
 
 	def process_order_item(item)
-		amz_item = MwsOrderItem.find_or_create_by_amazon_order_item_id_and_mws_order_id(item.amazon_order_item_id,MwsOrder.find_by_amazon_order_id(amazon_order_id).id)		
+		amz_item = MwsOrderItem.find_or_create_by_amazon_order_item_id_and_mws_order_id_and_amazon_order_id(item.amazon_order_item_id,self.id,self.amazon_order_id)		
 		h = MwsHelper.instance_vars_to_hash(item)
-		h['amazon_order_id'] = self.amazon_order_id
+		#h['amazon_order_id'] = self.amazon_order_id
 		amz_item.update_attributes(h)
 	end
 
@@ -99,6 +98,21 @@ class MwsOrder < ActiveRecord::Base
 	def omx_state
 		return @@state_lookup[self.state_or_region.upcase]
 	end
+	
+	#TODO must deal with gift wrapping, line item by line item
+	def omx_gift_wrapping
+		m = omx_gift_message
+		if m.nil? || m == ''
+			return 'False'
+		else
+			return 'True'
+		end
+	end
+	
+	#TODO gift message should be line by line item
+	def omx_gift_message
+		return self.mws_order_items.first.gift_message_text
+	end
 
 	def append_to_omx(params ={})
 
@@ -111,8 +125,10 @@ class MwsOrder < ActiveRecord::Base
 			:mws_order_id => self.id,
 			:request_type => "UDOA",
 			:keycode => "AM01",
-			:queue_flag => "False",
-			:verify_flag => "True"
+			:vendor => "",
+			:store_code => "#{self.sales_channel} #{self.fulfillment_channel} #{self.mws_response.mws_request.store.name}",
+			:queue_flag => self.mws_response.mws_request.store.queue_flag,
+			:verify_flag => self.mws_response.mws_request.store.verify_flag
 		)
 		
 		omx_line_items = Array.new
@@ -140,24 +156,30 @@ class MwsOrder < ActiveRecord::Base
 			:tld => self.country_code,
 			:method_code => self.omx_shipping_method,
 			:shipping_amount => omx_shipping_amount,
-			:gift_wrapping => 'False', #TODO must deal with gift wrapping, line item by line item
-			:gift_message => '', #TODO must do gift message, line item by line item
+			:gift_wrapping => omx_gift_wrapping, 
+			:gift_message => omx_gift_message,
 			:phone => self.phone,
 			:email => self.buyer_email,
 			:line_items => omx_line_items,
 			:total_amount => (omx_shipping_amount + omx_product_amount),
-			:vendor => "#{self.sales_channel} #{self.fulfillment_channel} #{self.mws_response.mws_request.store}", #TODO must handle multiple channels
+			:store_code => request.store_code,
+			:vendor => request.vendor, 
 			:raw_xml => 0)
 
 		# for raw_xml option
 		 #puts response.body.to_s
-		
-		if result.success != 1
+
+		omx_response = OmxResponse.create!(:omx_request_id => request.id, :success => result.success)		
+		if omx_response.success != 1
 			logger.debug "Order push was unsuccessful #{result.error_data}"
+			omx_response.error_data = result.error_data
 		else
-			logger.debug "Success:#{result.success}, omx:#{result.OMX}, order number:#{result.order_number}"	
-		end 
-		return OmxResponse.create!(:omx_request_id => request.id, :success => result.success, :ordermotion_response_id => result.OMX, :ordermotion_order_number => result.order_number, :error_data => result.error_data)
+			logger.debug "Success:#{result.success}, omx:#{result.OMX}, order number:#{result.order_number}"
+			omx_response.ordermotion_response_id = result.OMX
+			omx_response.ordermotion_order_number = result.order_number	
+		end
+		omx_response.save! 
+		return omx_response
 	end
 	
 end

@@ -41,8 +41,9 @@ class MwsRequest < ActiveRecord::Base
 			response.save!
 			
 			response_xml.orders.each do |o|
-				amz_order = MwsOrder.find_or_create_by_amazon_order_id_and_mws_response_id(o.amazon_order_id,response.id)
+				amz_order = MwsOrder.find_or_create_by_amazon_order_id(o.amazon_order_id)
 				h = MwsHelper.instance_vars_to_hash(o)
+				h['mws_response_id'] = response.id
 				amz_order.update_attributes(h)
 				r = amz_order.process_order(mws_connection)
 				if r.is_a?(Numeric)
