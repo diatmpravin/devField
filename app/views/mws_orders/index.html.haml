@@ -14,10 +14,10 @@
 		%th="Number of items unshipped"
 		%th="Items loaded"
 		%th="Store"
-		%th="Pushed to OMX?"
+		%th="OMX?"
 		%th
 
-	- @mws_orders.each do |mws_order|
+	- @mws_orders.order('purchase_date DESC').each do |mws_order|
 		%tr
 			%td= mws_order.purchase_date.to_s(:db)
 			%td= mws_order.name

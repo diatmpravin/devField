@@ -29,6 +29,8 @@ class MwsOrder < ActiveRecord::Base
 			resp = req.omx_response
 			if !resp.ordermotion_order_number.nil? && resp.ordermotion_order_number != ''
 				pushed = "Yes"
+			elsif !resp.error_data.nil? && resp.error_data != ''
+				pushed = "Error"
 			end
 		end
 		return pushed
