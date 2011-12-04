@@ -4,6 +4,7 @@
 	%tr
 		%th="Purchase time (UTC)"
 		%th="Ship to name"
+		%th="Bill to name"
 		%th="Shipping"
 		%th="Amount"
 		%th="Address"
@@ -21,6 +22,7 @@
 		%tr
 			%td= mws_order.purchase_date.to_s(:db)
 			%td= mws_order.name
+			%td= mws_order.buyer_name
 			%td= mws_order.shipment_service_level_category
 			%td= mws_order.amount
 			%td= mws_order.address_line_1.to_s + mws_order.address_line_2.to_s + mws_order.address_line_3.to_s
