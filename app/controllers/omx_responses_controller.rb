@@ -2,7 +2,7 @@ class OmxResponsesController < ApplicationController
   # GET /omx_responses
   # GET /omx_responses.json
   def index
-    @omx_responses = OmxResponse.all
+    @omx_responses = OmxResponse.where(:success => 1)
 
     respond_to do |format|
       format.html # index.html.erb

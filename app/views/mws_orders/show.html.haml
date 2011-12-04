@@ -1,0 +1,138 @@
+%p#notice= notice
+
+%p
+	%b="Amazon order:"
+	= @mws_order.amazon_order_id
+
+%p
+	%b="Seller order:"
+	= @mws_order.seller_order_id
+
+%p
+	%b="Purchase date:"
+	= @mws_order.purchase_date
+
+%p
+	%b="Last update date:"
+	= @mws_order.last_update_date
+
+%p
+	%b="Order status:"
+	= @mws_order.order_status
+
+%p
+	%b="Fulfillment channel:"
+	= @mws_order.fulfillment_channel
+
+%p
+	%b="Sales channel:"
+	= @mws_order.sales_channel
+
+%p
+	%b="Order channel:"
+	= @mws_order.order_channel
+
+%p
+	%b="Ship service level:"
+	= @mws_order.ship_service_level
+
+%p
+	%b="Amount:"
+	= @mws_order.amount
+
+%p
+	%b="Currency code:"
+	= @mws_order.currency_code
+
+%p
+	%b="Name:"
+	= @mws_order.name
+
+%p
+	%b="Address line 1:"
+	= @mws_order.address_line_1
+
+%p
+	%b="Address line 2:"
+	= @mws_order.address_line_2
+
+%p
+	%b="Address line 3:"
+	= @mws_order.address_line_3
+
+%p
+	%b="City:"
+	= @mws_order.city
+
+%p
+	%b="County:"
+	= @mws_order.county
+
+%p
+	%b="District:"
+	= @mws_order.district
+
+%p
+	%b="State or region:"
+	= @mws_order.state_or_region
+
+%p
+	%b="Postal code:"
+	= @mws_order.postal_code
+
+%p
+	%b="Country code:"
+	= @mws_order.country_code
+
+%p
+	%b="Phone:"
+	= @mws_order.phone
+
+%p
+	%b="Number of items shipped:"
+	= @mws_order.number_of_items_shipped
+
+%p
+	%b="Number of items unshipped:"
+	= @mws_order.number_of_items_unshipped
+
+%p
+	%b="Marketplace:"
+	= @mws_order.marketplace_id
+
+%p
+	%b="Buyer name:"
+	= @mws_order.buyer_name
+
+%p
+	%b="Buyer email:"
+	= @mws_order.buyer_email
+
+%p
+	%b="Ship service level category:"
+	= @mws_order.shipment_service_level_category
+
+%p
+	%b="Mws request / response:"
+	= link_to 'Request', @mws_order.mws_response.mws_request
+
+
+%table
+	%tr
+		%th="Title"
+		%th="SKU"
+		%th="Qty Ordered"
+		%th="Qty Shipped"
+		%th="Price"
+		%th="Show"
+	= render @mws_order.mws_order_items
+
+%p= "OMX Requests: #{@mws_order.omx_requests.count}"
+- @mws_order.omx_requests.each do |r|
+	- omx_response = r.omx_responses.first
+	%p= link_to "#{r.request_type}, success:#{omx_response.success}", r
+
+%p
+	= link_to 'Edit', edit_mws_order_path(@mws_order)
+	= " | "
+	= link_to 'Back', mws_orders_path

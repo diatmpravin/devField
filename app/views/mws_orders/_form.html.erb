@@ -56,6 +56,10 @@
     <%= f.text_field :currency_code %>
   </div>
   <div class="field">
+    <%= f.label :name %><br />
+    <%= f.text_field :name %>
+  </div>
+  <div class="field">
     <%= f.label :address_line_1 %><br />
     <%= f.text_field :address_line_1 %>
   </div>
@@ -116,8 +120,8 @@
     <%= f.text_field :buyer_email %>
   </div>
   <div class="field">
-    <%= f.label :ship_service_level_category %><br />
-    <%= f.text_field :ship_service_level_category %>
+    <%= f.label :shipment_service_level_category %><br />
+    <%= f.text_field :shipment_service_level_category %>
   </div>
   <div class="field">
     <%= f.label :mws_response_id %><br />

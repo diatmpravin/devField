@@ -1,11 +1,9 @@
-#require 'amazon/mws'
-#require 'slowweb'
 require 'mechanize'
 require 'RubyOmx'
 
 class HomeController < ApplicationController
   
-  around_filter :shopify_session, :except => ['welcome', 'mws','omx']
+  around_filter :shopify_session, :except => ['welcome']
   
   def welcome
     current_host = "#{request.host}#{':' + request.port.to_s if request.port != 80}"
@@ -20,9 +18,5 @@ class HomeController < ApplicationController
     @orders   = ShopifyAPI::Order.find(:all, :params => {:limit => 3, :order => "created_at DESC" })
   
   end
-
-	def mws
-		@my_orders = Order.all
-	end
 	
 end

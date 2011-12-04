@@ -2,7 +2,8 @@ class MwsRequestsController < ApplicationController
   # GET /mws_requests
   # GET /mws_requests.json
   def index
-    @mws_requests = MwsRequest.all
+    #@mws_requests = MwsRequest.where(:request_type => 'ListOrders').order('created_at DESC')
+		@mws_requests = MwsRequest.order('created_at DESC')
 
     respond_to do |format|
       format.html # index.html.erb

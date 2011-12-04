@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20111201120520) do
+ActiveRecord::Schema.define(:version => 20111204011740) do
 
   create_table "imports", :force => true do |t|
     t.string   "datatype"
@@ -81,10 +81,11 @@ ActiveRecord::Schema.define(:version => 20111201120520) do
     t.string   "marketplace_id"
     t.string   "buyer_name"
     t.string   "buyer_email"
-    t.string   "ship_service_level_category"
     t.integer  "mws_response_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "shipment_service_level_category"
+    t.string   "name"
   end
 
   create_table "mws_requests", :force => true do |t|
@@ -92,7 +93,7 @@ ActiveRecord::Schema.define(:version => 20111201120520) do
     t.string   "request_type"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string   "store",             :default => "HDO"
+    t.integer  "store_id"
   end
 
   create_table "mws_responses", :force => true do |t|
@@ -116,8 +117,8 @@ ActiveRecord::Schema.define(:version => 20111201120520) do
     t.datetime "updated_at"
     t.integer  "mws_order_id"
     t.string   "keycode"
-    t.boolean  "queue_flag"
-    t.boolean  "verify_flag"
+    t.string   "verify_flag",  :default => "True"
+    t.string   "queue_flag",   :default => "False"
   end
 
   create_table "omx_responses", :force => true do |t|
@@ -125,6 +126,14 @@ ActiveRecord::Schema.define(:version => 20111201120520) do
     t.integer  "success"
     t.string   "ordermotion_response_id"
     t.string   "ordermotion_order_number"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.string   "error_data"
+  end
+
+  create_table "stores", :force => true do |t|
+    t.string   "name"
+    t.string   "store_type"
     t.datetime "created_at"
     t.datetime "updated_at"
   end

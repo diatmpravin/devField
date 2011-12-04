@@ -1,0 +1,22 @@
+%p#notice= notice
+
+%p
+	%b= "Amazon request:"
+	= @mws_request.amazon_request_id
+
+%p
+	%b= "Request type:"
+	= @mws_request.request_type
+
+- @mws_request.mws_responses.each do |r|
+	%b= "Response: #{r.created_at}, #{r.error_code}: #{r.error_message}.  Next-token: #{r.next_token}"
+	- r.mws_orders.each do |o|
+		%p
+			%b= "Order #{o.amazon_order_id}:"
+			= "#{o.purchase_date}, #{o.buyer_name}, #{o.amount}, items:#{o.mws_order_items.count}"
+			= link_to 'View Order', o
+		
+%p
+	= link_to 'Edit', edit_mws_request_path(@mws_request)
+	= " | "
+	= link_to 'Back', mws_requests_path

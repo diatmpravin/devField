@@ -6,3 +6,4 @@
 #   cities = City.create([{ name: 'Chicago' }, { name: 'Copenhagen' }])
 #   Mayor.create(name: 'Emanuel', city: cities.first)
 
+stores = Store.create( [ {name:"HDO", store_type:"MWS" }, {name:"HDO Webstore", store_type:"MWS" },{name:"FieldDay", store_type:"MWS" } ] )

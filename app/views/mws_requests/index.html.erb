@@ -4,6 +4,9 @@
   <tr>
     <th>Amazon request</th>
     <th>Request type</th>
+    <th>Created at</th>
+    <th>Error count</th>
+    <th>Response count</th>
     <th></th>
     <th></th>
     <th></th>
@@ -13,6 +16,9 @@
   <tr>
     <td><%= mws_request.amazon_request_id %></td>
     <td><%= mws_request.request_type %></td>
+    <td><%= mws_request.created_at %></td>
+    <td><%= mws_request.error_count %></td>
+    <td><%= mws_request.mws_responses.count %></td>
     <td><%= link_to 'Show', mws_request %></td>
     <td><%= link_to 'Edit', edit_mws_request_path(mws_request) %></td>
     <td><%= link_to 'Destroy', mws_request, confirm: 'Are you sure?', method: :delete %></td>

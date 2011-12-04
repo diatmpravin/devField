@@ -1,0 +1,34 @@
+%p#notice= notice
+
+%p
+	%b="Ordermotion request:"
+	= @omx_request.request_type
+
+%p
+	%b="Created at:"
+	= @omx_request.created_at
+
+%p
+	%b="Queue flag:"
+	= @omx_request.queue_flag
+
+%p
+	%b="Verify flag:"
+	= @omx_request.verify_flag
+
+- @omx_request.omx_responses.each do |r|
+	%p
+		%b="Success:"
+		= r.success
+	
+	%p
+		%b="Ordermotion response:"
+		= r.ordermotion_response_id
+
+	%p
+		%b="Ordermotion order number:"
+		= r.ordermotion_order_number
+
+= link_to 'Edit', edit_omx_request_path(@omx_request)
+=" | "
+= link_to 'Back', omx_requests_path

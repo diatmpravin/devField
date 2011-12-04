@@ -1,4 +1,6 @@
 Fieldday::Application.routes.draw do
+  resources :stores
+
   resources :omx_responses
 
   resources :omx_requests

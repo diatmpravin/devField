@@ -22,8 +22,8 @@ end
 gem 'amazon-mws', :git => 'git://github.com/adamwible/amazon-mws.git'
 gem 'mechanize'
 
-gem 'RubyOmx', :path => "/Ruby/fieldday/RubyOmx"
-#gem 'RubyOmx', :git => 'git://github.com/adamwible/RubyOmx.git'
+#gem 'RubyOmx', :path => "/Ruby/fieldday/RubyOmx"
+gem 'RubyOmx', :git => 'git://github.com/adamwible/RubyOmx.git'
 
 #gem 'jeweler'
 gem 'ruby-hmac'

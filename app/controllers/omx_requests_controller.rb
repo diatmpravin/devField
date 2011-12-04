@@ -2,7 +2,7 @@ class OmxRequestsController < ApplicationController
   # GET /omx_requests
   # GET /omx_requests.json
   def index
-    @omx_requests = OmxRequest.all
+    @omx_requests = OmxRequest.where("mws_order_id is not null").order('created_at DESC')
 
     respond_to do |format|
       format.html # index.html.erb

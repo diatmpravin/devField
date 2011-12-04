@@ -1,11 +1,16 @@
 class MwsRequest < ActiveRecord::Base
-	has_many :mws_responses
+	belongs_to :store
+	has_many :mws_responses, :dependent => :destroy
 	
 	# can get the total time it took by looking at create timestamp - last timestamp in child response
 	#def request_time
 	#end
+
+	def error_count
+		return self.mws_responses.where('error_message IS NOT NULL').count
+	end
 	
-	def process_response(mws_connection, response_xml,page_num,sleep_if_error)
+	def process_response(mws_connection,response_xml,page_num,sleep_if_error)
 
 		# Update the request_id in our request parent object if not set already
 		if self.amazon_request_id.nil?
@@ -36,7 +41,10 @@ class MwsRequest < ActiveRecord::Base
 			response.save!
 			
 			response_xml.orders.each do |o|
-				r = MwsOrder.process_order(mws_connection, o,response.id)
+				amz_order = MwsOrder.find_or_create_by_amazon_order_id_and_mws_response_id(o.amazon_order_id,response.id)
+				h = MwsHelper.instance_vars_to_hash(o)
+				amz_order.update_attributes(h)
+				r = amz_order.process_order(mws_connection)
 				if r.is_a?(Numeric)
 					return r
 				end
@@ -45,7 +53,8 @@ class MwsRequest < ActiveRecord::Base
 			response.amazon_order_id = response_xml.amazon_order_id
 			response.save!
 			response_xml.order_items.each do |i|
-				MwsOrder.process_order_item(i,response.amazon_order_id)
+				amz_order = MwsOrder.find_by_amazon_order_id(response.amazon_order_id)
+				amz_order.process_order_item(i)
 			end
 		end
 		return response.next_token
