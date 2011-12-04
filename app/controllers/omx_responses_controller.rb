@@ -1,6 +1,6 @@
 class OmxResponsesController < ApplicationController
 
-	#around_filter :shopify_session
+	around_filter :shopify_session
 	
   # GET /omx_responses
   # GET /omx_responses.json

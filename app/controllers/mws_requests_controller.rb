@@ -1,6 +1,6 @@
 class MwsRequestsController < ApplicationController
   
-  #around_filter :shopify_session
+  around_filter :shopify_session
   
   # GET /mws_requests
   # GET /mws_requests.json
