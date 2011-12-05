@@ -129,8 +129,8 @@
 
 %p= "OMX Requests: #{@mws_order.omx_requests.count}"
 - @mws_order.omx_requests.each do |r|
-	- omx_response = r.omx_response
-	%p= link_to "#{r.request_type}, success:#{omx_response.success}", r
+	- if r.omx_response
+		%p= link_to "#{r.request_type}, success:#{r.omx_response.success}", r
 
 %p
 	= link_to 'Edit', edit_mws_order_path(@mws_order)
