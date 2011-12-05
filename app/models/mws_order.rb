@@ -24,13 +24,15 @@ class MwsOrder < ActiveRecord::Base
 
 
 	def pushed_to_omx?
-		pushed = "No"
+		pushed = "Error"
 		self.omx_requests.each do |req|
 			resp = req.omx_response
-			if !resp.ordermotion_order_number.nil? && resp.ordermotion_order_number != ''
-				pushed = "Yes"
-			elsif !resp.error_data.nil? && resp.error_data != ''
-				pushed = "Error"
+			if !resp.nil?
+				if !resp.ordermotion_order_number.nil? && resp.ordermotion_order_number != ''
+					pushed = "Yes"
+				elsif resp.error_data.nil? || resp.error_data == ''
+					pushed = "No"
+				end
 			end
 		end
 		return pushed
