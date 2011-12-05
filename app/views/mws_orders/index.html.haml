@@ -7,7 +7,6 @@
 		%th="Bill to name"
 		%th="Shipping"
 		%th="Amount"
-		%th="Address"
 		%th="City"
 		%th="State or region"
 		%th="Postal code"
@@ -25,7 +24,6 @@
 			%td= mws_order.buyer_name
 			%td= mws_order.shipment_service_level_category
 			%td= mws_order.amount
-			%td= mws_order.address_line_1.to_s + mws_order.address_line_2.to_s + mws_order.address_line_3.to_s
 			%td= mws_order.city
 			%td= mws_order.omx_state
 			%td= mws_order.postal_code
