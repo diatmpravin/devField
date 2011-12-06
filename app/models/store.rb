@@ -26,12 +26,14 @@ class Store < ActiveRecord::Base
 	private
 	def init_mws_connection
 
-		reqs = self.mws_requests.where(:request_type => "ListOrders")
-		if reqs.count >0
-			@cutoff_time = reqs.order('updated_at DESC').first.get_last_date
-		else
-			@cutoff_time = Time.now.ago(60*60*6) # Hack to handle first request, 1 day back
-		end
+		
+		#reqs = self.mws_requests.where(:request_type => "ListOrders")
+		#if reqs.count >0
+		#	@cutoff_time = reqs.order('updated_at DESC').first.get_last_date
+		#else
+		#	@cutoff_time = Time.now.ago(60*60*6) # Hack to handle first request, 1 day back
+		#end
+		@cutoff_time = get_last_date
 		
 		if self.name=="HDO"
 			@mws_connection = Amazon::MWS::Base.new(
@@ -87,5 +89,14 @@ class Store < ActiveRecord::Base
 			end
 		end
 	end
-	
+
+	# if there are orders, take 1 second after the most recent order was updated, otherwise shoot 3 hours back
+	def get_last_date	
+		latest_order = self.mws_orders.order('last_update_date DESC').first
+		if !latest_order.nil?
+			return latest_order.last_update_date.since(1)
+		else
+			return Time.now.ago(60*60*3)
+		end
+	end
 end

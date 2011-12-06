@@ -2,9 +2,30 @@ class MwsRequest < ActiveRecord::Base
 	belongs_to :store
 	has_many :mws_responses, :dependent => :destroy
 	
+	has_many :sub_requests, :class_name => "MwsRequest"
+  belongs_to :parent_request, :class_name => "MwsRequest", :foreign_key => "parent_mws_request_id"
+  
+	
 	# can get the total time it took by looking at create timestamp - last timestamp in child response
 	#def request_time
 	#end
+
+	def self.update_all_parent_ids
+		requests = MwsRequest.order('created_at ASC')
+		request_count = requests.count
+		i = 0
+		current_parent_id = nil
+		
+		while i < request_count do
+			if requests[i].request_type == 'ListOrders'
+				current_parent_id = requests[i].id
+			else
+				requests[i].parent_mws_request_id = current_parent_id
+				requests[i].save!
+			end
+			i += 1
+		end
+	end
 
 	def error_count
 		return self.mws_responses.where('error_message IS NOT NULL').count
@@ -44,6 +65,7 @@ class MwsRequest < ActiveRecord::Base
 				amz_order = MwsOrder.find_or_create_by_amazon_order_id(o.amazon_order_id)
 				h = MwsHelper.instance_vars_to_hash(o)
 				h['mws_response_id'] = response.id
+				h['store_id'] = self.store_id
 				amz_order.update_attributes(h)
 				r = amz_order.process_order(mws_connection)
 				if r.is_a?(Numeric)

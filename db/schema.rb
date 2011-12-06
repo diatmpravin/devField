@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20111204122856) do
+ActiveRecord::Schema.define(:version => 20111205233326) do
 
   create_table "imports", :force => true do |t|
     t.string   "datatype"
@@ -87,6 +87,7 @@ ActiveRecord::Schema.define(:version => 20111204122856) do
     t.datetime "updated_at"
     t.string   "shipment_service_level_category"
     t.string   "name"
+    t.integer  "store_id"
   end
 
   create_table "mws_requests", :force => true do |t|
@@ -95,6 +96,7 @@ ActiveRecord::Schema.define(:version => 20111204122856) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "store_id"
+    t.integer  "parent_mws_request_id"
   end
 
   create_table "mws_responses", :force => true do |t|
