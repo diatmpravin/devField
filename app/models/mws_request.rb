@@ -40,7 +40,7 @@ class MwsRequest < ActiveRecord::Base
 			if requests[i].request_type == 'ListOrders'
 				current_parent_id = requests[i].id
 			else
-				requests[i].parent_mws_request_id = current_parent_id
+				requests[i].mws_request_id = current_parent_id
 				requests[i].save!
 			end
 			i += 1
