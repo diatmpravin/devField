@@ -3,7 +3,7 @@ class MwsRequest < ActiveRecord::Base
 	has_many :mws_responses, :dependent => :destroy
 	
 	has_many :sub_requests, :class_name => "MwsRequest"
-  belongs_to :parent_request, :class_name => "MwsRequest", :foreign_key => "parent_mws_request_id"
+  belongs_to :parent_request, :class_name => "MwsRequest", :foreign_key => "mws_request_id"
   
 	
 	# can get the total time it took by looking at create timestamp - last timestamp in child response
@@ -61,16 +61,23 @@ class MwsRequest < ActiveRecord::Base
 			response.last_updated_before = response_xml.last_updated_before
 			response.save!
 			
+			# Process all orders first
+			amazon_orders = Array.new
 			response_xml.orders.each do |o|
 				amz_order = MwsOrder.find_or_create_by_amazon_order_id(o.amazon_order_id)
 				h = MwsHelper.instance_vars_to_hash(o)
 				h['mws_response_id'] = response.id
 				h['store_id'] = self.store_id
 				amz_order.update_attributes(h)
+				amazon_orders << amz_order
+			end
+			
+			# Then loop back to get item detail behind each order
+			amazon_orders.each do |amz_order|
 				r = amz_order.process_order(mws_connection)
-				if r.is_a?(Numeric)
-					return r
-				end
+				#if r.is_a?(Numeric)
+				#	return r
+				#end
 			end
 		elsif self.request_type=="ListOrderItems"
 			response.amazon_order_id = response_xml.amazon_order_id

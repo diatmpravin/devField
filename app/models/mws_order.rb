@@ -3,6 +3,7 @@ require 'RubyOmx'
 
 class MwsOrder < ActiveRecord::Base
 	belongs_to :mws_response
+	belongs_to :store
 	has_many :mws_order_items, :dependent => :destroy
 	has_many :omx_requests
 	validates_uniqueness_of :amazon_order_id
@@ -49,7 +50,7 @@ class MwsOrder < ActiveRecord::Base
 	# Process XML order into ActiveRecord, and process items on order
 	def process_order(mws_connection)		
 		return_code = fetch_order_items(mws_connection)
-		raise Exception unless (self.item_quantity == (self.number_of_items_unshipped + self.number_of_items_shipped))
+		#raise Exception unless (self.item_quantity == (self.number_of_items_unshipped + self.number_of_items_shipped))
 		if self.fulfillment_channel == "MFN"
 			append_to_omx
 		end
@@ -136,17 +137,33 @@ class MwsOrder < ActiveRecord::Base
 	
 	#TODO must deal with gift wrapping, line item by line item
 	def omx_gift_wrapping
-		m = omx_gift_message
-		if m.nil? || m == ''
-			return 'False'
-		else
+		if !omx_gift_message.nil? || !omx_gift_wrap_level.nil? 
 			return 'True'
+		else
+			return 'False'
 		end
+	end
+
+	#TODO gift message should be line by line item
+	def omx_gift_wrap_level
+		items = self.mws_order_items
+		items.each do |i| 
+			if !i.gift_wrap_level.nil? && i.gift_wrap_level != ''
+				return i.gift_wrap_level
+			end
+		end
+		return nil
 	end
 	
 	#TODO gift message should be line by line item
 	def omx_gift_message
-		return self.mws_order_items.first.gift_message_text
+		items = self.mws_order_items
+		items.each do |i| 
+			if !i.gift_message_text.nil? && i.gift_message_text != ''
+				return i.gift_message_text
+			end
+		end
+		return nil
 	end
 
 	def append_to_omx(params ={})

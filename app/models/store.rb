@@ -3,6 +3,7 @@ require 'RubyOmx'
 
 class Store < ActiveRecord::Base	
 	has_many :mws_requests, :dependent => :destroy
+	has_many :mws_orders, :dependent => :destroy
 	validates_inclusion_of :store_type, :in => %w(MWS), :message => 'Invalid store type'
 	validates_uniqueness_of :name, :scope => [:store_type]
 	after_initialize :init_mws_connection
@@ -18,21 +19,12 @@ class Store < ActiveRecord::Base
 		response_id = fetch_orders
 		if !response_id.nil?
 			response = MwsResponse.find(response_id)	
-			return "Error - #{response.error_code}: #{response.error_message}"
 		end
-		return "OK"
 	end
 
 	private
 	def init_mws_connection
 
-		
-		#reqs = self.mws_requests.where(:request_type => "ListOrders")
-		#if reqs.count >0
-		#	@cutoff_time = reqs.order('updated_at DESC').first.get_last_date
-		#else
-		#	@cutoff_time = Time.now.ago(60*60*6) # Hack to handle first request, 1 day back
-		#end
 		@cutoff_time = get_last_date
 		
 		if self.name=="HDO"
