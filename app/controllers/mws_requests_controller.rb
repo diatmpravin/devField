@@ -1,12 +1,12 @@
 class MwsRequestsController < ApplicationController
   
-  around_filter :shopify_session
+  #around_filter :shopify_session
   
   # GET /mws_requests
   # GET /mws_requests.json
   def index
     #@mws_requests = MwsRequest.where(:request_type => 'ListOrders').order('created_at DESC')
-		@mws_requests = MwsRequest.order('created_at DESC')
+		@mws_requests = MwsRequest.where('mws_request_id is null').order('created_at DESC')
 
     respond_to do |format|
       format.html # index.html.erb

@@ -10,6 +10,26 @@ class MwsRequest < ActiveRecord::Base
 	#def request_time
 	#end
 
+	def get_orders_count
+		count = 0
+		self.mws_responses.each do |r|
+			count += r.mws_orders.count
+		end
+		return count
+	end
+
+	def get_orders_without_items_count
+		count = 0
+		self.mws_responses.each do |r|
+			r.mws_orders.each do |o|
+				if o.mws_order_items.count == 0
+					count += 1		
+				end
+			end
+		end
+		return count
+	end
+
 	def self.update_all_parent_ids
 		requests = MwsRequest.order('created_at ASC')
 		request_count = requests.count

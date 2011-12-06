@@ -2,6 +2,7 @@
 
 %table
 	%tr
+		%th="Store"
 		%th="Purchase time (UTC)"
 		%th="Ship to name"
 		%th="Bill to name"
@@ -11,15 +12,16 @@
 		%th="State or region"
 		%th="Postal code"
 		%th="Country code"
-		%th="Number of items unshipped"
-		%th="Items loaded"
-		%th="Store"
+		%th="Items"
+		%th="Items Missing?"
+		%th="Gift?"
 		%th="OMX?"
 		%th
 
 	- @mws_orders.each do |mws_order|
 		%tr
-			%td= mws_order.purchase_date.to_s(:db)
+			%td= mws_order.store.name
+			%td= time_ago_in_words(mws_order.purchase_date) + " ago"
 			%td= mws_order.name
 			%td= mws_order.buyer_name
 			%td= mws_order.shipment_service_level_category
@@ -29,9 +31,21 @@
 			%td= mws_order.postal_code
 			%td= mws_order.country_code
 			%td= mws_order.number_of_items_unshipped
-			%td= mws_order.item_quantity
-			%td= mws_order.mws_response.mws_request.store.name
-			%td= mws_order.pushed_to_omx?
+			%td
+				- missing = (mws_order.number_of_items_unshipped - mws_order.item_quantity) 
+				- if missing > 0
+					%b= "#{missing} missing"
+			
+			%td
+				- gift = mws_order.omx_gift_wrapping
+				- if gift == "True"
+					%b= "Gift"
+			%td
+				- omx_status = mws_order.pushed_to_omx?
+				- if omx_status == "Error"
+					%b= omx_status
+				- else
+					= omx_status
 			%td= link_to 'Show', mws_order
 %br
 

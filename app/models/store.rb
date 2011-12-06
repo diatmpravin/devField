@@ -24,8 +24,6 @@ class Store < ActiveRecord::Base
 
 	private
 	def init_mws_connection
-
-		@cutoff_time = get_last_date
 		
 		if self.name=="HDO"
 			@mws_connection = Amazon::MWS::Base.new(
@@ -52,6 +50,9 @@ class Store < ActiveRecord::Base
 	end
 
 	def fetch_orders		
+
+		@cutoff_time = get_last_date
+
 		request = MwsRequest.create!(:request_type => "ListOrders", :store_id => self.id) 
 		response = @mws_connection.get_orders_list(      
 			:last_updated_after => @cutoff_time.iso8601,
