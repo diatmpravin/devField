@@ -1,13 +1,18 @@
-desc "fetch tifosi 2011 images"
-task :fetch_tifosi_2011 => :environment do
+desc "fetch safilo"
+task :fetch_safilo => :environment do
 	require 'mechanize'			
 	agent = Mechanize.new
-	agent.get("http://www.tifosioptics.com/files/2011%20Dealer%20Info%20and%20Pics/2011%20Product%20Images/")
+	agent.get("http://www.mysafilo.com/pub/")
 	form = agent.page.forms.first
-	form.username = 'tifosifiles'
-	form.password = 'tifosi1'
+	form.usernameInput = '125616500'
+	form.input = '6m4gyeqj'
 	form.submit
-	agent.page.link_with(:text => "Click here if you are not redirected automatically").click
+	agent.page.link_with(:text => "Our Brands").click
+	agent.page.link_with(:text => "Carrera").click
+	agent.page.link_with(:text => "View Collection").click
+	
+	# get a collection of all link TDs and click on each one
+	
 	agent.page.link_with(:text => "2011 Dealer Info and Pics").click
 	agent.page.link_with(:text => "2011 Product Images").click
 	@links = agent.page.search('#Downloads a')

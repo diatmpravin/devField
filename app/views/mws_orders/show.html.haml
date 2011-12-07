@@ -133,6 +133,11 @@
 		%p= link_to "#{r.request_type}, success:#{r.omx_response.success}", r
 
 %p
-	= link_to 'Edit', edit_mws_order_path(@mws_order)
+	= form_for(@mws_order) do |f|
+		%div.actions
+			= f.submit "Reprocess Order"
+
+%p
+	= link_to 'Reprocess', edit_mws_order_path(@mws_order)
 	= " | "
 	= link_to 'Back', mws_orders_path

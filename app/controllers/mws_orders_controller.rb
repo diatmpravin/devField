@@ -60,15 +60,12 @@ class MwsOrdersController < ApplicationController
   # PUT /mws_orders/1.json
   def update
     @mws_order = MwsOrder.find(params[:id])
+    
+		response = @mws_order.reprocess_order   
 
     respond_to do |format|
-      if @mws_order.update_attributes(params[:mws_order])
-        format.html { redirect_to @mws_order, notice: 'Mws order was successfully updated.' }
-        format.json { head :ok }
-      else
-        format.html { render action: "edit" }
-        format.json { render json: @mws_order.errors, status: :unprocessable_entity }
-      end
+    	format.html { redirect_to @mws_order, notice: "Mws order was successfully reprocessed: #{response}." }
+      format.json { render json: @mws_order }
     end
   end
 

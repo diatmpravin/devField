@@ -4,7 +4,7 @@ require 'RubyOmx'
 class Store < ActiveRecord::Base	
 	has_many :mws_requests, :dependent => :destroy
 	has_many :mws_orders, :dependent => :destroy
-	validates_inclusion_of :store_type, :in => %w(MWS), :message => 'Invalid store type'
+	validates_inclusion_of :store_type, :in => %w(MWS Shopify), :message => 'Invalid store type'
 	validates_uniqueness_of :name, :scope => [:store_type]
 	after_initialize :init_mws_connection
 	
@@ -20,6 +20,10 @@ class Store < ActiveRecord::Base
 		if !response_id.nil?
 			response = MwsResponse.find(response_id)	
 		end
+	end
+	
+	def get_mws_connection
+		@mws_connection
 	end
 
 	private

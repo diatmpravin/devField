@@ -47,10 +47,16 @@ class MwsOrder < ActiveRecord::Base
 		return pushed
 	end
 
+	def reprocess_order
+		store = self.store
+		process_order(store.get_mws_connection) 
+	end
+
 	# Process XML order into ActiveRecord, and process items on order
 	def process_order(mws_connection)		
 		return_code = fetch_order_items(mws_connection)
 		#raise Exception unless (self.item_quantity == (self.number_of_items_unshipped + self.number_of_items_shipped))
+		#TODO if reprocessing, use the update API call rather than append
 		if self.fulfillment_channel == "MFN"
 			append_to_omx
 		end
