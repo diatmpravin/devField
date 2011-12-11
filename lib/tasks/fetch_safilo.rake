@@ -4,37 +4,76 @@ task :fetch_safilo => :environment do
 	agent = Mechanize.new
 	agent.get("http://www.mysafilo.com/pub/")
 	form = agent.page.forms.first
-	form.usernameInput = '125616500'
-	form.input = '6m4gyeqj'
+	form.username = '125616500'
+	form.password = '6m4gyeqj'
 	form.submit
 	agent.page.link_with(:text => "Our Brands").click
+	
 	agent.page.link_with(:text => "Carrera").click
-	agent.page.link_with(:text => "View Collection").click
-	
-	# get a collection of all link TDs and click on each one
-	
-	agent.page.link_with(:text => "2011 Dealer Info and Pics").click
-	agent.page.link_with(:text => "2011 Product Images").click
-	@links = agent.page.search('#Downloads a')
-	@links.each do |link|
-		link_url = link['href']
-		pieces = link_url.split(/[\/.]/)
-		product = pieces[pieces.count-2].split(/ /).first
-		sku = pieces[pieces.count-2].split(/ /).last
-		puts product + ":" + sku
-	end
-	
-	agent.get("http://www.tifosioptics.com/files/2011%20Dealer%20Info%20and%20Pics/2011%20Product%20Images/")
-	agent.page.link_with(:text => "2012 Lineup").click
-	
-	# csv upload for product stuff - overwrite dups
-	
-	# for each image, look up by SKU, flag those that don't match (or log them?)
-	# use paperclip to add an image to the database for that product
-	# push product to amazon
-	# push product to shopify
-	# push product to ordermotion
-	
+	current_page = agent.page.link_with(:text => "View Collection").click
+
+	i = 0
+	next_link = current_page.link_with(:text => "Next")
+	while !next_link.nil?
+		if i>0
+			current_page = next_link.click
+		end
+		i +=1
+		links = current_page.search(".styleNameCell a")
+		links.each do |link|
+			product = link.text.strip
+			sub_page = agent.get(link['href'])
+					
+			rows = sub_page.search("#orderGrid tr")
+			data_array = Array.new
+			
+			for j in 2..(rows.count-2)				
+				cols = rows[j].children
+				data_array << { :title => cols[0].text,
+										:size => cols[2].children[0].text,
+										:price => cols[4].children[0].text,
+										:availability => cols[8].children[0].text }
+				 
+				#puts "#{product}: #{title}, #{size}, #{price}, #{availability}"
+				j += 1
+			end
+			
+			
+			chipImages = sub_page.search("chipImages img:nth-child(1)")
+			
+			# click the first chip image
+			chipImages.each do |c|
+				#c.click how to click because this is a nokogiri element
+				agent.page.
+			end
+			# then get the .splitImage
+			#images = sub_page.search(".splitImage img")
+			#fullImage img
+			images = sub_page.search("#fullImage img")
+			
+			# otherwise, switch to the next product each time you encounter blank.gif
+			
+			j = -1
+			for k in 0..(images.count-1)
+				puts "k=#{k}"
+				source = nil
+				if !images[k].nil?
+					source = images[k].attr('src')
+				end
+				
+				if !source.nil? && source.index("blank.gif")
+					j += 1
+					puts "j=#{j}"
+				elsif !source.nil? && source.index("thumb").nil?
+					puts "#{data_array[j][:title]}: #{source}"
+				end
+				
+			end
+			#79ED3B961FFEEFA8AC822D38
+		end
+		#next_link = current_page.link_with(:text => "Next")
+		next_link = nil
+	end	
 end
 
 
