@@ -44,7 +44,7 @@ task :fetch_safilo => :environment do
 			# click the first chip image
 			chipImages.each do |c|
 				#c.click how to click because this is a nokogiri element
-				agent.page.
+				#agent.page
 			end
 			# then get the .splitImage
 			#images = sub_page.search(".splitImage img")
@@ -73,7 +73,7 @@ task :fetch_safilo => :environment do
 		end
 		#next_link = current_page.link_with(:text => "Next")
 		next_link = nil
-	end	
+	end
 end
 
 
