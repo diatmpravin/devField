@@ -48,7 +48,11 @@ class MwsRequest < ActiveRecord::Base
 	end
 
 	def error_count
-		return self.mws_responses.where('error_message IS NOT NULL').count
+		count = 0
+		self.sub_requests.each do |r|
+			count += r.mws_responses.where('error_message IS NOT NULL').count
+		end	
+		return count
 	end
 	
 	def process_response(mws_connection,response_xml,page_num,sleep_if_error)

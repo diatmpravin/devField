@@ -17,7 +17,7 @@
 				- error_count = mws_request.error_count
 				- order_count = mws_request.get_orders_count
 				- orders_without_items_count = mws_request.get_orders_without_items_count
-				- if error_count > 0 || orders_without_items_count >0 || order_count <= 0
+				- if error_count > 0 || orders_without_items_count >0
 					%b= "ERROR: #{error_count} errors, #{mws_request.mws_responses.count} response pages, #{order_count} orders, #{orders_without_items_count} without items"
 				- else
 					= "OK: #{order_count} orders"
