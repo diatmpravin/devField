@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20111212003238) do
+ActiveRecord::Schema.define(:version => 20111212010659) do
 
   create_table "brands", :force => true do |t|
     t.string   "name"
@@ -23,6 +23,8 @@ ActiveRecord::Schema.define(:version => 20111212003238) do
     t.datetime "updated_at"
     t.datetime "icon_updated_at"
   end
+
+  add_index "brands", ["vendor_id"], :name => "index_brands_on_vendor_id"
 
   create_table "imports", :force => true do |t|
     t.string   "datatype"
@@ -66,6 +68,10 @@ ActiveRecord::Schema.define(:version => 20111212003238) do
     t.integer  "mws_response_id"
   end
 
+  add_index "mws_order_items", ["amazon_order_id"], :name => "index_mws_order_items_on_amazon_order_id"
+  add_index "mws_order_items", ["mws_order_id"], :name => "index_mws_order_items_on_mws_order_id"
+  add_index "mws_order_items", ["mws_response_id"], :name => "index_mws_order_items_on_mws_response_id"
+
   create_table "mws_orders", :force => true do |t|
     t.string   "amazon_order_id"
     t.string   "seller_order_id"
@@ -101,6 +107,10 @@ ActiveRecord::Schema.define(:version => 20111212003238) do
     t.integer  "store_id"
   end
 
+  add_index "mws_orders", ["amazon_order_id"], :name => "index_mws_orders_on_amazon_order_id"
+  add_index "mws_orders", ["mws_response_id"], :name => "index_mws_orders_on_mws_response_id"
+  add_index "mws_orders", ["store_id"], :name => "index_mws_orders_on_store_id"
+
   create_table "mws_requests", :force => true do |t|
     t.string   "amazon_request_id"
     t.string   "request_type"
@@ -109,6 +119,8 @@ ActiveRecord::Schema.define(:version => 20111212003238) do
     t.integer  "store_id"
     t.integer  "mws_request_id"
   end
+
+  add_index "mws_requests", ["mws_request_id"], :name => "index_mws_requests_on_mws_request_id"
 
   create_table "mws_responses", :force => true do |t|
     t.integer  "mws_request_id"
@@ -125,6 +137,9 @@ ActiveRecord::Schema.define(:version => 20111212003238) do
     t.datetime "updated_at"
   end
 
+  add_index "mws_responses", ["amazon_order_id"], :name => "index_mws_responses_on_amazon_order_id"
+  add_index "mws_responses", ["mws_request_id"], :name => "index_mws_responses_on_mws_request_id"
+
   create_table "omx_requests", :force => true do |t|
     t.string   "request_type"
     t.datetime "created_at"
@@ -137,6 +152,8 @@ ActiveRecord::Schema.define(:version => 20111212003238) do
     t.string   "store_code"
   end
 
+  add_index "omx_requests", ["mws_order_id"], :name => "index_omx_requests_on_mws_order_id"
+
   create_table "omx_responses", :force => true do |t|
     t.integer  "omx_request_id"
     t.integer  "success"
@@ -146,6 +163,8 @@ ActiveRecord::Schema.define(:version => 20111212003238) do
     t.datetime "updated_at"
     t.string   "error_data"
   end
+
+  add_index "omx_responses", ["omx_request_id"], :name => "index_omx_responses_on_omx_request_id"
 
   create_table "products", :force => true do |t|
     t.string   "name"
@@ -158,6 +177,8 @@ ActiveRecord::Schema.define(:version => 20111212003238) do
     t.datetime "created_at"
     t.datetime "updated_at"
   end
+
+  add_index "products", ["brand_id"], :name => "index_products_on_brand_id"
 
   create_table "stores", :force => true do |t|
     t.string   "name"
@@ -179,6 +200,8 @@ ActiveRecord::Schema.define(:version => 20111212003238) do
     t.datetime "updated_at"
     t.datetime "image_updated_at"
   end
+
+  add_index "variant_images", ["variant_id"], :name => "index_variant_images_on_variant_id"
 
   create_table "variants", :force => true do |t|
     t.integer  "product_id"
@@ -204,6 +227,8 @@ ActiveRecord::Schema.define(:version => 20111212003238) do
     t.datetime "created_at"
     t.datetime "updated_at"
   end
+
+  add_index "variants", ["product_id"], :name => "index_variants_on_product_id"
 
   create_table "vendors", :force => true do |t|
     t.string   "name"
