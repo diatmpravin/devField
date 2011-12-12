@@ -3,13 +3,20 @@ class MwsOrderItem < ActiveRecord::Base
 	belongs_to :mws_response
 	validates_uniqueness_of :amazon_order_item_id
 	validates_presence_of :mws_order_id
+	# TODO validate presence, numericality, and positiveness of price
 
 	def clean_sku
 		return self.seller_sku.gsub(/-AZ.*$/,'')
 	end
 	
 	def product_price_per_unit
-		return ((self.item_price + self.item_tax - self.promotion_discount) / self.quantity_ordered)
+		if self.quantity_ordered.nil? || self.quantity_ordered == 0
+			return 0
+		elsif self.item_price.nil?
+			return 0
+		else
+			return ((self.item_price + self.item_tax - self.promotion_discount) / self.quantity_ordered)
+		end
 	end
 	
 	def sh_total
