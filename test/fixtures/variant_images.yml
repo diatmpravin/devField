@@ -1,0 +1,13 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  variant_id: 1
+  image_file_name: MyString
+  image_content_type: MyString
+  image_file_size: MyString
+
+two:
+  variant_id: 1
+  image_file_name: MyString
+  image_content_type: MyString
+  image_file_size: MyString

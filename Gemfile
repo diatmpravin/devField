@@ -12,6 +12,8 @@ group :production do
 	gem 'pg'
 end
 
+gem 'rmagick'
+
 group :development, :test do
 	gem 'sqlite3'
 	gem 'ruby-debug-base19', "0.11.24"

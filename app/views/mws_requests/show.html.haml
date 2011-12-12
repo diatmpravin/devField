@@ -19,6 +19,7 @@
 			%b= "Order #{o.amazon_order_id}:"
 			= "#{o.purchase_date.to_s(:db)}, #{o.buyer_name}, #{o.amount}, items:#{o.mws_order_items.count}"
 			= link_to 'View Order', o
+			
 
 	- r.mws_order_items.each do |i|
 		%p

@@ -11,3 +11,7 @@ stores = Store.create( [
   {name:"HDO Webstore", store_type:"MWS", queue_flag:"False", verify_flag:"True", max_order_pages:2, order_results_per_page:2 },
   {name:"FieldDay", store_type:"MWS", queue_flag:"False", verify_flag:"True", max_order_pages:2, order_results_per_page:2 }
 ] )
+
+vendors = Vendor.create( [ {name:"Safilo"}, {name:"Tifosi"}, {name:"Oakley"}, {name:"Arnette"}, {name:"Luxottica"} ])
+
+brands = Brand.create( [ {name:"Carrera", vendor: vendors.first} ])

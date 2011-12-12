@@ -1,0 +1,45 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  product_id: 1
+  sku: MyString
+  price: 9.99
+  cost_price: 9.99
+  weight: 9.99
+  height: 9.99
+  width: 9.99
+  depth: 9.99
+  size: MyString
+  color1: MyString
+  color2: MyString
+  color1_code: MyString
+  color2_code: MyString
+  availability: MyString
+  deleted_at: 2011-12-12 00:44:18
+  is_master: false
+  position: 1
+  amazon_product_id: MyString
+  amazon_product_name: MyString
+  amazon_product_description: MyText
+
+two:
+  product_id: 1
+  sku: MyString
+  price: 9.99
+  cost_price: 9.99
+  weight: 9.99
+  height: 9.99
+  width: 9.99
+  depth: 9.99
+  size: MyString
+  color1: MyString
+  color2: MyString
+  color1_code: MyString
+  color2_code: MyString
+  availability: MyString
+  deleted_at: 2011-12-12 00:44:18
+  is_master: false
+  position: 1
+  amazon_product_id: MyString
+  amazon_product_name: MyString
+  amazon_product_description: MyText

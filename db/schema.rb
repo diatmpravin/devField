@@ -11,7 +11,18 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20111206001523) do
+ActiveRecord::Schema.define(:version => 20111212003238) do
+
+  create_table "brands", :force => true do |t|
+    t.string   "name"
+    t.integer  "vendor_id"
+    t.string   "icon_file_name"
+    t.string   "icon_content_type"
+    t.integer  "icon_file_size"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.datetime "icon_updated_at"
+  end
 
   create_table "imports", :force => true do |t|
     t.string   "datatype"
@@ -136,6 +147,18 @@ ActiveRecord::Schema.define(:version => 20111206001523) do
     t.string   "error_data"
   end
 
+  create_table "products", :force => true do |t|
+    t.string   "name"
+    t.text     "description"
+    t.datetime "available_on"
+    t.datetime "deleted_at"
+    t.text     "meta_description"
+    t.string   "meta_keywords"
+    t.integer  "brand_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
   create_table "stores", :force => true do |t|
     t.string   "name"
     t.string   "store_type"
@@ -145,6 +168,47 @@ ActiveRecord::Schema.define(:version => 20111206001523) do
     t.integer  "max_order_pages"
     t.string   "queue_flag"
     t.string   "verify_flag"
+  end
+
+  create_table "variant_images", :force => true do |t|
+    t.integer  "variant_id"
+    t.string   "image_file_name"
+    t.string   "image_content_type"
+    t.string   "image_file_size"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.datetime "image_updated_at"
+  end
+
+  create_table "variants", :force => true do |t|
+    t.integer  "product_id"
+    t.string   "sku"
+    t.decimal  "price"
+    t.decimal  "cost_price"
+    t.decimal  "weight"
+    t.decimal  "height"
+    t.decimal  "width"
+    t.decimal  "depth"
+    t.string   "size"
+    t.string   "color1"
+    t.string   "color2"
+    t.string   "color1_code"
+    t.string   "color2_code"
+    t.string   "availability"
+    t.datetime "deleted_at"
+    t.boolean  "is_master"
+    t.integer  "position"
+    t.string   "amazon_product_id"
+    t.string   "amazon_product_name"
+    t.text     "amazon_product_description"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "vendors", :force => true do |t|
+    t.string   "name"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
 end

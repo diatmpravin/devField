@@ -1,4 +1,14 @@
 Fieldday::Application.routes.draw do
+  resources :variant_images
+
+  resources :variants
+
+  resources :products
+
+  resources :brands
+
+  resources :vendors
+
   resources :stores
   resources :omx_responses
   resources :omx_requests

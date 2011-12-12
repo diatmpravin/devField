@@ -1,0 +1,26 @@
+<h1>Listing variant_images</h1>
+
+<table>
+  <tr>
+    <th>Variant</th>
+    <th>Image link</th>
+    <th>Image file size</th>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @variant_images.each do |variant_image| %>
+  <tr>
+    <td><%= link_to variant_image.variant.name, varient_image.variant %></td>
+    <td><%= link_to 'see image', variant_image.image.url %></td>
+    <td><%= link_to 'Show', variant_image %></td>
+    <td><%= link_to 'Edit', edit_variant_image_path(variant_image) %></td>
+    <td><%= link_to 'Destroy', variant_image, confirm: 'Are you sure?', method: :delete %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New Variant image', new_variant_image_path %>

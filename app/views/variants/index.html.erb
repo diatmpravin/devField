@@ -1,0 +1,61 @@
+<h1>Listing variants</h1>
+
+<table>
+  <tr>
+    <th>Product</th>
+    <th>Sku</th>
+    <th>Price</th>
+    <th>Cost price</th>
+    <th>Weight</th>
+    <th>Height</th>
+    <th>Width</th>
+    <th>Depth</th>
+    <th>Size</th>
+    <th>Color1</th>
+    <th>Color2</th>
+    <th>Color1 code</th>
+    <th>Color2 code</th>
+    <th>Availability</th>
+    <th>Deleted at</th>
+    <th>Is master</th>
+    <th>Position</th>
+    <th>Amazon product</th>
+    <th>Amazon product name</th>
+    <th>Amazon product description</th>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @variants.each do |variant| %>
+  <tr>
+    <td><%= variant.product_id %></td>
+    <td><%= variant.sku %></td>
+    <td><%= variant.price %></td>
+    <td><%= variant.cost_price %></td>
+    <td><%= variant.weight %></td>
+    <td><%= variant.height %></td>
+    <td><%= variant.width %></td>
+    <td><%= variant.depth %></td>
+    <td><%= variant.size %></td>
+    <td><%= variant.color1 %></td>
+    <td><%= variant.color2 %></td>
+    <td><%= variant.color1_code %></td>
+    <td><%= variant.color2_code %></td>
+    <td><%= variant.availability %></td>
+    <td><%= variant.deleted_at %></td>
+    <td><%= variant.is_master %></td>
+    <td><%= variant.position %></td>
+    <td><%= variant.amazon_product_id %></td>
+    <td><%= variant.amazon_product_name %></td>
+    <td><%= variant.amazon_product_description %></td>
+    <td><%= link_to 'Show', variant %></td>
+    <td><%= link_to 'Edit', edit_variant_path(variant) %></td>
+    <td><%= link_to 'Destroy', variant, confirm: 'Are you sure?', method: :delete %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New Variant', new_variant_path %>

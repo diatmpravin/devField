@@ -1,0 +1,15 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  name: MyString
+  vendor_id: 1
+  icon_file_name: MyString
+  icon_content_type: MyString
+  icon_file_size: 1
+
+two:
+  name: MyString
+  vendor_id: 1
+  icon_file_name: MyString
+  icon_content_type: MyString
+  icon_file_size: 1

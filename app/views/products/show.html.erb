@@ -1,0 +1,40 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>Name:</b>
+  <%= @product.name %>
+</p>
+
+<p>
+  <b>Description:</b>
+  <%= @product.description %>
+</p>
+
+<p>
+  <b>Available on:</b>
+  <%= @product.available_on %>
+</p>
+
+<p>
+  <b>Deleted at:</b>
+  <%= @product.deleted_at %>
+</p>
+
+<p>
+  <b>Meta description:</b>
+  <%= @product.meta_description %>
+</p>
+
+<p>
+  <b>Meta keywords:</b>
+  <%= @product.meta_keywords %>
+</p>
+
+<p>
+  <b>Brand:</b>
+  <%= @product.brand_id %>
+</p>
+
+
+<%= link_to 'Edit', edit_product_path(@product) %> |
+<%= link_to 'Back', products_path %>
