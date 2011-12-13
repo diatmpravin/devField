@@ -31,7 +31,7 @@ gem 'RubyOmx', :git => 'git://github.com/adamwible/RubyOmx.git'
 gem 'ruby-hmac'
 gem 'roxml'
 gem 'haml'
-gem 'slowweb'
+#gem 'slowweb'
 gem 'shopify_app'
 
 # Gems used only for assets and not required
