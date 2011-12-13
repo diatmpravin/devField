@@ -15,6 +15,7 @@
 		%th="Items"
 		%th="Items Missing?"
 		%th="Gift?"
+		%th="MFN?"
 		%th="OMX?"
 		%th
 
@@ -40,6 +41,7 @@
 				- gift = mws_order.omx_gift_wrapping
 				- if gift == "True"
 					%b= "Gift"
+			%td= mws_order.fulfillment_channel
 			%td
 				- omx_status = mws_order.pushed_to_omx?
 				- if omx_status == "Error"

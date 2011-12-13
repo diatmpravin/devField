@@ -61,8 +61,8 @@ class Store < ActiveRecord::Base
 		response = @mws_connection.get_orders_list(      
 			:last_updated_after => @cutoff_time.iso8601,
 			:results_per_page => self.order_results_per_page,
-      :fulfillment_channel => ["MFN"], #TODO include AFN?
-			:order_status => ["Unshipped", "PartiallyShipped"], #TODO include shipped?
+      #:fulfillment_channel => ["MFN","AFN"], #TODO include AFN?
+			#:order_status => ["Unshipped", "PartiallyShipped", "Shipped"], #TODO include shipped?
 			:marketplace_id => [US_MKT]
 		)
 		next_token = request.process_response(@mws_connection,response,0,0)
