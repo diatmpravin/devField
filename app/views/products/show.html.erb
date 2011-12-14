@@ -1,6 +1,11 @@
 <p id="notice"><%= notice %></p>
 
 <p>
+  <b>Brand:</b>
+  <%= @product.brand.name %>
+</p>
+
+<p>
   <b>Name:</b>
   <%= @product.name %>
 </p>
@@ -16,23 +21,8 @@
 </p>
 
 <p>
-  <b>Deleted at:</b>
-  <%= @product.deleted_at %>
-</p>
-
-<p>
-  <b>Meta description:</b>
-  <%= @product.meta_description %>
-</p>
-
-<p>
-  <b>Meta keywords:</b>
-  <%= @product.meta_keywords %>
-</p>
-
-<p>
-  <b>Brand:</b>
-  <%= @product.brand_id %>
+  <b>Variants</b>
+  <%= render @product.variants %>
 </p>
 
 

@@ -1,22 +1,10 @@
-<p id="notice"><%= notice %></p>
-
 <p>
-  <b>Product:</b>
-  <%= @variant.product_id %>
+	<b>Price:</b>
+	<%= @variant.price %>
 </p>
 
 <p>
-  <b>Sku:</b>
-  <%= @variant.sku %>
-</p>
-
-<p>
-  <b>Price:</b>
-  <%= @variant.price %>
-</p>
-
-<p>
-  <b>Cost price:</b>
+	<b>Cost price:</b>
   <%= @variant.cost_price %>
 </p>
 
@@ -99,7 +87,6 @@
   <b>Amazon product description:</b>
   <%= @variant.amazon_product_description %>
 </p>
-
 
 <%= link_to 'Edit', edit_variant_path(@variant) %> |
 <%= link_to 'Back', variants_path %>

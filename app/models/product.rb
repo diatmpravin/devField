@@ -23,5 +23,6 @@ class Product < ActiveRecord::Base
       :dependent => :destroy
 	
 	validates :name, :presence => true
+	validates_uniqueness_of :base_sku, :scope => [:brand_id]
 	
 end

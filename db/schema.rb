@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20111212083223) do
+ActiveRecord::Schema.define(:version => 20111213160720) do
 
   create_table "brands", :force => true do |t|
     t.string   "name"
@@ -228,6 +228,7 @@ ActiveRecord::Schema.define(:version => 20111212083223) do
     t.text     "amazon_product_description"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "upc"
   end
 
   add_index "variants", ["amazon_product_id"], :name => "index_variants_on_amazon_product_id"
