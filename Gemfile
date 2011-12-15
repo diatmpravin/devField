@@ -8,6 +8,7 @@ gem 'paperclip'
 gem 'heroku'
 #gem 'aws-s3', :require => 'aws/s3'
 gem 'aws-sdk'
+gem 'xml-simple'
 
 group :production do
 	gem 'pg'

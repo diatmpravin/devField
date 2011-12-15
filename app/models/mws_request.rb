@@ -30,23 +30,6 @@ class MwsRequest < ActiveRecord::Base
 		return count
 	end
 
-	def self.update_all_parent_ids
-		requests = MwsRequest.order('created_at ASC')
-		request_count = requests.count
-		i = 0
-		current_parent_id = nil
-		
-		while i < request_count do
-			if requests[i].request_type == 'ListOrders'
-				current_parent_id = requests[i].id
-			else
-				requests[i].mws_request_id = current_parent_id
-				requests[i].save!
-			end
-			i += 1
-		end
-	end
-
 	def error_count
 		count = 0
 		self.sub_requests.each do |r|

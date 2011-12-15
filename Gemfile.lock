@@ -182,6 +182,7 @@ GEM
     uuidtools (2.1.2)
     webrobots (0.0.12)
       nokogiri (>= 1.4.4)
+    xml-simple (1.1.1)
 
 PLATFORMS
   x86-mingw32
@@ -208,3 +209,4 @@ DEPENDENCIES
   sqlite3
   turn (= 0.8.2)
   uglifier (>= 1.0.3)
+  xml-simple

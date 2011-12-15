@@ -33,7 +33,7 @@ class Vendor < ActiveRecord::Base
 
 	def login
 		#TODO need to generalize this somehow, but how?
-		@cutoff_date = Time.now.ago(3600) # TODO
+		self.scraped_at = Time.now # TODO
 		@agent = Mechanize.new
 		@agent.get(BASE_URL+"pub/") #login_url
 		form = @agent.page.forms.first #form_number
@@ -66,7 +66,6 @@ class Vendor < ActiveRecord::Base
 			links = current_page.search(".styleNameCell a")
 			
 			links.each do |link|
-			#links.first do |link|
 				if !link['href'].nil?
 					process_item(brand,link)
 				end
@@ -88,7 +87,7 @@ class Vendor < ActiveRecord::Base
 		#	puts "nil for #{p.sku}"
 		#end
 		updated = p.updated_at
-		if (updated.nil? || updated <= @cutoff_date)
+		if (updated.nil? || updated <= self.scraped_at)
 			p.name = product	
 		
 			sub_page = @agent.get(link['href'])
@@ -188,18 +187,18 @@ class Vendor < ActiveRecord::Base
 				combo_img = col_list.append(true)
 				filename = "#{variant.product.brand.name}_#{variant.sku}_#{variant.color1}_#{width}.jpg"
 				filename.gsub!(/\//,'-')
-				filename.gsub!(/ /,'_')				
-				#file = Tempfile.new(filename)				
-				#combo_img.write(FILE_PREFIX+filename)
-				vi = VariantImage.find_or_create_by_variant_id_and_image_file_name(variant.id, filename)
-				file = Paperclip::Tempfile.new(filename)
-				#combo_img.write(file.path)
-				#vi.image_content_type = combo_img.mime_type
-				#vi.image_file_size = combo_img.filesize
-				vi.image = file
-				vi.image.save
-				vi.save!
+				filename.gsub!(/ /,'_')
 				
+				vi = VariantImage.find_or_create_by_variant_id_and_unique_image_file_name(variant.id, filename)
+				if !vi.image.file?
+					file = Paperclip::Tempfile.new(filename)
+					combo_img.write(file.path)
+					#vi.image_content_type = combo_img.mime_type
+					#vi.image_file_size = combo_img.filesize
+					vi.image = file
+					vi.image.save
+					vi.save!
+				end
 			end
 	end
 	

@@ -10,6 +10,7 @@ class Product < ActiveRecord::Base
   has_many :variants,
       :class_name => 'Variant',
       :conditions => ["variants.is_master = ? AND variants.deleted_at IS NULL", false],
+      :dependent => :destroy, #added this
       :order => "variants.position ASC"
 
   has_many :variants_including_master,

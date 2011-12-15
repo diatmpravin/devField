@@ -15,6 +15,23 @@ class Store < ActiveRecord::Base
 	@mws_connection = nil
 	@cutoff_time = nil
 
+	def get_orders_missing_items
+		orders_array = Array.new
+		self.mws_orders.each do |o|
+			if (o.item_quantity < (o.number_of_items_unshipped + o.number_of_items_shipped))
+				orders_array << o
+			end
+		end
+		return orders_array
+	end
+
+	def reprocess_orders_with_missing_items
+		orders_array = get_orders_missing_items
+		orders_array.each do |o|
+			o.reprocess_order
+		end
+	end
+
 	def fetch_recent_orders 		
 		response_id = fetch_orders
 		if !response_id.nil?

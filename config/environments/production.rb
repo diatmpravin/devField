@@ -51,6 +51,8 @@ Fieldday::Application.configure do
   # Enable threaded mode
   # config.threadsafe!
 
+	PAPERCLIP_STORAGE_OPTIONS = { :storage => :s3, :s3_credentials => { :access_key_id => ENV['S3_KEY'], :secret_access_key => ENV['S3_SECRET'], :bucket => 'fieldday' } }
+
   # Enable locale fallbacks for I18n (makes lookups for any locale fall back to
   # the I18n.default_locale when a translation can not be found)
   config.i18n.fallbacks = true
