@@ -1,6 +1,6 @@
 class Product < ActiveRecord::Base
 	belongs_to :brand
-	has_many :variants
+	has_many :variants, :dependent => :destroy
 
   has_one :master, :class_name => 'Variant',
       		:conditions => ["variants.is_master = ? AND variants.deleted_at IS NULL", true]	

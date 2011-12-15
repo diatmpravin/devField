@@ -1,7 +1,7 @@
 require 'RMagick'
 include Magick
 
-# find a way to slow this down so it doesn't time out
+# find a way to slow this down so it doesn't time out, OR CATCH TIMEOUT EXCEPTION AND SLEEP THEN RESTART
 # find a way to have it pick up where it left off - remember what page it was on, or continue flipping until finding the last product
 # capture the chip images as well
 # consider capturing properties like frame material, eye shape, rim type, etc
@@ -12,25 +12,43 @@ class Vendor < ActiveRecord::Base
 
 	BASE_URL = "http://www.mysafilo.com/"
 	BASE_WIDTH = 400
+	ZOOM_WIDTH = 320
+	SLEEP_AFTER_ITEM = 3
+	GET_IMAGES = 1
+	FILE_PREFIX = 'tmp/'
+	
 	@agent = nil
+	@cutoff_date = nil
+
+	# add a field cutoff date
+	# chip images are 320x274
+
+	def clear_products
+		self.brands.each do |b|
+			b.products.each do |p| 
+				p.destroy
+			end
+		end
+	end
 
 	def login
 		#TODO need to generalize this somehow, but how?
+		@cutoff_date = Time.now.ago(3600) # TODO
 		@agent = Mechanize.new
-		@agent.get(BASE_URL+"pub/")
-		form = @agent.page.forms.first
-		form.username = '125616500'
-		form.password = '6m4gyeqj'
+		@agent.get(BASE_URL+"pub/") #login_url
+		form = @agent.page.forms.first #form_number
+		form.username = '125616500' #username
+		form.password = '6m4gyeqj' #password
 		form.submit
-		@agent.page.link_with(:text => "Our Brands").click
+		@agent.page.link_with(:text => "Our Brands").click #brand nexus url
 	end
 	
 	def process_brands
 		login
 		brand_nexus_url = @agent.page.uri
 		self.brands.each do |b|
-			@agent.page.link_with(:text => b.name).click
-			@agent.page.link_with(:text => "View Collection").click
+			@agent.page.link_with(:text => b.name).click #link better be the brand name
+			@agent.page.link_with(:text => "View Collection").click # safilo specific...
 			process_items_page(b)
 			@agent.get(brand_nexus_url)	
 		end
@@ -48,36 +66,53 @@ class Vendor < ActiveRecord::Base
 			links = current_page.search(".styleNameCell a")
 			
 			links.each do |link|
+			#links.first do |link|
 				if !link['href'].nil?
 					process_item(brand,link)
 				end
 			end
 					
-			next_link = current_page.link_with(:text => "Next")
-			#next_link = nil
+			#next_link = current_page.link_with(:text => "Next")
+			next_link = nil
 		end			
 	end
 	
 	def process_item(brand, link)
 		product = link.text.strip
 		sku = link['href'].split(/styleNumber=/)[1].strip
-		#puts "#{brand.name}-#{product}:#{sku}"
-		
+						
 		# insert or update the base product into products
 		p = Product.find_or_create_by_brand_id_and_base_sku(brand.id, sku)
-		p.name = product
-		p.save!
+		#puts p.updated_at
+		#if p.updated_at.nil?
+		#	puts "nil for #{p.sku}"
+		#end
+		updated = p.updated_at
+		if (updated.nil? || updated <= @cutoff_date)
+			p.name = product	
 		
-		sub_page = @agent.get(link['href'])
-		process_item_variants(p, sub_page)
-		process_item_variant_images(p, sub_page)		
+			sub_page = @agent.get(link['href'])
+			criteria_array = sub_page.search("#moreLikeThis input[type='checkbox']")
+			criteria_string = ""
+			criteria_array.each do |c|
+				criteria_string += "#{c['id']}:#{c['criterionvalue']},"
+			end
+			puts criteria_string
+			p.meta_keywords = criteria_string			
+			p.save!
+
+			process_item_variants(p, sub_page)
+			if GET_IMAGES == 1
+				process_item_variant_images(p, sub_page)
+			end
+		end
+		sleep SLEEP_AFTER_ITEM		
 	end
 	
 	def process_item_variants(product, page)
 		rows = page.search("#orderGrid tr")
 		for j in 2..(rows.count-2)
 			sku = "#{product.base_sku}-#{rows[j]['colorcode']}-#{rows[j]['lenscode']}"
-			#TODO update whether it is the master or not
 			variant = Variant.find_or_create_by_product_id_and_sku(product.id, sku)
 			process_variant(variant, rows[j])
 			j += 1
@@ -104,7 +139,7 @@ class Vendor < ActiveRecord::Base
 										:size => cols[2].children[0].text,
 										:cost_price => cols[4].children[0].text,
 										:availability => cols[8].children[0].text,
-										:is_master => false })
+										:is_master => false }) #TODO update whether it is the master or not
 	end
 
 	def process_item_variant_images(product, page)
@@ -112,12 +147,13 @@ class Vendor < ActiveRecord::Base
 		image_list.each do |img|
 			sku = "#{product.base_sku}-#{img['colorcode']}-#{img['lenscode']}"
 			variant = Variant.find_by_sku(sku)
-			process_item_variant_image(variant, img)
+			process_item_variant_image(variant, img, BASE_WIDTH ,'colorfcpicture')
+			process_item_variant_image(variant, img, ZOOM_WIDTH ,'colorbigpicture')
 		end
 	end
 	
-	def process_item_variant_image(variant, img)
-			url_array = img['colorfcpicture'].split(/"><img src=\"/)
+	def process_item_variant_image(variant, img, width, chip_group)
+			url_array = img[chip_group].split(/"><img src=\"/)
 			url_array.shift
 			if url_array.count==0
 				return
@@ -128,8 +164,10 @@ class Vendor < ActiveRecord::Base
 			row_list = ImageList.new
 			col_list = ImageList.new
 			url_array.each do |u|
-				chip = ImageList.new(BASE_URL + u)
-				if ((cum_width + chip[0].columns) > BASE_WIDTH)		
+				begin
+					chip = ImageList.new(BASE_URL + u)
+				
+				if ((cum_width + chip[0].columns) > width)		
 					col_list << row_list.append(false) # concat the other ones that are in the row
 					row_list = ImageList.new # start a new row					
 					row_list << chip[0]
@@ -138,19 +176,30 @@ class Vendor < ActiveRecord::Base
 					cum_width += chip[0].columns
 					row_list << chip[0]		
 				end
+				
+				rescue
+					puts "error, moving on"				 
+				end				
 			end
 			if row_list.count>0
 				col_list << row_list.append(false)
 			end
 			if col_list.count>0
 				combo_img = col_list.append(true)
-				filename = "#{variant.product.brand.name}_#{variant.sku}_#{variant.color1}.jpg"
+				filename = "#{variant.product.brand.name}_#{variant.sku}_#{variant.color1}_#{width}.jpg"
 				filename.gsub!(/\//,'-')
-				filename.gsub!(/ /,'_') 
-				combo_img.write(filename)
-				vi = VariantImage.find_or_create_by_variant_id_and_image_file_name_and_image_file_size(variant.id, filename, combo_img.filesize)
-				vi.image_content_type = combo_img.mime_type
+				filename.gsub!(/ /,'_')				
+				#file = Tempfile.new(filename)				
+				#combo_img.write(FILE_PREFIX+filename)
+				vi = VariantImage.find_or_create_by_variant_id_and_image_file_name(variant.id, filename)
+				file = Paperclip::Tempfile.new(filename)
+				#combo_img.write(file.path)
+				#vi.image_content_type = combo_img.mime_type
+				#vi.image_file_size = combo_img.filesize
+				vi.image = file
+				vi.image.save
 				vi.save!
+				
 			end
 	end
 	
