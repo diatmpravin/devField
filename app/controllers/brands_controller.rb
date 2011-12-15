@@ -1,4 +1,15 @@
 class BrandsController < ApplicationController
+  
+  #def process_from_vendor
+ 	#	@brand = Brand.find(params[:id])
+ 	#	@brand.process_from_vendor
+
+	#	respond_to do |format|		
+	#		format.html { redirect_to @brand, notice: 'Brand was successfully processed from vendor.' }
+  #  	format.json { head :ok }
+  #  end 		
+  #end
+  
   # GET /brands
   # GET /brands.json
   def index

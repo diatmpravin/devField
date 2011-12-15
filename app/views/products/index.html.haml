@@ -1,0 +1,22 @@
+%table
+	%tr
+		%th="Product"
+		%th="Variants"
+		%th="Variant Images"
+		%th		
+
+	- @products.each do |product|
+		- variants_arr = product.variants
+		%tr
+			%td.product{:rowspan => variants_arr.count+1}
+				= image_tag product.brand.icon, :width => 120
+				%br
+				%b= product.name
+				%br
+				= link_to 'Show', product
+				= link_to 'Edit', edit_product_path(product)
+				= link_to 'Destroy', product, confirm: 'Are you sure?', method: :delete				
+			= render product.variants
+
+%br
+= link_to 'New Product', new_product_path

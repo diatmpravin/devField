@@ -1,5 +1,3 @@
-%p
-	= "Variant: "
-	= "#{variant.sku}, #{variant.cost_price}, #{variant.size}, #{variant.color1}-#{variant.color1_code}, #{variant.color2}-#{variant.color2_code}, #{variant.availability}"
-	= link_to "Show Variant", variant
-	= render variant.variant_images
+%tr
+	%td= link_to "#{variant.color1} (#{variant.color2}), $#{variant.cost_price}, #{variant.availability}", variant
+	%td= render variant.variant_images

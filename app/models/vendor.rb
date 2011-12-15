@@ -47,11 +47,15 @@ class Vendor < ActiveRecord::Base
 		login
 		brand_nexus_url = @agent.page.uri
 		self.brands.each do |b|
-			@agent.page.link_with(:text => b.name).click #link better be the brand name
-			@agent.page.link_with(:text => "View Collection").click # safilo specific...
-			process_items_page(b)
+			process_brand(b)
 			@agent.get(brand_nexus_url)	
 		end
+	end
+	
+	def process_brand(b)
+		@agent.page.link_with(:text => b.name).click #link better be the brand name
+		@agent.page.link_with(:text => "View Collection").click # safilo specific...
+		process_items_page(b)		
 	end
 
 	def process_items_page(brand)
@@ -71,8 +75,8 @@ class Vendor < ActiveRecord::Base
 				end
 			end
 					
-			#next_link = current_page.link_with(:text => "Next")
-			next_link = nil
+			next_link = current_page.link_with(:text => "Next")
+			#next_link = nil
 		end			
 	end
 	

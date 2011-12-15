@@ -4,6 +4,8 @@ body {
   background: #ededed;
 }
 
+td.product { border-bottom: 1px solid #DDDDDD; width: 150px; }
+
 h1 { font-weight: normal; font-size: 24px; }
 h1 a { color: #FFFAD5; text-decoration: none; }
 h2 { font-weight: normal; margin-top: 24px; }
