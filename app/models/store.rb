@@ -25,7 +25,7 @@ class Store < ActiveRecord::Base
 		return orders_array
 	end
 
-	def reprocess_orders_with_missing_items
+	def reprocess_orders_missing_items
 		orders_array = get_orders_missing_items
 		orders_array.each do |o|
 			o.reprocess_order
