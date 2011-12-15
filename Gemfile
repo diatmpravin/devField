@@ -6,9 +6,9 @@ gem 'rails', '3.1.3'
 # gem 'rails',     :git => 'git://github.com/rails/rails.git'
 gem 'paperclip'
 gem 'heroku'
-#gem 'aws-s3', :require => 'aws/s3'
-gem 'aws-sdk'
-gem 'xml-simple'
+gem 'aws-s3', :require => 'aws/s3'
+#gem 'aws-sdk'
+#gem 'xml-simple'
 
 group :production do
 	gem 'pg'
