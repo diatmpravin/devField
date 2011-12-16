@@ -7,6 +7,7 @@ gem 'rails', '3.1.3'
 gem 'paperclip'
 gem 'heroku'
 gem 'aws-s3', :require => 'aws/s3'
+gem 'kaminari'
 #gem 'aws-sdk'
 #gem 'xml-simple'
 

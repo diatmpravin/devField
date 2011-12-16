@@ -1,0 +1,12 @@
+- variants_arr = product.variants
+%tr.product
+	%td
+		= image_tag product.brand.icon, :width => 100
+		%br
+		%b= product.name
+		%br
+		= link_to 'Show', product
+		= link_to 'Edit', edit_product_path(product)
+		= link_to 'Destroy', product, confirm: 'Are you sure?', method: :delete
+	%td
+		= render product.variants

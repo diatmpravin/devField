@@ -1,0 +1,15 @@
+- @brands.each do |brand|
+	%div.brand
+		= link_to(image_tag(brand.icon),products_path(:brand_id => brand.id))
+		%br
+		%b
+			= link_to brand.name, products_path(:brand_id => brand.id)
+			= link_to "(#{brand.vendor.name})", brand.vendor
+		%br
+		= link_to 'Show', brand
+		= link_to 'Edit', edit_brand_path(brand)
+		= link_to 'Destroy', brand, confirm: 'Are you sure?', method: :delete
+
+%br
+
+= link_to 'New Brand', new_brand_path

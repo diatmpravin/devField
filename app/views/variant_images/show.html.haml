@@ -1,0 +1,11 @@
+%p
+	%b Variant:
+	= @variant_image.variant_id
+
+%p
+	%b Image file name:
+	= image_tag @variant_image.image.url
+
+= link_to 'Edit', edit_variant_image_path(@variant_image)
+= link_to 'Destroy', @variant_image, confirm: 'Are you sure?', method: :delete
+= link_to 'Back', @variant_image.variant

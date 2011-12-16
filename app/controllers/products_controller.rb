@@ -1,8 +1,18 @@
 class ProductsController < ApplicationController
+  
   # GET /products
   # GET /products.json
   def index
-    @products = Product.all
+  	prod_per_page = 40
+  	@brand = "All"
+  
+    if params[:brand_id]
+    	@products = Product.where(:brand_id => params[:brand_id]).page(params[:page]).per(prod_per_page)
+    	@brand = Brand.find(params[:brand_id]).name
+    else
+    	@products = Product.page(params[:page]).per(prod_per_page)
+    end
+    
 
     respond_to do |format|
       format.html # index.html.erb

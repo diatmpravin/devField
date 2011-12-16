@@ -75,6 +75,8 @@ GEM
       railties (~> 3.0)
       thor (~> 0.14)
     json (1.6.3)
+    kaminari (0.12.4)
+      rails (>= 3.0.0)
     launchy (2.0.5)
       addressable (~> 2.2.6)
     linecache19 (0.5.12)
@@ -189,6 +191,7 @@ DEPENDENCIES
   haml
   heroku
   jquery-rails
+  kaminari
   mechanize
   paperclip
   pg

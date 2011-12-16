@@ -12,8 +12,12 @@
   <% end %>
 
   <div class="field">
-    <%= f.label :variant_id %><br />
-    <%= f.number_field :variant_id %>
+    
+    Vendor: <%= @product.brand.vendor.name %>
+    Brand: <%= image_tag @product.brand.icon %><br/>
+    Product: <%= @product.name %><br/>
+    Variant: <%= @variant.color1 %><br/>
+    <%= f.hidden_field :variant_id %>
   </div>
   <div class="field">
     <%= f.label :image_file_name %><br />

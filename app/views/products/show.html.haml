@@ -1,0 +1,19 @@
+%p=link_to image_tag(@product.brand.icon), products_path(:brand_id => @product.brand.id)
+%p
+	%b Name:
+	= @product.name
+%p
+	%b Base SKU:
+	= @product.base_sku	
+%p
+	%b Description:
+	= @product.description
+%p
+	%b Available on:
+	= @product.available_on
+%p
+	%b Variants
+	= render @product.variants
+
+= link_to 'Edit', edit_product_path(@product)
+= link_to 'Back', products_path

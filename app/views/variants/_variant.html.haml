@@ -1,3 +1,5 @@
-%tr
-	%td= link_to "#{variant.color1} (#{variant.color2}), $#{variant.cost_price}, #{variant.availability}", variant
-	%td= render variant.variant_images
+%table
+	%tr
+		%td.variant_images= render :partial => '/variant_images/variant_image', :collection => variant.variant_images, :locals => { :height => 30 }
+		%td= link_to "#{variant.color1} (#{variant.color2}), $#{variant.cost_price}, #{variant.availability}", variant
+		

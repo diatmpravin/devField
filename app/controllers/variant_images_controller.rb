@@ -25,6 +25,9 @@ class VariantImagesController < ApplicationController
   # GET /variant_images/new.json
   def new
     @variant_image = VariantImage.new
+    @variant = Variant.find(params[:variant_id])
+    @variant_image.variant_id = @variant.id
+    @product = @variant.product
 
     respond_to do |format|
       format.html # new.html.erb
@@ -35,6 +38,8 @@ class VariantImagesController < ApplicationController
   # GET /variant_images/1/edit
   def edit
     @variant_image = VariantImage.find(params[:id])
+		@variant = @variant_image.variant
+    @product = @variant.product    
   end
 
   # POST /variant_images
@@ -73,10 +78,11 @@ class VariantImagesController < ApplicationController
   # DELETE /variant_images/1.json
   def destroy
     @variant_image = VariantImage.find(params[:id])
+    @variant = @variant_image.variant
     @variant_image.destroy
 
     respond_to do |format|
-      format.html { redirect_to variant_images_url }
+      format.html { redirect_to @variant }
       format.json { head :ok }
     end
   end

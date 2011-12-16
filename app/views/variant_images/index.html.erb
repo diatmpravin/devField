@@ -12,7 +12,7 @@
 
 <% @variant_images.each do |variant_image| %>
   <tr>
-    <td><%= link_to variant_image.variant.name, varient_image.variant %></td>
+    <td><%= link_to variant_image.variant.color1, variant_image.variant %></td>
     <td><%= link_to 'see image', variant_image.image.url %></td>
     <td><%= link_to 'Show', variant_image %></td>
     <td><%= link_to 'Edit', edit_variant_image_path(variant_image) %></td>

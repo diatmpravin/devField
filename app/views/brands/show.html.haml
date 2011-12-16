@@ -1,0 +1,15 @@
+%p
+	%b Name:
+	= @brand.name
+
+%p
+	%b Vendor:
+  = @brand.vendor.name
+
+%p
+	%b Icon file name:
+  = image_tag @brand.icon.url
+
+= link_to 'Edit', edit_brand_path(@brand)
+= link_to 'Destroy', @brand, confirm: 'Are you sure?', method: :delete
+= link_to 'Back', brands_path
