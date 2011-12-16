@@ -13,6 +13,8 @@ class HomeController < ApplicationController
   def index
     # get 3 products
     
+    prod = Product.find(1)
+    prod.append_to_shopify
     
     @products = ShopifyAPI::Product.find(:all, :params => {:limit => 3})
 
