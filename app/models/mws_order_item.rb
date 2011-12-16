@@ -1,12 +1,25 @@
 class MwsOrderItem < ActiveRecord::Base
 	belongs_to :mws_order
 	belongs_to :mws_response
+	belongs_to :variant, :foreign_key => "sku"
+	before_save :save_clean_sku
+	
 	validates_uniqueness_of :amazon_order_item_id
 	validates_presence_of :mws_order_id
 	# TODO validate presence, numericality, and positiveness of price
 
-	def clean_sku
-		return self.seller_sku.gsub(/-AZ.*$/,'')
+	# TODO remove this
+	def self.fix_all_skus
+		items = MwsOrderItem.all
+		items.each do |i|
+			i.save_clean_sku
+			i.save!
+		end	
+	end
+	
+	def set_shipped
+		self.quantity_shipped = self.quantity_ordered
+		self.save!
 	end
 	
 	def product_price_per_unit
@@ -30,10 +43,11 @@ class MwsOrderItem < ActiveRecord::Base
 		)
 		response = omx_connection.get_item_info(:raw_xml => 0, :item_code => self.clean_sku)
 		return response
-		#response = omx_connection.get_custom_item_info(:raw_xml => 1, :item_code => self.clean_sku)
-		#puts response.body.to_s
-		
-		#puts "item_code:#{response.item_code} active:#{response.active} product_name:#{response.product_name} price_type:#{response.price_type} price_amount:#{response.price_amount} #{response.price_quantity} incomplete:#{response.incomplete} inv:#{response.available_inventory} sub_item_count:#{response.sub_item_count} #{response.last_updated_date} #{response.weight}"
 	end	
+
+	protected
+	def save_clean_sku
+		self.clean_sku = self.seller_sku.gsub(/-AZ.*$/,'')
+	end
 	
 end

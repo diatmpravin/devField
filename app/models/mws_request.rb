@@ -5,11 +5,6 @@ class MwsRequest < ActiveRecord::Base
 	has_many :sub_requests, :class_name => "MwsRequest"
   belongs_to :parent_request, :class_name => "MwsRequest", :foreign_key => "mws_request_id"
   
-	
-	# can get the total time it took by looking at create timestamp - last timestamp in child response
-	#def request_time
-	#end
-
 	def get_orders_count
 		count = 0
 		self.mws_responses.each do |r|
@@ -67,24 +62,31 @@ class MwsRequest < ActiveRecord::Base
 		if self.request_type=="ListOrders"
 			response.last_updated_before = response_xml.last_updated_before
 			response.save!
-			
+						
 			# Process all orders first
+			shipping_update = 0
 			amazon_orders = Array.new
 			response_xml.orders.each do |o|
-				amz_order = MwsOrder.find_or_create_by_amazon_order_id(o.amazon_order_id)
+				h = MwsHelper.instance_vars_to_hash(o)
+				amz_order = MwsOrder.find_by_amazon_order_id(o.amazon_order_id)
+				if !amz_order.nil? && amz_order.number_of_items_unshipped>0 && h['number_of_items_unshipped'] == 0 
+					amz_order.set_shipped
+					shipping_update = 1 # this is likely just a 'shipped' update, so don't pull new items
+				else
+					amz_order = MwsOrder.create(:amazon_order_id => o.amazon_order_id)
+				end
 				h = MwsHelper.instance_vars_to_hash(o)
 				h['mws_response_id'] = response.id
 				h['store_id'] = self.store_id
 				amz_order.update_attributes(h)
-				amazon_orders << amz_order
+				if shipping_update == 0
+					amazon_orders << amz_order
+				end
 			end
 			
 			# Then loop back to get item detail behind each order
 			amazon_orders.each do |amz_order|
 				r = amz_order.process_order(mws_connection)
-				#if r.is_a?(Numeric)
-				#	return r
-				#end
 			end
 		elsif self.request_type=="ListOrderItems"
 			response.amazon_order_id = response_xml.amazon_order_id

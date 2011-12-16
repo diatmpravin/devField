@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20111215155610) do
+ActiveRecord::Schema.define(:version => 20111216210829) do
 
   create_table "brands", :force => true do |t|
     t.string   "name"
@@ -66,9 +66,11 @@ ActiveRecord::Schema.define(:version => 20111215155610) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "mws_response_id"
+    t.string   "clean_sku"
   end
 
   add_index "mws_order_items", ["amazon_order_id"], :name => "index_mws_order_items_on_amazon_order_id"
+  add_index "mws_order_items", ["clean_sku"], :name => "index_mws_order_items_on_clean_sku"
   add_index "mws_order_items", ["mws_order_id"], :name => "index_mws_order_items_on_mws_order_id"
   add_index "mws_order_items", ["mws_response_id"], :name => "index_mws_order_items_on_mws_response_id"
 
