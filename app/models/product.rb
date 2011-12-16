@@ -25,5 +25,39 @@ class Product < ActiveRecord::Base
 	
 	validates :name, :presence => true
 	validates_uniqueness_of :base_sku, :scope => [:brand_id]
+
+	def append_to_shopify
+		images_arr = Array.new
+		variants_arr = Array.new
+		variants = self.variants
+		variants.each do |v|
+			variants_arr << {	:price => v.cost_price * 2, 
+												:requires_shipping => true,
+												:title => "#{self.name} #{v.color1}",
+												:inventory_quantity => 1,
+												:compare_at_price => nil,
+												:inventory_policy => "deny",
+												:inventory_management => nil,
+												:taxable => true,
+												:grams => 0,
+												:sku => v.sku,
+												:option1 => "#{v.color1} (#{v.color2})",
+												:fulfillment_service => "manual",
+												:option2 => nil,
+												:option3 => nil }
+			images_arr << v.variant_images.first.image.url
+		end
+		
+		shop = ShopifyAPI::Shop.current
+		
+		product = ShopifyAPI::Product.create({
+				:product_type => 'Sunglasses',
+				:body_html => self.description,
+				:title => self.name,
+				:images => images_arr,
+				:variants => variants_arr,
+				:vendor => self.brand.name })
+		
+	end
 	
 end

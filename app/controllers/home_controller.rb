@@ -12,6 +12,8 @@ class HomeController < ApplicationController
   
   def index
     # get 3 products
+    
+    
     @products = ShopifyAPI::Product.find(:all, :params => {:limit => 3})
 
     # get latest 3 orders
