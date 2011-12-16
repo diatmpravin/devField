@@ -7,14 +7,6 @@ class MwsOrderItem < ActiveRecord::Base
 	validates_uniqueness_of :amazon_order_item_id
 	validates_presence_of :mws_order_id
 	# TODO validate presence, numericality, and positiveness of price
-
-	# TODO remove this
-	def self.fix_all_skus
-		items = MwsOrderItem.all
-		items.each do |i|
-			i.save!
-		end	
-	end
 	
 	def set_shipped
 		self.quantity_shipped = self.quantity_ordered
@@ -46,7 +38,9 @@ class MwsOrderItem < ActiveRecord::Base
 
 	protected
 	def save_clean_sku
-		self.clean_sku = self.seller_sku.gsub(/-AZ.*$/,'')
+		if !self.seller_sku.nil?
+			self.clean_sku = self.seller_sku.gsub(/-AZ.*$/,'')
+		end
 	end
 	
 end
