@@ -4,11 +4,11 @@
 
 %p
 	%b Vendor:
-  = @brand.vendor.name
+	= @brand.vendor.name
 
 %p
 	%b Icon file name:
-  = image_tag @brand.icon.url
+	= image_tag @brand.icon.url
 
 = link_to 'Edit', edit_brand_path(@brand)
 = link_to 'Destroy', @brand, confirm: 'Are you sure?', method: :delete
