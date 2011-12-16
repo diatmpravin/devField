@@ -5,10 +5,10 @@ class Brand < ActiveRecord::Base
 	
 	validates_uniqueness_of :name
 
-	#def process_from_vendor
-	#	v = self.vendor
-	#	v.login
-	#	v.process_brand(self)
-	#end
+	def process_from_vendor
+		v = self.vendor
+		v.login
+		v.process_brand(self)
+	end
 
 end
