@@ -12,7 +12,6 @@ class MwsOrderItem < ActiveRecord::Base
 	def self.fix_all_skus
 		items = MwsOrderItem.all
 		items.each do |i|
-			i.save_clean_sku
 			i.save!
 		end	
 	end
