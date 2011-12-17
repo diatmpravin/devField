@@ -13,8 +13,10 @@ class HomeController < ApplicationController
   def index
     # get 3 products
     
-    prod = Product.find(1)
-    prod.append_to_shopify
+    #ShopifyAPI::Session.setup({:api_key => API_KEY, :secret => SHARED_SECRET})
+    #prod = Product.find(1)
+    #prod.append_to_shopify
+    puts 'The URL should be:  ' + ShopifyAPI::Base.site.to_s
     
     @products = ShopifyAPI::Product.find(:all, :params => {:limit => 3})
 

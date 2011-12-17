@@ -18,7 +18,6 @@ Fieldday::Application.routes.draw do
   resources :mws_order_items
   resources :imports
 	
-  match 'omx'       		     => 'home#omx'
   match 'welcome'            => 'home#welcome'
   match 'design'             => 'home#design'
   match 'login'              => 'login#index',        :as => :login

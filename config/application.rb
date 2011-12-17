@@ -27,6 +27,10 @@ module Fieldday
     config.shopify.api_key = "04b6a9a830b55a658e6ccafa26f8e4ac"
     config.shopify.secret = "e02df8373c9b251e8a0c68dbbcb9afb6"
     
+    # Shopify API credentials for Luxury Vision
+    #config.shopify.api_key = "edd151fb8ea4d21797f85eca46356a22"
+    #config.shopify.secret = "9a03bcf6b4af5c9518c838d1b714be02"
+    
     # Settings in config/environments/* take precedence over those specified here.
     # Application configuration should go into files in config/initializers
     # -- all .rb files in that directory are automatically loaded.

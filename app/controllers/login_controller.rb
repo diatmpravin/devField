@@ -9,10 +9,11 @@ class LoginController < ApplicationController
   end
 
   def authenticate
+    #redirect_to root_path
     if params[:shop].present?
-      redirect_to ShopifyAPI::Session.new(params[:shop].to_s.strip).create_permission_url
+    	redirect_to ShopifyAPI::Session.new(params[:shop].to_s.strip).create_permission_url
     else
-      redirect_to return_address
+    	redirect_to return_address
     end
   end
   
@@ -45,6 +46,7 @@ class LoginController < ApplicationController
   protected
   
   def return_address
-    session[:return_to] || root_url
+    #root_path
+    session[:return_to] || root_path
   end
 end
