@@ -4,7 +4,7 @@ class Brand < ActiveRecord::Base
 	has_attached_file :icon, PAPERCLIP_STORAGE_OPTIONS
 	
 	validates_uniqueness_of :name
-	validates_numericality_of :default_markup, :in => {0,3}
+	validates_numericality_of :default_markup, { :only_integer => false, :greater_than => 0 }
 
 	def process_from_vendor
 		v = self.vendor
