@@ -46,6 +46,8 @@ class VariantImagesController < ApplicationController
   # POST /variant_images.json
   def create
     @variant_image = VariantImage.new(params[:variant_image])
+		@variant = @variant_image.variant
+    @product = @variant.product    
 
     respond_to do |format|
       if @variant_image.save

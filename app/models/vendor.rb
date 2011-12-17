@@ -201,7 +201,7 @@ class Vendor < ActiveRecord::Base
 					#vi.image_file_size = combo_img.filesize
 					vi.image = file
 					vi.image.save
-					vi.image_width = combo_img.columns
+					#vi.image_width = combo_img.columns
 					vi.save!
 				end
 			end
