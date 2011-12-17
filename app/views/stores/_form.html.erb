@@ -21,11 +21,11 @@
   </div>
   <div class="field">
     <%= f.label :queue_flag %><br />
-    <%= f.select_tag(:queue_flag, options_for_select("True","False")) %>
+    <%= f.select(:queue_flag, options_for_select(["True","False"])) %>
   </div>
   <div class="field">
     <%= f.label :verify_flag %><br />
-    <%= f.select_tag(:verify_flag, options_for_select("True","False")) %>
+    <%= f.select(:verify_flag, options_for_select(["True","False"])) %>
   </div>
   <div class="field">
     <%= f.label :order_results_per_page %><br />
