@@ -27,7 +27,13 @@ class Product < ActiveRecord::Base
 	validates_uniqueness_of :base_sku, :scope => [:brand_id]
 
 	def append_to_shopify
-		ShopifyAPI::Base.site = "https://04b6a9a830b55a658e6ccafa26f8e4ac:ba4b5399210d11843a6ae70592fbd4e4@fieldday.myshopify.com/admin"
+		
+		# URL to use to push to Shopify Field Day
+		#ShopifyAPI::Base.site = "https://04b6a9a830b55a658e6ccafa26f8e4ac:ba4b5399210d11843a6ae70592fbd4e4@fieldday.myshopify.com/admin"
+
+		# URL to use to push to Shopify Luxury Vision
+		
+		
 		images_arr = Array.new
 		variants_arr = Array.new
 		variants = self.variants
