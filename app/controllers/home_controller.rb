@@ -10,14 +10,11 @@ class HomeController < ApplicationController
     @callback_url = "http://#{current_host}/login/finalize"   
   end
   
-  def index
-    # get 3 products
-    
-    #ShopifyAPI::Session.setup({:api_key => API_KEY, :secret => SHARED_SECRET})
-    #prod = Product.find(1)
-    #prod.append_to_shopify
-    puts 'The URL should be:  ' + ShopifyAPI::Base.site.to_s
-    
+  def index    
+    #puts 'The URL should be:  ' + ShopifyAPI::Base.site.to_s
+    # ShopifyAPI::Base.site = "https://04b6a9a830b55a658e6ccafa26f8e4ac:ba4b5399210d11843a6ae70592fbd4e4@fieldday.myshopify.com/admin"
+
+		# get 3 products    
     @products = ShopifyAPI::Product.find(:all, :params => {:limit => 3})
 
     # get latest 3 orders

@@ -30,34 +30,37 @@ class Product < ActiveRecord::Base
 		images_arr = Array.new
 		variants_arr = Array.new
 		variants = self.variants
+		i = 0
 		variants.each do |v|
-			variants_arr << {	:price => v.cost_price * 2, 
+			variants_arr << {	:price => "#{v.cost_price * 2}", 
 												:requires_shipping => true,
 												:title => "#{self.name} #{v.color1}",
 												:inventory_quantity => 1,
-												:compare_at_price => nil,
 												:inventory_policy => "deny",
-												:inventory_management => nil,
 												:taxable => true,
-												:grams => 0,
+												:grams => v.weight,
 												:sku => v.sku,
 												:option1 => "#{v.color1} (#{v.color2})",
-												:fulfillment_service => "manual",
-												:option2 => nil,
-												:option3 => nil }
-			images_arr << v.variant_images.first.image.url
+												:fulfillment_service => "manual" }
+			if i==0 || v.variant_images.count == 1
+				images_arr << { :src => v.variant_images.first.image.url }
+			else
+				images_arr << { :src => v.variant_images.first.image.url } #TODO logic to take the closeup image where available
+			end
+			i += 1
 		end
 		
-		shop = ShopifyAPI::Shop.current
-		
+		brand = self.brand.name
 		product = ShopifyAPI::Product.create({
-				:product_type => 'Sunglasses',
-				:body_html => self.description,
+				:product_type => self.category,
 				:title => self.name,
+				:body_html => self.description,
 				:images => images_arr,
 				:variants => variants_arr,
-				:vendor => self.brand.name })
-		
+				:published => true,
+				:tags => "#{brand} #{self.category}, #{brand} #{self.name}",
+				:vendor => brand,
+				:options => [ {:name => 'Color'}] })
 	end
 	
 end
