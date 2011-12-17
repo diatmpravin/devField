@@ -5,8 +5,9 @@ class MwsRequestsController < ApplicationController
   # GET /mws_requests
   # GET /mws_requests.json
   def index
+    
     #@mws_requests = MwsRequest.where(:request_type => 'ListOrders').order('created_at DESC')
-		@mws_requests = MwsRequest.where('mws_request_id is null').order('created_at DESC').limit(20)
+		@mws_requests = MwsRequest.where('mws_request_id is null').order('created_at DESC').page(params[:page]).per(48)
 
     respond_to do |format|
       format.html # index.html.erb

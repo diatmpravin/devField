@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20111217145229) do
+ActiveRecord::Schema.define(:version => 20111217155132) do
 
   create_table "brands", :force => true do |t|
     t.string   "name"
@@ -219,6 +219,7 @@ ActiveRecord::Schema.define(:version => 20111217145229) do
     t.datetime "updated_at"
     t.datetime "image_updated_at"
     t.string   "unique_image_file_name"
+    t.integer  "image_width"
   end
 
   add_index "variant_images", ["unique_image_file_name"], :name => "index_variant_images_on_unique_image_file_name"

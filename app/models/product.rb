@@ -34,8 +34,9 @@ class Product < ActiveRecord::Base
 		variants_arr = Array.new
 		variants = self.variants
 		i = 0
+		brand = self.brand
 		variants.each do |v|
-			variants_arr << {	:price => "#{v.cost_price * 2}", 
+			variants_arr << {	:price => "#{v.cost_price * (1+brand.default_markup)}", 
 												:requires_shipping => true,
 												:title => "#{self.name} #{v.color1}",
 												:inventory_quantity => 1,
@@ -45,10 +46,12 @@ class Product < ActiveRecord::Base
 												:sku => v.sku,
 												:option1 => "#{v.color1} (#{v.color2})",
 												:fulfillment_service => "manual" }
-			if i==0 || v.variant_images.count == 1
+			if i==0
+				images_arr << { :src => v.variant_images.where(:image_width => 400).limit(1).url }
+			elsif  v.variant_images.count == 1
 				images_arr << { :src => v.variant_images.first.image.url }
 			elsif v.variant_images.count > 0
-				images_arr << { :src => v.variant_images.first.image.url } #TODO logic to take the closeup image where available
+				images_arr << { :src => v.variant_images.where(:image_width => 320).limit(1).url }
 			end
 			i += 1
 		end
@@ -58,7 +61,6 @@ class Product < ActiveRecord::Base
 			to_publish = false
 		end
 		
-		brand = self.brand.name
 		product = ShopifyAPI::Product.create({
 				:product_type => self.category,
 				:title => self.name,
@@ -66,9 +68,9 @@ class Product < ActiveRecord::Base
 				:images => images_arr,
 				:variants => variants_arr,
 				:published => to_publish,
-				:tags => "#{brand} #{self.category}, #{brand} #{self.name}",
-				:vendor => brand,
-				:options => [ {:name => 'Color'}] })
+				:tags => "#{brand} #{self.category}, #{brand.name} #{self.name}",
+				:vendor => brand.name,
+				:options => [ {:name => 'Color'}] }) #TODO make color more general, option values and stuff
 		
 		store_product = StoreProduct.find_or_create_by_store_id_and_product_id(store.id, product.id)
 		store_product.handle = product.handle

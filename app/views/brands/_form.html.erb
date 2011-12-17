@@ -16,6 +16,10 @@
     <%= f.text_field :name %>
   </div>
   <div class="field">
+    <%= f.label :default_markup %><br />
+    <%= f.text_field :default_markup %>
+  </div>
+  <div class="field">
     <%= f.label :vendor_id %><br />
     <%= f.collection_select(:vendor_id, Vendor.all, :id, :name) %>
   </div>
