@@ -1,5 +1,6 @@
 class Product < ActiveRecord::Base
 	belongs_to :brand
+	has_many :stores, :through => :store_products
 	has_many :variants, :dependent => :destroy
 
   has_one :master, :class_name => 'Variant',
@@ -26,13 +27,8 @@ class Product < ActiveRecord::Base
 	validates :name, :presence => true
 	validates_uniqueness_of :base_sku, :scope => [:brand_id]
 
-	def append_to_shopify
-		
-		# URL to use to push to Shopify Field Day
-		#ShopifyAPI::Base.site = "https://04b6a9a830b55a658e6ccafa26f8e4ac:ba4b5399210d11843a6ae70592fbd4e4@fieldday.myshopify.com/admin"
-
-		# URL to use to push to Shopify Luxury Vision
-		
+	def append_to_shopify(store)
+		ShopifyAPI::Base.site = store.authenticated_url
 		
 		images_arr = Array.new
 		variants_arr = Array.new
@@ -51,10 +47,15 @@ class Product < ActiveRecord::Base
 												:fulfillment_service => "manual" }
 			if i==0 || v.variant_images.count == 1
 				images_arr << { :src => v.variant_images.first.image.url }
-			else
+			elsif v.variant_images.count > 0
 				images_arr << { :src => v.variant_images.first.image.url } #TODO logic to take the closeup image where available
 			end
 			i += 1
+		end
+		
+		to_publish = true
+		if images_arr.count==0
+			to_publish = false
 		end
 		
 		brand = self.brand.name
@@ -64,10 +65,15 @@ class Product < ActiveRecord::Base
 				:body_html => self.description,
 				:images => images_arr,
 				:variants => variants_arr,
-				:published => true,
+				:published => to_publish,
 				:tags => "#{brand} #{self.category}, #{brand} #{self.name}",
 				:vendor => brand,
 				:options => [ {:name => 'Color'}] })
+		
+		store_product = StoreProduct.find_or_create_by_store_id_and_product_id(store.id, product.id)
+		store_product.handle = product.handle
+		store_product.foreign_id = product.id
+		return store_product.id
 	end
 	
 end

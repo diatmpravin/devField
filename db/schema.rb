@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20111217063130) do
+ActiveRecord::Schema.define(:version => 20111217145229) do
 
   create_table "brands", :force => true do |t|
     t.string   "name"
@@ -187,6 +187,17 @@ ActiveRecord::Schema.define(:version => 20111217063130) do
   add_index "products", ["brand_id"], :name => "index_products_on_brand_id"
   add_index "products", ["category"], :name => "index_products_on_category"
 
+  create_table "store_products", :force => true do |t|
+    t.integer  "store_id"
+    t.integer  "product_id"
+    t.string   "foreign_id"
+    t.string   "handle"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "store_products", ["product_id"], :name => "index_store_products_on_product_id"
+
   create_table "stores", :force => true do |t|
     t.string   "name"
     t.string   "store_type"
@@ -196,6 +207,7 @@ ActiveRecord::Schema.define(:version => 20111217063130) do
     t.integer  "max_order_pages"
     t.string   "queue_flag"
     t.string   "verify_flag"
+    t.string   "authenticated_url"
   end
 
   create_table "variant_images", :force => true do |t|

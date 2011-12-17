@@ -11,8 +11,6 @@ class HomeController < ApplicationController
   end
   
   def index    
-    puts 'The URL should be:  ' + ShopifyAPI::Base.site.to_s
-    # ShopifyAPI::Base.site = "https://04b6a9a830b55a658e6ccafa26f8e4ac:ba4b5399210d11843a6ae70592fbd4e4@fieldday.myshopify.com/admin"
 
 		# get 3 products    
     @products = ShopifyAPI::Product.find(:all, :params => {:limit => 3})

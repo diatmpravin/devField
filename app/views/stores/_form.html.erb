@@ -21,20 +21,24 @@
   </div>
   <div class="field">
     <%= f.label :queue_flag %><br />
-    <%= f.text_field :queue_flag %>
+    <%= f.select_tag(:queue_flag, options_for_select("True","False")) %>
   </div>
   <div class="field">
     <%= f.label :verify_flag %><br />
-    <%= f.text_field :verify_flag %>
+    <%= f.select_tag(:verify_flag, options_for_select("True","False")) %>
   </div>
   <div class="field">
     <%= f.label :order_results_per_page %><br />
-    <%= f.text_field :order_results_per_page %>
+    <%= f.number_field :order_results_per_page %>
   </div>
   <div class="field">
     <%= f.label :max_order_pages %><br />
-    <%= f.text_field :max_order_pages %>
-  </div>        
+    <%= f.number_field :max_order_pages %>
+  </div>
+  <div class="field">
+    <%= f.label :authenticated_url %><br />
+    <%= f.text_field :authenticated_url %>
+  </div>  
   <div class="actions">
     <%= f.submit %>
   </div>

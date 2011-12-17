@@ -4,6 +4,7 @@ require 'RubyOmx'
 class Store < ActiveRecord::Base	
 	has_many :mws_requests, :dependent => :destroy
 	has_many :mws_orders, :dependent => :destroy
+	has_many :products, :through => :store_products
 	validates_inclusion_of :store_type, :in => %w(MWS Shopify), :message => 'Invalid store type'
 	validates_uniqueness_of :name, :scope => [:store_type]
 	after_initialize :init_mws_connection
