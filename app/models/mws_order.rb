@@ -38,7 +38,11 @@ class MwsOrder < ActiveRecord::Base
 					pushed = "Yes"
 				elsif resp.error_data.nil? || resp.error_data == ''
 					pushed = "No"
+				elsif !resp.error_data.match(/The provided Order ID has already been used for the provided store/).nil?
+					pusehd = "Dup"
 				end
+			else
+				pushed = "N/A"
 			end
 		end
 		return pushed
