@@ -9,12 +9,10 @@ Fieldday::Application.routes.draw do
   end
   resources :stores
   resources :omx_requests, :only => [:show]
-  #resources :omx_responses, :only => [:show, :index]
   resources :mws_requests, :only => [:show, :index]
-  #resources :mws_responses, :only => [:show]
   resources :mws_orders, :only => [:show, :index, :update]
-  resources :mws_order_items, :only => [:show]
-  resources :imports
+  resources :mws_order_items, :only => [:show, :update]
+  #resources :imports
 	
   match 'welcome'            => 'home#welcome'
   match 'design'             => 'home#design'
