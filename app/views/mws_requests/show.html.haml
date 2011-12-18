@@ -27,9 +27,3 @@
 			= "#{i.clean_sku}, #{i.title}, #{i.product_price_per_unit}"
 			= link_to 'View Item', i	
 			= link_to 'View Order', i.mws_order
-	%hr
-	
-%p
-	= link_to 'Edit', edit_mws_request_path(@mws_request)
-	= " | "
-	= link_to 'Back', mws_requests_path

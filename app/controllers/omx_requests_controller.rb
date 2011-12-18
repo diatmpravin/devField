@@ -1,7 +1,5 @@
 class OmxRequestsController < ApplicationController
 
-	around_filter :shopify_session
-	
   # GET /omx_requests
   # GET /omx_requests.json
   def index

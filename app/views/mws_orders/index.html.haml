@@ -8,7 +8,6 @@
 		%th="Store"
 		%th="Purchase time (UTC)"
 		%th="Ship to name"
-		%th="Bill to name"
 		%th="Shipping"
 		%th="Amount"
 		%th="City"
@@ -27,7 +26,6 @@
 			%td= mws_order.store.name
 			%td= time_ago_in_words(mws_order.purchase_date) + " ago"
 			%td= mws_order.name
-			%td= mws_order.buyer_name
 			%td= mws_order.shipment_service_level_category
 			%td= mws_order.amount
 			%td= mws_order.city
@@ -52,6 +50,3 @@
 				- else
 					= omx_status
 			%td= link_to 'Show', mws_order
-%br
-
-= link_to 'New Mws order', new_mws_order_path

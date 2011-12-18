@@ -28,6 +28,38 @@ class MwsOrder < ActiveRecord::Base
 		end
 		return q
 	end
+	
+	def get_item_price
+		total = 0
+		self.mws_order_items.each do |i|
+			total += i.get_item_price
+		end
+		return total
+	end
+
+	def get_ship_price
+		total = 0
+		self.mws_order_items.each do |i|
+			total += i.get_ship_price
+		end
+		return total		
+	end
+	
+	def get_gift_price
+		total = 0
+		self.mws_order_items.each do |i|
+			total += i.get_gift_price
+		end
+		return total		
+	end
+
+	def get_total_price
+		total = 0
+		self.mws_order_items.each do |i|
+			total += i.get_total_price
+		end
+		return total		
+	end
 
 	def pushed_to_omx?
 		pushed = "Error"
@@ -50,7 +82,7 @@ class MwsOrder < ActiveRecord::Base
 
 	def reprocess_order
 		store = self.store
-		process_order(store.get_mws_connection) 
+		return process_order(store.get_mws_connection) 
 	end
 
 	# Process XML order into ActiveRecord, and process items on order

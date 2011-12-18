@@ -1,4 +1,5 @@
 class VendorsController < ApplicationController
+
   # GET /vendors
   # GET /vendors.json
   def index

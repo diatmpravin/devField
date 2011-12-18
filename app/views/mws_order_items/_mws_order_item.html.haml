@@ -1,15 +1,23 @@
 %tr
 	-#%td= mws_order_item.asin
 	-#%td= mws_order_item.amazon_order_item_id
-	%td= mws_order_item.title
-	%td= mws_order_item.seller_sku
-	%td= mws_order_item.quantity_ordered
-	%td= mws_order_item.quantity_shipped
-	%td= mws_order_item.item_price
+	- variant = mws_order_item.variant
+	- if !variant.nil?
+		%td= link_to(mws_order_item.clean_sku,variant)
+	- else
+		%td= mws_order_item.clean_sku
+	%td= truncate(mws_order_item.title, :length => 100)
+	%td.num= mws_order_item.quantity_ordered
+	%td.num= mws_order_item.quantity_shipped
+	%td.num= number_to_currency(mws_order_item.get_item_price, :precision => 2)
 	-#%td= mws_order_item.item_price_currency
-	-#%td= mws_order_item.shipping_price
+	%td.num= number_to_currency(mws_order_item.get_ship_price, :precision => 2)
 	-#%td= mws_order_item.shipping_price_currency
-	-#%td= mws_order_item.gift_price
+	%td.num= number_to_currency(mws_order_item.get_gift_price, :precision => 2)
+	%td.num= number_to_currency(mws_order_item.get_total_price, :precision => 2)
+	%td
+		- if mws_order_item.is_gift? == 1
+			=image_tag('gift.png', :title => "#{mws_order_item.gift_wrap_level} - #{mws_order_item.gift_message_text}", :width => 20)
 	-#%td= mws_order_item.gift_price_currency
 	-#%td= mws_order_item.item_tax
 	-#%td= mws_order_item.item_tax_currency

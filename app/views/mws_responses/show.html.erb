@@ -10,7 +10,7 @@
 
 <p>
   <b>Next token:</b>
-  <%= @mws_response.next_token %>
+  <%= @mws_response.next_token ? "Yes" : "No" %>
 </p>
 
 <p>
@@ -47,7 +47,3 @@
   <b>Amazon order:</b>
   <%= @mws_response.amazon_order_id %>
 </p>
-
-
-<%= link_to 'Edit', edit_mws_response_path(@mws_response) %> |
-<%= link_to 'Back', mws_responses_path %>

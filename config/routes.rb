@@ -1,21 +1,19 @@
 Fieldday::Application.routes.draw do
-  resources :variant_images
-
-  resources :variants
-
   resources :products
-
-  resources :brands
-
+  resources :variants, :variant_images
   resources :vendors
-
+  resources :brands do
+  	member do
+  		post 'from_vendor'
+  	end
+  end
   resources :stores
-  resources :omx_responses
-  resources :omx_requests
-  resources :mws_requests
-  resources :mws_responses
-  resources :mws_orders
-  resources :mws_order_items
+  resources :omx_requests, :only => [:show]
+  #resources :omx_responses, :only => [:show, :index]
+  resources :mws_requests, :only => [:show, :index]
+  #resources :mws_responses, :only => [:show]
+  resources :mws_orders, :only => [:show, :index, :update]
+  resources :mws_order_items, :only => [:show]
   resources :imports
 	
   match 'welcome'            => 'home#welcome'
@@ -24,7 +22,6 @@ Fieldday::Application.routes.draw do
   match 'login/authenticate' => 'login#authenticate', :as => :authenticate
   match 'login/finalize'     => 'login#finalize',     :as => :finalize
   match 'login/logout'       => 'login#logout',       :as => :logout
-
   root :to                   => 'home#index'
 
   # The priority is based upon order of creation:

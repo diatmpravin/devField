@@ -1,4 +1,7 @@
 class LoginController < ApplicationController
+	
+	skip_around_filter :shopify_session
+
   def index
     # Ask user for their #{shop}.myshopify.com address
     

@@ -12,6 +12,14 @@ class MwsOrderItem < ActiveRecord::Base
 		self.quantity_shipped = self.quantity_ordered
 		self.save!
 	end
+
+	def is_gift?
+		if !self.gift_message_text.nil? || !self.gift_wrap_level.nil? 
+			return 1
+		else
+			return 0
+		end
+	end
 	
 	def product_price_per_unit
 		if self.quantity_ordered.nil? || self.quantity_ordered == 0
@@ -22,9 +30,39 @@ class MwsOrderItem < ActiveRecord::Base
 			return ((self.item_price + self.item_tax - self.promotion_discount) / self.quantity_ordered)
 		end
 	end
+
+	def get_item_price
+		total = 0
+		total += self.item_price ? self.item_price : 0 
+		total += self.item_tax ? self.item_tax : 0
+		total -= self.promotion_discount ? self.promotion_discount : 0
+		return total
+	end
+
+	def get_ship_price
+		total = 0
+		total += self.shipping_price ? self.shipping_price : 0
+		total += self.shipping_tax ? self.shipping_tax : 0
+		total -= self.shipping_discount ? self.shipping_discount : 0
+		return total
+	end
+
+	def get_gift_price
+		total = 0
+		total += self.gift_price ? self.gift_price : 0
+		total += self.gift_tax ? self.gift_tax : 0
+		return total
+	end
+	
+	def get_total_price
+		total = self.get_item_price + self.get_ship_price + self.get_gift_price
+		return total
+	end
+		
 	
 	def sh_total
-		return (self.shipping_price + self.shipping_tax - self.shipping_discount + self.gift_price + self.gift_tax)
+		return (self.get_ship_price + self.get_gift_price)
+		#return (self.shipping_price + self.shipping_tax - self.shipping_discount + self.gift_price + self.gift_tax)
 	end
 
 	def get_omx_info

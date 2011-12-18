@@ -1,7 +1,5 @@
 class ImportsController < ApplicationController
-  
-  around_filter :shopify_session
-  
+    
   # GET /imports
   # GET /imports.json
   def index
