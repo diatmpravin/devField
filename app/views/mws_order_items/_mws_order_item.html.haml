@@ -1,7 +1,7 @@
 %tr
 	-#%td= mws_order_item.asin
 	-#%td= mws_order_item.amazon_order_item_id
-	- variant = mws_order_item.variant
+	- variant = Variant.find_by_sku(mws_order_item.clean_sku)
 	- if !variant.nil?
 		%td= link_to(mws_order_item.clean_sku,variant)
 	- else

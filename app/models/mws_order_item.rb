@@ -1,7 +1,7 @@
 class MwsOrderItem < ActiveRecord::Base
 	belongs_to :mws_order
 	belongs_to :mws_response
-	belongs_to :variant, :foreign_key => "clean_sku"
+	#belongs_to :variant, :foreign_key => "clean_sku"
 	before_save :save_clean_sku
 	
 	validates_uniqueness_of :amazon_order_item_id
