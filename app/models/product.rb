@@ -47,11 +47,11 @@ class Product < ActiveRecord::Base
 												:option1 => "#{v.color1} (#{v.color2})",
 												:fulfillment_service => "manual" }
 			if i==0
-				images_arr << { :src => v.variant_images.where(:image_width => 400).limit(1).first.url }
+				images_arr << { :src => v.variant_images.where(:image_width => 400).limit(1).first.image.url }
 			elsif  v.variant_images.count == 1
 				images_arr << { :src => v.variant_images.first.image.url }
 			elsif v.variant_images.count > 0
-				images_arr << { :src => v.variant_images.where(:image_width => 320).limit(1).first.url }
+				images_arr << { :src => v.variant_images.where(:image_width => 320).limit(1).first.image.url }
 			end
 			i += 1
 		end
