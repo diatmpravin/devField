@@ -3,9 +3,9 @@ Fieldday::Application.routes.draw do
   resources :variants, :variant_images
   resources :vendors
   resources :brands do
-  	member do
-  		post 'from_vendor'
-  	end
+  	#member do
+  	#	post 'from_vendor'
+  	#end
   end
   resources :stores
   resources :omx_requests, :only => [:show]
