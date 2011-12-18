@@ -1,0 +1,94 @@
+%p	
+	%h2= @mws_order_item.title
+	
+.block
+	%h2 Quantity
+	%p
+		%b Quantity ordered:
+		= @mws_order_item.quantity_ordered
+
+	%p
+		%b Quantity shipped:
+		= @mws_order_item.quantity_shipped
+
+.block
+	%h2 Gift Wrap
+	%p
+		%b Gift wrap level:
+		= @mws_order_item.gift_wrap_level
+
+	%p
+		%b Gift message text:</b>
+		= @mws_order_item.gift_message_text
+
+.block
+	%h2 Order Details
+	%p
+		%b Mws order:
+		= link_to @mws_order_item.mws_order_id, @mws_order_item.mws_order
+	
+	%p
+		%b Amazon order:
+		= @mws_order_item.amazon_order_id
+
+.block
+	%h2 Details
+	
+	%p
+		%b Asin:	
+		= @mws_order_item.asin
+
+	%p
+		%b Amazon order item:	
+		= @mws_order_item.asin
+
+	%p
+		%b SKU:
+		- variant = @mws_order_item.variant
+		- if !variant.nil?	
+			= link_to @mws_order_item.clean_sku, variant
+		- else
+			= @mws_order_item.clean_sku
+
+%table
+	%tr
+		%th
+		%th Item
+		%th Shipping
+		%th Gift
+		%th Total
+
+	%tr
+		%td Currency
+		%td.num= @mws_order_item.item_price_currency
+		%td.num= @mws_order_item.shipping_price_currency
+		%td.num= @mws_order_item.gift_price_currency
+		%td.num= @mws_order_item.item_price_currency
+	
+	%tr
+		%td Price
+		%td.num= number_to_currency(@mws_order_item.item_price, :precision => 2)
+		%td.num= number_to_currency(@mws_order_item.shipping_price, :precision => 2)
+		%td.num= number_to_currency(@mws_order_item.gift_price, :precision => 2)
+		%td.num= number_to_currency(@mws_order_item.item_price + @mws_order_item.shipping_price + @mws_order_item.gift_price, :precision => 2)
+		
+	%tr
+		%td Discount
+		%td.num= number_to_currency(@mws_order_item.promotion_discount, :precision => 2)
+		%td.num= number_to_currency(@mws_order_item.shipping_discount, :precision => 2)
+		%td.num
+		%td.num= number_to_currency((@mws_order_item.promotion_discount + @mws_order_item.shipping_discount), :precision => 2)
+
+	%tr
+		%td Tax
+		%td.num= number_to_currency(@mws_order_item.item_tax, :precision => 2)
+		%td.num= number_to_currency(@mws_order_item.shipping_tax, :precision => 2)
+		%td.num= number_to_currency(@mws_order_item.gift_tax, :precision => 2)
+		%td.num= number_to_currency(@mws_order_item.item_tax + @mws_order_item.shipping_tax + @mws_order_item.gift_tax, :precision => 2)
+
+	%tr.total
+		%td Total
+		%td.num= number_to_currency(@mws_order_item.get_item_price, :precision => 2)
+		%td.num= number_to_currency(@mws_order_item.get_ship_price, :precision => 2)
+		%td.num= number_to_currency(@mws_order_item.get_gift_price, :precision => 2)
+		%td.num= number_to_currency(@mws_order_item.get_total_price, :precision => 2)
