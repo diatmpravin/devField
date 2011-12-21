@@ -85,8 +85,9 @@ class MwsRequest < ActiveRecord::Base
 			end
 			
 			# Then loop back to get item detail behind each order
+			sleep_time = MwsOrder::get_sleep_time_per_order(amazon_orders.count)
 			amazon_orders.each do |amz_order|
-				sleep 6
+				sleep sleep_time
 				r = amz_order.process_order(mws_connection)
 			end
 		elsif self.request_type=="ListOrderItems"

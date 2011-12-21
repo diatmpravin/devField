@@ -28,9 +28,11 @@ class Store < ActiveRecord::Base
 
 	def reprocess_orders_missing_items
 		orders_array = get_orders_missing_items
+		sleep_time = MwsOrder::get_sleep_time_per_order(orders_array.count)
+		# TODO no reason to sleep on the last one
 		orders_array.each do |o|
 			o.reprocess_order
-			sleep(6)
+			sleep sleep_time
 		end
 	end
 
