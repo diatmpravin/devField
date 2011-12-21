@@ -6,7 +6,7 @@ class MwsOrderItem < ActiveRecord::Base
 	
 	validates_uniqueness_of :amazon_order_item_id
 	validates_presence_of :mws_order_id
-	validates_presence_of :clean_sku
+	#validates_presence_of :clean_sku
 	
 	# TODO validate presence, numericality, and positiveness of price
 	
