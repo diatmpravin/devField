@@ -86,6 +86,7 @@ class MwsRequest < ActiveRecord::Base
 			
 			# Then loop back to get item detail behind each order
 			amazon_orders.each do |amz_order|
+				sleep 6
 				r = amz_order.process_order(mws_connection)
 			end
 		elsif self.request_type=="ListOrderItems"

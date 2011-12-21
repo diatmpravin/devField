@@ -30,6 +30,7 @@ class Store < ActiveRecord::Base
 		orders_array = get_orders_missing_items
 		orders_array.each do |o|
 			o.reprocess_order
+			sleep(6)
 		end
 	end
 
