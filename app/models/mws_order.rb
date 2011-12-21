@@ -96,8 +96,10 @@ class MwsOrder < ActiveRecord::Base
 		#end
 		
 		#TODO if reprocessing, use the update API call rather than append
-		if (self.fulfillment_channel == "MFN" && (self.order_status == "Unshipped" || self.order_status == "PartiallyShipped"))
-			append_to_omx
+		if (self.item_quantity == (self.number_of_items_unshipped + self.number_of_items_shipped))		
+			if (self.fulfillment_channel == "MFN" && (self.order_status == "Unshipped" || self.order_status == "PartiallyShipped"))
+				append_to_omx
+			end
 		end
 		
 		return return_code
@@ -135,9 +137,10 @@ class MwsOrder < ActiveRecord::Base
 		h = MwsHelper.instance_vars_to_hash(item)
 		h['mws_response_id'] = response_id
 		h['mws_order_id'] = self.id
-		h['amazon_order_id'] = self.amazon_order_id		
+		h['amazon_order_id'] = self.amazon_order_id
+		logger.debug h	
 		
-		amz_item = MwsOrderItem.find_or_create_by_amazon_order_item_id(item.amazon_order_item_id) 		
+		amz_item = MwsOrderItem.find_or_create_by_amazon_order_item_id(h['amazon_order_item_id']) 		
 		amz_item.update_attributes(h)
 	end
 
