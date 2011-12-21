@@ -32,6 +32,7 @@ class Store < ActiveRecord::Base
 		# TODO no reason to sleep on the last one
 		orders_array.each do |o|
 			o.reprocess_order
+			logger.debug "sleeping #{sleep_time}"
 			sleep sleep_time
 		end
 	end
