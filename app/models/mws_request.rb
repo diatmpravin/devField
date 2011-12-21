@@ -64,24 +64,24 @@ class MwsRequest < ActiveRecord::Base
 			response.save!
 						
 			# Process all orders first
-			shipping_update = 0
+			#shipping_update = 0
 			amazon_orders = Array.new
 			response_xml.orders.each do |o|
 				h = MwsHelper.instance_vars_to_hash(o)
 				amz_order = MwsOrder.find_by_amazon_order_id(o.amazon_order_id)
-				if !amz_order.nil? && amz_order.number_of_items_unshipped>0 && h['number_of_items_unshipped'] == 0 
-					amz_order.set_shipped
-					shipping_update = 1 # this is likely just a 'shipped' update, so don't pull new items
-				else
+				#if !amz_order.nil? && amz_order.number_of_items_unshipped>0 && h['number_of_items_unshipped'] == 0 
+				#	amz_order.set_shipped
+				#	shipping_update = 1 # this is likely just a 'shipped' update, so don't pull new items
+				#else
 					amz_order = MwsOrder.create(:amazon_order_id => o.amazon_order_id)
-				end
+				#end
 				h = MwsHelper.instance_vars_to_hash(o)
 				h['mws_response_id'] = response.id
 				h['store_id'] = self.store_id
 				amz_order.update_attributes(h)
-				if shipping_update == 0
-					amazon_orders << amz_order
-				end
+				#if shipping_update == 0
+				#	amazon_orders << amz_order
+				#end
 			end
 			
 			# Then loop back to get item detail behind each order

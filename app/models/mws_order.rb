@@ -91,6 +91,7 @@ class MwsOrder < ActiveRecord::Base
 		
 		# retry one time if problem
 		if (self.item_quantity != (self.number_of_items_unshipped + self.number_of_items_shipped))
+			sleep ORDER_ITEM_FAIL_WAIT
 			return_code = fetch_order_items(mws_connection)
 		end
 		
@@ -104,6 +105,7 @@ class MwsOrder < ActiveRecord::Base
 	
 	def fetch_order_items(mws_connection)		
 		parent_request = self.mws_response.mws_request
+		# TODO add order ID
 		request = MwsRequest.create!(:request_type => "ListOrderItems", :store_id => parent_request.store_id, :mws_request_id => parent_request.id)
 		response = mws_connection.get_list_order_items(:amazon_order_id => self.amazon_order_id)
 		next_token = request.process_response(mws_connection, response,0,0)
@@ -278,12 +280,12 @@ class MwsOrder < ActiveRecord::Base
 
 		omx_response = OmxResponse.create!(:omx_request_id => request.id, :success => result.success)		
 		if omx_response.success != 1
-			logger.debug "Order push was unsuccessful #{result.error_data}"
-			omx_response.error_data = result.error_data
+			omx_response.error_data = result.error_data.strip
+			logger.debug "Order push was unsuccessful #{omx_response.error_data}"
 		else
-			logger.debug "Success:#{result.success}, omx:#{result.OMX}, order number:#{result.order_number}"
 			omx_response.ordermotion_response_id = result.OMX
-			omx_response.ordermotion_order_number = result.order_number	
+			omx_response.ordermotion_order_number = result.order_number
+			logger.debug "Success:#{result.success}, omx:#{result.OMX}, order number:#{result.order_number}"	
 		end
 		omx_response.save! 
 		return omx_response

@@ -27,15 +27,15 @@ class MwsOrdersController < ApplicationController
   def update
     @mws_order = MwsOrder.find(params[:id])
     
+		message = ''
 		response = @mws_order.reprocess_order
-		message = "response_id #{response}"
 		if response.is_a?(Numeric)
 			r = MwsResponse.find(response)
-			message += " #{r.error_code}: #{r.error_message}"
+			message += "response_id #{r.id} #{r.error_code}: #{r.error_message}"
 		end
 
     respond_to do |format|
-    	format.html { redirect_to @mws_order, notice: "Amazon order reprocessed.  #{response}" }
+    	format.html { redirect_to @mws_order, notice: "Amazon order reprocessed.  #{message}" }
       format.json { render json: @mws_order }
     end
   end
