@@ -10,7 +10,7 @@ class MwsOrder < ActiveRecord::Base
 	validates_presence_of :mws_response_id
 	
 	MAX_ORDER_ITEM_PAGES = 20
-	MAX_FAILURE_COUNT = 4
+	MAX_FAILURE_COUNT = 1
 	ORDER_ITEM_FAIL_WAIT = 60
 		
 	@@state_lookup = {'AK' => 'AK','AL' => 'AL','ALABAMA' => 'AL','ALASKA' => 'AK','AR' => 'AR','ARIZONA' => 'AZ','ARKANSAS' => 'AK','AZ' => 'AZ','CA' => 'CA','CA.' => 'CA','CALIFORNIA' => 'CA','CO' => 'CO','COLORADO' => 'CO','CONNECTICUT' => 'CT','CT' => 'CT','D.F.' => 'DF','DISTRICT OF COLUMBIA' => 'DC','DC' => 'DC','DELAWARE' => 'DE','DE' => 'DE','DF' => 'DF','DISTRITO FEDERAL' => 'DF','FL' => 'FL','FL.' => 'FL','FLORIDA' => 'FL','GA' => 'GA','GEORGIA' => 'GA','HAWAII' => 'HI','HI' => 'HI','IA' => 'IA','ID' => 'ID','IDAHO' => 'ID','IL' => 'IL','ILLINOIS' => 'IL','IN' => 'IN','INDIANA' => 'IN','IOWA' => 'IA','KANSAS' => 'KS','KENTUCKY' => 'KY', 'KS' => 'KS','KY' => 'KY','LA' => 'LA','LA.' => 'LA','LOUISIANA' => 'LA','MA' => 'MA','MAINE' => 'ME','MARYLAND' => 'MD','MASSACHUSETTS' => 'MA','MD' => 'MD','ME' => 'ME','MI' => 'MI','MICHIGAN' => 'MI','MINNESOTA' => 'MN','MISSISSIPPI' => 'MS','MISSOURI' => 'MO','MN' => 'MN','MO' => 'MO','MONTANA' => 'MT','MS' => 'MS','MT' => 'MT','N.Y.' => 'NY','NC' => 'NC','ND' => 'ND','NEBRASKA' => 'NE','NE' => 'NE','NEVADA' => 'NV','NEW HAMPSHIRE' => 'NH','NEW JERSEY' => 'NJ','NEW MEXICO' => 'NM','NEW YORK' => 'NY','NH' => 'NH','NJ' => 'NJ','NM' => 'NM','NORTH CAROLINA' => 'NC','NV' => 'NV','NY' => 'NY','OH' => 'OH','OHIO' => 'OH','OK' => 'OK','OKLAHOMA' => 'OK','OR' => 'OR','OREGON' => 'OR','PA' => 'PA','PENNSYLVANIA' => 'PA','PR' => 'PR','PUERTO RICO' => 'PR','RHODE ISLAND' => 'RI','RI' => 'RI','SC' => 'SC','SD' => 'SD','SOUTH CAROLINA' => 'SC','TENNESSEE' => 'TN','TEXAS' => 'TX','TN' => 'TN','TX' => 'TX','UT' => 'UT','UTAH' => 'UT','VA' => 'VA','VIRGINIA' => 'VA','VERMONT' => 'VT','VT' => 'VT','WA' => 'WA','WASHINGTON' => 'WA','WEST VIRGINIA' => 'WV', 'WI' => 'WI','WISCONSIN' => 'WI','WV' => 'WV','WYOMING' => 'WY','WY' => 'WY'}
@@ -87,6 +87,8 @@ class MwsOrder < ActiveRecord::Base
 
 	# Process XML order into ActiveRecord, and process items on order
 	def process_order(mws_connection)
+		logger.debug "sleep 1"
+		sleep(1)
 		return_code = fetch_order_items(mws_connection)
 		
 		# retry one time if problem
