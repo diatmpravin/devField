@@ -62,7 +62,7 @@ class MwsRequest < ActiveRecord::Base
 		if self.request_type=="ListOrders"
 			response.last_updated_before = response_xml.last_updated_before
 			response.save!
-						
+
 			# Process all orders first
 			#shipping_update = 0
 			amazon_orders = Array.new
@@ -86,6 +86,7 @@ class MwsRequest < ActiveRecord::Base
 			
 			# Then loop back to get item detail behind each order
 			amazon_orders.each do |amz_order|
+				sleep 1
 				r = amz_order.process_order(mws_connection)
 			end
 		elsif self.request_type=="ListOrderItems"
@@ -96,7 +97,6 @@ class MwsRequest < ActiveRecord::Base
 				amz_order.process_order_item(i,response.id)
 			end
 		end
-		logger.debug "next token is #{response.next_token}"
 		return response.next_token
 	end
 

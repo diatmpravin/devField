@@ -86,8 +86,7 @@ class MwsOrder < ActiveRecord::Base
 	end
 
 	# Process XML order into ActiveRecord, and process items on order
-	def process_order(mws_connection)		
-		logger.debug "truly beginning here"
+	def process_order(mws_connection)
 		return_code = fetch_order_items(mws_connection)
 		
 		# retry one time if problem
@@ -102,8 +101,6 @@ class MwsOrder < ActiveRecord::Base
 				append_to_omx
 			end
 		end
-		
-		logger.debug "and truly ending here"
 		return return_code
 	end
 	
@@ -111,7 +108,6 @@ class MwsOrder < ActiveRecord::Base
 		parent_request = self.mws_response.mws_request
 		request = MwsRequest.create!(:request_type => "ListOrderItems", :store_id => parent_request.store_id, :mws_request_id => parent_request.id)
 		response = mws_connection.get_list_order_items(:amazon_order_id => self.amazon_order_id)
-		logger.debug "starting here"
 		next_token = request.process_response(mws_connection, response,0,0)
 		if next_token.is_a?(Numeric)
 			return next_token
@@ -132,26 +128,15 @@ class MwsOrder < ActiveRecord::Base
 				next_token = n
 			end
 		end
-		logger.debug "and ending here"
 	end
 
-	def process_order_item(item, response_id)
-		#amz_item = MwsOrderItem.find_or_create_by_amazon_order_item_id_and_mws_order_id_and_amazon_order_id(item.amazon_order_item_id,self.id,self.amazon_order_id)		
+	def process_order_item(item, response_id)		
 		h = MwsHelper.instance_vars_to_hash(item)
 		h[:mws_response_id] = response_id
 		h[:mws_order_id] = self.id
-		h[:amazon_order_id] = self.amazon_order_id
-		logger.debug h
-		
-		amz_item = MwsOrderItem.find_by_amazon_order_item_id(h[:amazon_order_item_id])
-		if amz_item.nil?
-			logger.debug "item is null, creating"
-			amz_item = MwsOrderItem.create!(h)
-		else
-			amz_item.update_attributes(h)
-		end
-		#amz_item = MwsOrderItem.find_or_create_by_amazon_order_item_id(h[:amazon_order_item_id]) 		
-		#amz_item.update_attributes(h)
+		h[:amazon_order_id] = self.amazon_order_id		
+		amz_item = MwsOrderItem.find_or_create_by_amazon_order_item_id(h[:amazon_order_item_id])
+		amz_item.update_attributes(h)
 	end
 
 	def omx_first_name
