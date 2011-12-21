@@ -80,7 +80,7 @@ class MwsRequest < ActiveRecord::Base
 				h[:store_id] = self.store_id
 				amz_order.update_attributes(h)
 				#if shipping_update == 0
-				#	amazon_orders << amz_order
+				amazon_orders << amz_order
 				#end
 			end
 			

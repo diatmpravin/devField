@@ -87,8 +87,7 @@ class MwsOrder < ActiveRecord::Base
 
 	# Process XML order into ActiveRecord, and process items on order
 	def process_order(mws_connection)
-		logger.debug "sleep 1"
-		sleep(1)
+		sleep(2)
 		return_code = fetch_order_items(mws_connection)
 		
 		# retry one time if problem
