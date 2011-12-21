@@ -18,7 +18,7 @@ class MwsOrder < ActiveRecord::Base
 	def self.get_sleep_time_per_order(order_count)
 		request_buffer = 15
 		refresh_interval = 6
-		return (min(order_count - request_buffer,0) / order_count)*refresh_interval
+		return ([order_count - request_buffer,0].min / order_count)*refresh_interval
 	end
 
 	def set_shipped
