@@ -20,11 +20,7 @@ group :development, :test do
 	gem 'ruby-debug-base19', "0.11.24"
 	gem 'ruby-debug19', "0.11.6"
 	gem 'heroku'
-  gem 'rspec-rails', '2.6.1'
-end
-
-group :test do
-  gem 'rspec-rails'
+  #gem 'rspec-rails', '2.6.1'
 end
 
 #gem 'amazon-mws', :path => "/Ruby/fieldday/amazon-mws"
