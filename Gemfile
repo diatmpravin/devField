@@ -1,15 +1,13 @@
 source 'http://rubygems.org'
-
 gem 'rails', '3.1.3'
 
 # Bundle edge Rails instead:
 # gem 'rails',     :git => 'git://github.com/rails/rails.git'
 gem 'paperclip'
-gem 'heroku'
 gem 'aws-s3', :require => 'aws/s3'
-gem 'kaminari'
-#gem 'aws-sdk'
+#gem 'aws-sdk'		# new version for paperclip
 #gem 'xml-simple'
+gem 'kaminari'	# pagination
 
 group :production do
 	gem 'pg'
@@ -21,6 +19,7 @@ group :development, :test do
 	gem 'sqlite3'
 	gem 'ruby-debug-base19', "0.11.24"
 	gem 'ruby-debug19', "0.11.6"
+	gem 'heroku'
 end
 
 #gem 'amazon-mws', :path => "/Ruby/fieldday/amazon-mws"

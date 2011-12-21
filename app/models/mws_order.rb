@@ -131,9 +131,12 @@ class MwsOrder < ActiveRecord::Base
 	end
 
 	def process_order_item(item, response_id)
-		amz_item = MwsOrderItem.find_or_create_by_amazon_order_item_id_and_mws_order_id_and_amazon_order_id(item.amazon_order_item_id,self.id,self.amazon_order_id)		
+		#amz_item = MwsOrderItem.find_or_create_by_amazon_order_item_id_and_mws_order_id_and_amazon_order_id(item.amazon_order_item_id,self.id,self.amazon_order_id)		
+		amz_item = MwsOrderItem.find_or_create_by_amazon_order_item_id(item.amazon_order_item_id) 
 		h = MwsHelper.instance_vars_to_hash(item)
 		h['mws_response_id'] = response_id
+		h['mws_order_id'] = self.id
+		h['amazon_order_id'] = self.amazon_order_id		
 		amz_item.update_attributes(h)
 	end
 
