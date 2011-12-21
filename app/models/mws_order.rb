@@ -87,6 +87,7 @@ class MwsOrder < ActiveRecord::Base
 
 	# Process XML order into ActiveRecord, and process items on order
 	def process_order(mws_connection)		
+		logger.debug "truly beginning here"
 		return_code = fetch_order_items(mws_connection)
 		
 		# retry one time if problem
@@ -102,15 +103,17 @@ class MwsOrder < ActiveRecord::Base
 			end
 		end
 		
+		logger.debug "and truly ending here"
 		return return_code
 	end
 	
 	def fetch_order_items(mws_connection)		
 		parent_request = self.mws_response.mws_request
-		# TODO add order ID
 		request = MwsRequest.create!(:request_type => "ListOrderItems", :store_id => parent_request.store_id, :mws_request_id => parent_request.id)
 		response = mws_connection.get_list_order_items(:amazon_order_id => self.amazon_order_id)
+		logger.debug "starting here"
 		next_token = request.process_response(mws_connection, response,0,0)
+		logger.debug "and ending here"
 		if next_token.is_a?(Numeric)
 			return next_token
 		end
@@ -135,12 +138,12 @@ class MwsOrder < ActiveRecord::Base
 	def process_order_item(item, response_id)
 		#amz_item = MwsOrderItem.find_or_create_by_amazon_order_item_id_and_mws_order_id_and_amazon_order_id(item.amazon_order_item_id,self.id,self.amazon_order_id)		
 		h = MwsHelper.instance_vars_to_hash(item)
-		h['mws_response_id'] = response_id
-		h['mws_order_id'] = self.id
-		h['amazon_order_id'] = self.amazon_order_id
-		logger.debug h	
+		h[:mws_response_id] = response_id
+		h[:mws_order_id] = self.id
+		h[:amazon_order_id] = self.amazon_order_id
+		logger.debug h
 		
-		amz_item = MwsOrderItem.find_or_create_by_amazon_order_item_id(h['amazon_order_item_id']) 		
+		amz_item = MwsOrderItem.find_or_create_by_amazon_order_item_id(h[:amazon_order_item_id]) 		
 		amz_item.update_attributes(h)
 	end
 

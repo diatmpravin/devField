@@ -76,8 +76,8 @@ class MwsRequest < ActiveRecord::Base
 					amz_order = MwsOrder.create(:amazon_order_id => o.amazon_order_id)
 				#end
 				h = MwsHelper.instance_vars_to_hash(o)
-				h['mws_response_id'] = response.id
-				h['store_id'] = self.store_id
+				h[:mws_response_id] = response.id
+				h[:store_id] = self.store_id
 				amz_order.update_attributes(h)
 				#if shipping_update == 0
 				#	amazon_orders << amz_order
@@ -96,6 +96,7 @@ class MwsRequest < ActiveRecord::Base
 				amz_order.process_order_item(i,response.id)
 			end
 		end
+		logger.debug "next token is #{response.next_token}"
 		return response.next_token
 	end
 
