@@ -2,14 +2,18 @@
 
 carrera:
   name: Carrera
-  vendor: vendors(:safilo)
+  vendor: safilo
   icon_file_name: icon_carrera.jpg
   icon_content_type: image/jpg
   icon_file_size: 1034
+  icon_updated_at: nil
+  default_markup: 100%
 
 gucci:
   name: Gucci
-  vendor: vendors(:safilo)
+  vendor: safilo
   icon_file_name: icon_gucci.gif
   icon_content_type: image/gif
   icon_file_size: 1049
+  icon_updated_at: nil
+  default_markup: 100%

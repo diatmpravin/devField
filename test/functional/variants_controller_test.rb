@@ -2,7 +2,8 @@ require 'test_helper'
 
 class VariantsControllerTest < ActionController::TestCase
   setup do
-    @variant = variants(:one)
+    @variant = variants(:carrera_1_brown)
+    @variant.sku = 'unique_sku'
   end
 
   test "should get index" do

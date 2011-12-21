@@ -1,7 +1,7 @@
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
 
 carrera_1_brown:
-  product: products(:carrera_1)
+  product: carrera_1
   sku: 2342-2343-323
   price: 9.99
   cost_price: 9.99
@@ -21,9 +21,10 @@ carrera_1_brown:
   amazon_product_id: MyString
   amazon_product_name: MyString
   amazon_product_description: MyText
+  upc: aasdfjlkasdf
 
 carrera_1_black:
-  product: products(:carrera_2)
+  product: carrera_2
   sku: 65456-4564-45654
   price: 9.99
   cost_price: 9.99
@@ -43,3 +44,4 @@ carrera_1_black:
   amazon_product_id: MyString
   amazon_product_name: MyString
   amazon_product_description: MyText
+  upc: al;kjlkjlasdfd

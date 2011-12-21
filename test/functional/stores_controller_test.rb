@@ -2,7 +2,8 @@ require 'test_helper'
 
 class StoresControllerTest < ActionController::TestCase
   setup do
-    @store = stores(:one)
+    @store = stores(:hdo)
+    @store.name = "UniqueStore"
   end
 
   test "should get index" do

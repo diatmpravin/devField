@@ -1,6 +1,6 @@
 class ProductsController < ApplicationController
   
-  # POST /products/1
+  # PUT /products/1
   def to_external
     @product = Product.find(params[:id])
 		@store = Store.find(params[:store_id])

@@ -3,7 +3,8 @@ require 'test_helper'
 class BrandsControllerTest < ActionController::TestCase
 
   setup do
-    @brand = brands(:one)
+    @brand = brands(:carrera)
+    @brand.name = 'Carrera2'
   end
 
   test "should get index" do
@@ -22,7 +23,7 @@ class BrandsControllerTest < ActionController::TestCase
       post :create, brand: @brand.attributes
     end
 
-    assert_redirected_to brand_path(assigns(:brand))
+    assert_redirected_to brands_path
   end
 
   test "should show brand" do
@@ -37,7 +38,7 @@ class BrandsControllerTest < ActionController::TestCase
 
   test "should update brand" do
     put :update, id: @brand.to_param, brand: @brand.attributes
-    assert_redirected_to brand_path(assigns(:brand))
+    assert_redirected_to brands_path
   end
 
   test "should destroy brand" do

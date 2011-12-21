@@ -2,7 +2,9 @@ require 'test_helper'
 
 class ProductsControllerTest < ActionController::TestCase
   setup do
-    @product = products(:one)
+    @product = products(:carrera_1)
+    @product.base_sku = 'unique_base_sku'
+    @store = stores(:hdo)
   end
 
   test "should get index" do
@@ -36,6 +38,11 @@ class ProductsControllerTest < ActionController::TestCase
 
   test "should update product" do
     put :update, id: @product.to_param, product: @product.attributes
+    assert_redirected_to product_path(assigns(:product))
+  end
+
+  test "should append product to external" do
+    put :to_external, id: @product.to_param, product: @product.attributes, store_id: @store.to_param
     assert_redirected_to product_path(assigns(:product))
   end
 

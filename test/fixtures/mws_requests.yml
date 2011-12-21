@@ -2,8 +2,12 @@
 
 one:
   amazon_request_id: MyString
+  mws_request_id: nil
   request_type: MyString
+  store: hdo
 
 two:
   amazon_request_id: MyString
+  mws_request_id: mws_requests(:one).id
   request_type: MyString
+  store: hdo

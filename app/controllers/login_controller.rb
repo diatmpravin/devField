@@ -49,7 +49,6 @@ class LoginController < ApplicationController
   protected
   
   def return_address
-    #root_path
     session[:return_to] || root_path
   end
 end

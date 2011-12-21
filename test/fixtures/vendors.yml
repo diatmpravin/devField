@@ -2,6 +2,8 @@
 
 safilo:
   name: Safilo
+  scraped_at: nil
 
 oakley:
   name: Oakley
+  scraped_at: nil

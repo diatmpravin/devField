@@ -1,7 +1,7 @@
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
 
 one:
-  mws_request_id: 1
+  mws_request: one
   amazon_request_id: MyString
   next_token: MyText
   last_updated_before: 2011-11-25 08:28:47
@@ -13,7 +13,7 @@ one:
   amazon_order_id: MyString
 
 two:
-  mws_request_id: 1
+  mws_request: two
   amazon_request_id: MyString
   next_token: MyText
   last_updated_before: 2011-11-25 08:28:47

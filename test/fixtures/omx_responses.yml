@@ -1,13 +1,15 @@
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
 
 one:
-  omx_request_id: 1
+  omx_request: one
   success: 1
   ordermotion_response_id: MyString
   ordermotion_order_number: MyString
+  error_data: nil
 
 two:
-  omx_request_id: 1
+  omx_request: two
   success: 1
   ordermotion_response_id: MyString
   ordermotion_order_number: MyString
+  error_data: nil

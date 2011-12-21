@@ -2,7 +2,8 @@ require 'test_helper'
 
 class VendorsControllerTest < ActionController::TestCase
   setup do
-    @vendor = vendors(:one)
+    @vendor = vendors(:safilo)
+    @vendor.name = "Luxottica"
   end
 
   test "should get index" do

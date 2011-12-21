@@ -29,7 +29,8 @@ one:
   buyer_name: MyString
   buyer_email: MyString
   shipment_service_level_category: MyString
-  mws_response_id: 1
+  mws_response: one
+  store: hdo
 
 two:
   amazon_order_id: MyString
@@ -60,4 +61,5 @@ two:
   buyer_name: MyString
   buyer_email: MyString
   shipment_service_level_category: MyString
-  mws_response_id: 1
+  mws_response: one
+  store: hdo

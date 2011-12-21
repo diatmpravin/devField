@@ -2,7 +2,7 @@
 
 one:
   request_type: UDOA
-  mws_order: mws_orders(:one)
+  mws_order: one
   keycode: AM01
   verify_flag: True
   queue_flag: False
@@ -11,7 +11,7 @@ one:
 
 two:
   request_type: UDOA
-  mws_order: mws_orders(:two)
+  mws_order: two
   keycode: AM01
   verify_flag: True
   queue_flag: False

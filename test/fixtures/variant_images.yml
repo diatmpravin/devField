@@ -1,13 +1,19 @@
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
 
 one:
-  variant_id: 1
+  variant: carrera_1_brown
   image_file_name: MyString
   image_content_type: MyString
   image_file_size: MyString
+  image_updated_at: nil
+  image_width: 400
+  unique_image_file_name: uniqueFilename
 
 two:
-  variant_id: 1
+  variant: carrera_1_brown
   image_file_name: MyString
   image_content_type: MyString
   image_file_size: MyString
+  image_updated_at: nil
+  image_width: 320
+  unique_image_file_name: uniqueFilename2
