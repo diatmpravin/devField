@@ -1,45 +1,45 @@
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
 
-one:
-  product_id: 1
-  sku: MyString
+carrera_1_brown:
+  product: products(:carrera_1)
+  sku: 2342-2343-323
   price: 9.99
   cost_price: 9.99
   weight: 9.99
   height: 9.99
   width: 9.99
   depth: 9.99
-  size: MyString
+  size: 124-65/21
   color1: MyString
   color2: MyString
-  color1_code: MyString
+  color1_code: 234C
   color2_code: MyString
-  availability: MyString
-  deleted_at: 2011-12-12 00:44:18
-  is_master: false
+  availability: Available
+  deleted_at: nil
+  is_master: true
   position: 1
   amazon_product_id: MyString
   amazon_product_name: MyString
   amazon_product_description: MyText
 
-two:
-  product_id: 1
-  sku: MyString
+carrera_1_black:
+  product: products(:carrera_2)
+  sku: 65456-4564-45654
   price: 9.99
   cost_price: 9.99
-  weight: 9.99
-  height: 9.99
-  width: 9.99
-  depth: 9.99
-  size: MyString
+  weight: nil
+  height: nil
+  width: nil
+  depth: nil
+  size: 124-65/21
   color1: MyString
   color2: MyString
   color1_code: MyString
   color2_code: MyString
-  availability: MyString
-  deleted_at: 2011-12-12 00:44:18
+  availability: December 21, 2012
+  deleted_at: nil
   is_master: false
-  position: 1
+  position: 2
   amazon_product_id: MyString
   amazon_product_name: MyString
   amazon_product_description: MyText

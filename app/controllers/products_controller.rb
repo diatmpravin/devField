@@ -1,5 +1,21 @@
 class ProductsController < ApplicationController
   
+  # POST /products/1
+  def to_external
+    @product = Product.find(params[:id])
+		@store = Store.find(params[:store_id])
+
+    respond_to do |format|
+      if @product.append_to_shopify(@store)
+        format.html { redirect_to @product, notice: "Product pushed to #{@store.name}." }
+        format.json { head :ok }
+      else
+        format.html { render action: "edit" }
+        format.json { render json: @product.errors, status: :unprocessable_entity }
+      end
+    end  	
+  end
+  
   # GET /products
   # GET /products.json
   def index

@@ -1,9 +1,19 @@
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
 
 one:
-  ordermotion_request_id: MyString
-  request_type: MyString
+  request_type: UDOA
+  mws_order: mws_orders(:one)
+  keycode: AM01
+  verify_flag: True
+  queue_flag: False
+  vendor: nil
+  store_code: HDO    
 
 two:
-  ordermotion_request_id: MyString
-  request_type: MyString
+  request_type: UDOA
+  mws_order: mws_orders(:two)
+  keycode: AM01
+  verify_flag: True
+  queue_flag: False
+  vendor: nil
+  store_code: HDO

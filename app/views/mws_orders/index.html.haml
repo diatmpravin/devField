@@ -27,7 +27,7 @@
 			%td= time_ago_in_words(mws_order.purchase_date) + " ago"
 			%td= mws_order.name
 			%td= mws_order.shipment_service_level_category
-			%td= mws_order.amount
+			%td.num= number_to_currency(mws_order.amount, :precision => 2)
 			%td= mws_order.city
 			%td= mws_order.omx_state
 			%td= mws_order.postal_code

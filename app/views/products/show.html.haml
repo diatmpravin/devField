@@ -15,5 +15,9 @@
 	%b Variants
 	= render @product.variants
 
+= form_for(@product) do |f|
+	= f.select(:store_id, Store.all.collect {|s| [ s.name, s.id ] })
+	= f.submit "Push to Shopify"
+
 = link_to 'Edit', edit_product_path(@product)
 = link_to 'Back', products_path

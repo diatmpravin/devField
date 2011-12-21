@@ -28,6 +28,11 @@ class MwsOrdersController < ApplicationController
     @mws_order = MwsOrder.find(params[:id])
     
 		response = @mws_order.reprocess_order
+		message = "response_id #{response}"
+		if response.is_numeric?
+			r = MwsResponse.find(response)
+			message += " #{r.error_code}: #{r.error_message}"
+		end
 
     respond_to do |format|
     	format.html { redirect_to @mws_order, notice: "Amazon order reprocessed.  #{response}" }

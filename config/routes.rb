@@ -1,5 +1,9 @@
 Fieldday::Application.routes.draw do
-  resources :products
+  resources :products do
+  	member do
+  		post 'to_external'
+  	end
+  end
   resources :variants, :variant_images
   resources :vendors
   resources :brands do

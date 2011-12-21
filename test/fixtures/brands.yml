@@ -1,15 +1,15 @@
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
 
-one:
-  name: MyString
-  vendor_id: 1
-  icon_file_name: MyString
-  icon_content_type: MyString
-  icon_file_size: 1
+carrera:
+  name: Carrera
+  vendor: vendors(:safilo)
+  icon_file_name: icon_carrera.jpg
+  icon_content_type: image/jpg
+  icon_file_size: 1034
 
-two:
-  name: MyString
-  vendor_id: 1
-  icon_file_name: MyString
-  icon_content_type: MyString
-  icon_file_size: 1
+gucci:
+  name: Gucci
+  vendor: vendors(:safilo)
+  icon_file_name: icon_gucci.gif
+  icon_content_type: image/gif
+  icon_file_size: 1049

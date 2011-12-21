@@ -1,19 +1,19 @@
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
 
-one:
-  name: MyString
+carrera_1:
+  name: Carrera 3/S
   description: MyText
   available_on: 2011-12-12 00:42:59
-  deleted_at: 2011-12-12 00:42:59
+  deleted_at: nil
   meta_description: MyText
   meta_keywords: MyString
-  brand_id: 1
+  brand: brands(:carrera)
 
-two:
-  name: MyString
+carrera_2:
+  name: Carrera 5/S
   description: MyText
   available_on: 2011-12-12 00:42:59
-  deleted_at: 2011-12-12 00:42:59
+  deleted_at: nil
   meta_description: MyText
   meta_keywords: MyString
-  brand_id: 1
+  brand: brands(:carrera)
