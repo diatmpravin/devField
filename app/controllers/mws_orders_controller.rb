@@ -29,7 +29,7 @@ class MwsOrdersController < ApplicationController
     
 		response = @mws_order.reprocess_order
 		message = "response_id #{response}"
-		if response.is_numeric?
+		if response.is_a?(Numeric)
 			r = MwsResponse.find(response)
 			message += " #{r.error_code}: #{r.error_message}"
 		end
