@@ -113,7 +113,6 @@ class MwsOrder < ActiveRecord::Base
 		response = mws_connection.get_list_order_items(:amazon_order_id => self.amazon_order_id)
 		logger.debug "starting here"
 		next_token = request.process_response(mws_connection, response,0,0)
-		logger.debug "and ending here"
 		if next_token.is_a?(Numeric)
 			return next_token
 		end
@@ -132,7 +131,8 @@ class MwsOrder < ActiveRecord::Base
 				page_num += 1 # don't want to increment page if there is an error
 				next_token = n
 			end
-		end		
+		end
+		logger.debug "and ending here"
 	end
 
 	def process_order_item(item, response_id)
@@ -143,8 +143,15 @@ class MwsOrder < ActiveRecord::Base
 		h[:amazon_order_id] = self.amazon_order_id
 		logger.debug h
 		
-		amz_item = MwsOrderItem.find_or_create_by_amazon_order_item_id(h[:amazon_order_item_id]) 		
-		amz_item.update_attributes(h)
+		amz_item = MwsOrderItem.find_by_amazon_order_item_id(h[:amazon_order_item_id])
+		if amz_item.nil?
+			logger.debug "item is null, creating"
+			amz_item = MwsOrderItem.create!(h)
+		else
+			amz_item.update_attributes(h)
+		end
+		#amz_item = MwsOrderItem.find_or_create_by_amazon_order_item_id(h[:amazon_order_item_id]) 		
+		#amz_item.update_attributes(h)
 	end
 
 	def omx_first_name
