@@ -70,21 +70,21 @@
 		%td.num= number_to_currency(@mws_order_item.item_price, :precision => 2)
 		%td.num= number_to_currency(@mws_order_item.shipping_price, :precision => 2)
 		%td.num= number_to_currency(@mws_order_item.gift_price, :precision => 2)
-		%td.num= number_to_currency(@mws_order_item.item_price + @mws_order_item.shipping_price + @mws_order_item.gift_price, :precision => 2)
+		%td.num= number_to_currency(@mws_order_item.get_price_subtotal, :precision => 2)
 		
 	%tr
 		%td Discount
 		%td.num= number_to_currency(@mws_order_item.promotion_discount, :precision => 2)
 		%td.num= number_to_currency(@mws_order_item.shipping_discount, :precision => 2)
 		%td.num
-		%td.num= number_to_currency((@mws_order_item.promotion_discount + @mws_order_item.shipping_discount), :precision => 2)
+		%td.num= number_to_currency(@mws_order_item.get_discount_subtotal, :precision => 2)
 
 	%tr
 		%td Tax
 		%td.num= number_to_currency(@mws_order_item.item_tax, :precision => 2)
 		%td.num= number_to_currency(@mws_order_item.shipping_tax, :precision => 2)
 		%td.num= number_to_currency(@mws_order_item.gift_tax, :precision => 2)
-		%td.num= number_to_currency(@mws_order_item.item_tax + @mws_order_item.shipping_tax + @mws_order_item.gift_tax, :precision => 2)
+		%td.num= number_to_currency(@mws_order_item.get_tax_subtotal, :precision => 2)
 
 	%tr.total
 		%td Total

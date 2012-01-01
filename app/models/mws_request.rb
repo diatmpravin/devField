@@ -1,36 +1,38 @@
 class MwsRequest < ActiveRecord::Base
 	belongs_to :store
 	has_many :mws_responses, :dependent => :destroy
-	
+	has_many :mws_orders, :through => :mws_responses
 	has_many :sub_requests, :class_name => "MwsRequest"
   belongs_to :parent_request, :class_name => "MwsRequest", :foreign_key => "mws_request_id"
-  
-	def get_orders_count
-		count = 0
-		self.mws_responses.each do |r|
-			count += r.mws_orders.count
-		end
-		return count
-	end
 
-	def get_orders_without_items_count
-		count = 0
-		self.mws_responses.each do |r|
-			r.mws_orders.each do |o|
-				if o.mws_order_items.count == 0
-					count += 1		
-				end
+	def get_request_summary_string
+		error_count = get_responses_with_errors.count
+		order_count = self.mws_orders.count
+		orders_missing_items_count = get_orders_missing_items.count
+		if error_count > 0 || orders_missing_items_count >0
+			return "ERROR: #{error_count} errors, #{self.mws_responses.count} response pages, #{order_count} orders, #{orders_missing_items_count} without items"
+		else
+			return "OK: #{order_count} orders"
+		end
+	end
+  
+  # return orders that either have 0 quantity ordered, or fewer items loaded than ordered
+	def get_orders_missing_items
+		orders_missing_items = Array.new
+		self.mws_orders.each do |o|
+			if o.get_item_quantity_missing > 0 || o.get_item_quantity_ordered == 0
+				orders_missing_items << o
 			end
 		end
-		return count
+		return orders_missing_items
 	end
 
-	def error_count
-		count = 0
+	def get_responses_with_errors
+		error_responses = Array.new
 		self.sub_requests.each do |r|
-			count += r.mws_responses.where('error_message IS NOT NULL').count
-		end	
-		return count
+			error_responses = error_responses + r.mws_responses.where('error_message IS NOT NULL')
+		end			
+		return error_responses
 	end
 	
 	def process_response(mws_connection,response_xml,page_num,sleep_if_error)

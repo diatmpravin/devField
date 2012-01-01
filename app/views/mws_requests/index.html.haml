@@ -7,7 +7,7 @@
 		%th= "Store"
 		%th= "Request Type"
 		%th= "Age"
-		-#%th= "Comment"
+		%th= "Comment"
 		%th
 
 	- @mws_requests.each do |mws_request|
@@ -15,12 +15,5 @@
 			%td= mws_request.store ? mws_request.store.name : "nil"
 			%td= mws_request.request_type
 			%td= time_ago_in_words(mws_request.created_at) + " ago"
-			-#%td
-			-#	- error_count = mws_request.error_count
-			-#	- order_count = mws_request.get_orders_count
-			-#	- orders_without_items_count = mws_request.get_orders_without_items_count
-			-#	- if error_count > 0 || orders_without_items_count >0
-			-#		%b= "ERROR: #{error_count} errors, #{mws_request.mws_responses.count} response pages, #{order_count} orders, #{orders_without_items_count} without items"
-			-#	- else
-			-#		= "OK: #{order_count} orders"
+			%td= mws_request.get_request_summary_string
 			%td= link_to 'Show', mws_request

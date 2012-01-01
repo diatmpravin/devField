@@ -2,7 +2,7 @@ require 'test_helper'
 
 class VariantImagesControllerTest < ActionController::TestCase
   setup do
-    @variant_image = variant_images(:one)
+    @variant_image = Factory(:variant_image)
     @variant_image.unique_image_file_name = 'unique_file_name'
   end
 

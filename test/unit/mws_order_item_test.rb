@@ -1,7 +1,91 @@
 require 'test_helper'
 
 class MwsOrderItemTest < ActiveSupport::TestCase
-  # test "the truth" do
-  #   assert true
-  # end
+
+	test "amazon_order_item_id should be unique" do
+		o = Factory(:mws_order)
+		i = Factory(:mws_order_item, :mws_order => o)
+		i2 = Factory.build(:mws_order_item, :mws_order => o)
+		i2.amazon_order_item_id = i.amazon_order_item_id
+		assert i2.invalid?
+	end
+	
+	test "should save clean_sku" do
+		i = Factory(:mws_order_item)
+		assert_not_nil i.clean_sku
+	end
+
+	test "set_shipped should work" do
+		i = Factory(:mws_order_item, :quantity_ordered => 2, :quantity_shipped => 0)
+		assert_equal 0, i.quantity_shipped
+		i.set_shipped
+		assert_equal 2, i.quantity_shipped
+	end
+
+	test "is_gift should work" do
+		i = Factory(:mws_order_item)
+		assert_equal 0, i.is_gift?
+		i.gift_message_text = "Testing"
+		assert_equal 1, i.is_gift?
+		i.gift_message_text = nil
+		assert_equal 0, i.is_gift?
+		i.gift_wrap_level = "Testing"
+		assert_equal 1, i.is_gift?
+	end
+
+	test "get_item_price_per_unit should work" do
+		price = 150.0
+		i = Factory(:mws_order_item)
+		assert_equal 0, i.get_item_price_per_unit
+		i.quantity_ordered = 0
+		assert_equal 0, i.get_item_price_per_unit
+		assert_equal i.get_item_price, i.get_item_price_per_unit
+		i.quantity_ordered = 1.0
+		i.item_price = price
+		assert_equal i.get_item_price, i.get_item_price_per_unit
+		i.quantity_ordered = 2.0
+		i.item_price = i.quantity_ordered*price
+		i.item_tax = 20.0
+		i.promotion_discount = 5.0
+		assert_equal ((i.quantity_ordered*price + i.item_tax - i.promotion_discount)/ i.quantity_ordered), i.get_item_price_per_unit
+	end
+	
+	test "get_item_prices etc should work" do
+		o = Factory(:mws_order)
+		i = Factory(:mws_order_item, :mws_order => o)
+		assert_equal 0, i.get_item_price
+		assert_equal 0, i.get_ship_price
+		assert_equal 0, i.get_gift_price
+		assert_equal 0, i.get_total_price
+		assert_equal 0, i.get_price_subtotal
+		assert_equal 0, i.get_discount_subtotal
+		assert_equal 0, i.get_tax_subtotal
+
+		i2 = Factory(:mws_order_item, :mws_order => o, :quantity_ordered => 2, :item_price => 300, :item_tax => 20, :promotion_discount => 5, :shipping_price => 19, :shipping_tax => 5, :shipping_discount => 3, :gift_price => 7, :gift_tax => 1.5)
+		assert_equal 315, i2.get_item_price
+		assert_equal (19+5-3), i2.get_ship_price
+		assert_equal (7+1.5), i2.get_gift_price
+		assert_equal (315 + 19 + 5 -3 + 7 + 1.5), i2.get_total_price
+		assert_equal i2.get_item_price + i2.get_ship_price + i2.get_gift_price, i2.get_total_price
+		assert_equal (300 + 19 + 7), i2.get_price_subtotal
+		assert_equal (5 + 3), i2.get_discount_subtotal
+		assert_equal (20 + 5 + 1.5), i2.get_tax_subtotal		
+	end
+
+	test "numbers should be positive and valid" do
+		i = Factory(:mws_order_item)
+		i.item_price = -26.5
+		assert i.invalid?
+		i.item_price = "nan"
+		assert i.invalid?
+		i.item_price = 0
+		assert i.valid?
+		
+		assert_equal 0,i.quantity_ordered
+		i.quantity_ordered = 1.5
+		assert i.invalid?
+		i.quantity_ordered = 2
+		assert i.valid?
+	end
+	
 end

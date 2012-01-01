@@ -13,7 +13,7 @@
 %p= "Availability: #{@variant.availability}"
 %p= "Master?: #{@variant.is_master}"
 
-%p= "Product Properties: #{@variant.product.meta_keywords.split(/,/)}"
+%p= "Product Properties: #{@variant.product.meta_keywords}"
 %p= "Amazon Product ID: #{@variant.amazon_product_id}"
 %p
 	= link_to 'Edit', edit_variant_path(@variant)

@@ -6,13 +6,12 @@
 %table
 	%tr
 		%th="Store"
-		%th="Purchase time (UTC)"
+		%th="Purchase at (UTC)"
 		%th="Ship to name"
 		%th="Shipping"
 		%th="Amount"
 		%th="City"
 		%th="State or region"
-		%th="Postal code"
 		%th="Country code"
 		%th="Items"
 		%th="Items Missing?"
@@ -30,18 +29,16 @@
 			%td.num= number_to_currency(mws_order.amount, :precision => 2)
 			%td= mws_order.city
 			%td= mws_order.omx_state
-			%td= mws_order.postal_code
 			%td= mws_order.country_code
 			%td= mws_order.number_of_items_unshipped
 			%td
-				- missing = (mws_order.number_of_items_unshipped - mws_order.item_quantity) 
+				- missing = mws_order.get_item_quantity_missing 
 				- if missing > 0
 					%b= "#{missing} missing"
 			
 			%td
-				- gift = mws_order.omx_gift_wrapping
-				- if gift == "True"
-					%b= "Gift"
+				- if mws_order.omx_gift_wrapping == 'True'
+					=image_tag('gift.png', :title => "#{mws_order.omx_gift_wrap_level} - #{mws_order.omx_gift_message}", :width => 20)
 			%td= mws_order.fulfillment_channel
 			%td
 				- omx_status = mws_order.pushed_to_omx?

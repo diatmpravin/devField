@@ -2,7 +2,8 @@ require 'test_helper'
 
 class MwsOrdersControllerTest < ActionController::TestCase
   setup do
-    @mws_order = mws_orders(:one)
+    @store = Factory(:store, :name => 'FieldDay')
+    @mws_order = Factory(:mws_order, :store => @store)
   end
 
   test "should get index" do
@@ -17,7 +18,7 @@ class MwsOrdersControllerTest < ActionController::TestCase
   end
 
   test "should update mws_order" do
-    put :update, id: @mws_order.to_param, mws_order: @mws_order.attributes
+    put :update, id: @mws_order.to_param
     assert_redirected_to mws_order_path(assigns(:mws_order))
   end
   

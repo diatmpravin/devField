@@ -10,3 +10,15 @@
 		= link_to 'Destroy', product, confirm: 'Are you sure?', method: :delete
 	%td
 		= render product.variants
+	%td
+		- stores_arr = product.stores
+		- stores_arr.each do |s|
+			.pill
+				= link_to image_tag('delete.png') + "#{s.name}", s
+		%br
+		-#- stores_arr2 = Store.all.keep_if { |s| !stores_arr.include?(s) }
+		-#= form_tag('/posts', :method => :put)
+		-#= hidden_field_tag 'product_id', product.id
+		-#= select_tag 'store_id', options_from_collection_for_select(stores_arr2, 'id', 'name')
+		-#= submit_tag 'Add to'
+		-#%br

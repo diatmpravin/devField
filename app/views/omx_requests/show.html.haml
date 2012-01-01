@@ -22,19 +22,18 @@
 	%b="Verify flag:"
 	= @omx_request.verify_flag
 
-- r = @omx_request.omx_response
 %p
 	%b="Success:"
-	= r.success
+	= @omx_response.success
 
 %p
 	%b="Ordermotion response:"
-	= r.ordermotion_response_id
+	= @omx_response.ordermotion_response_id
 
 %p
 	%b="Ordermotion order number:"
-	= r.ordermotion_order_number
+	= @omx_response.ordermotion_order_number
 
 %p
 	%b="Errors:"
-	= r.error_data
+	= @omx_response.error_data

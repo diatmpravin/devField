@@ -1,21 +1,17 @@
 Fieldday::Application.routes.draw do
-  resources :products do
-  	member do
-  		post 'to_external'
-  	end
-  end
-  resources :variants, :variant_images
-  resources :vendors
-  resources :brands do
-  	#member do
-  	#	post 'from_vendor'
-  	#end
-  end
   resources :stores
+  resources :vendors
+  resources :brands
+  resources :products
+  resources :variants, :variant_images
+  
+  #TODO resource :products_stores, :only => [:create, :delete]
+  
   resources :omx_requests, :only => [:show]
   resources :mws_requests, :only => [:show, :index]
   resources :mws_orders, :only => [:show, :index, :update]
   resources :mws_order_items, :only => [:show]	
+
   match 'welcome'            => 'home#welcome'
   match 'design'             => 'home#design'
   match 'login'              => 'login#index',        :as => :login

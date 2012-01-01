@@ -6,8 +6,11 @@ class MwsOrder < ActiveRecord::Base
 	belongs_to :store
 	has_many :mws_order_items, :dependent => :destroy
 	has_many :omx_requests
+	has_many :omx_responses, :through => :omx_requests
 	validates_uniqueness_of :amazon_order_id
 	validates_presence_of :mws_response_id
+	validates_presence_of :purchase_date
+	validates_associated :store
 	
 	MAX_ORDER_ITEM_PAGES = 20
 	MAX_FAILURE_COUNT = 1
@@ -15,10 +18,17 @@ class MwsOrder < ActiveRecord::Base
 		
 	@@state_lookup = {'AK' => 'AK','AL' => 'AL','ALABAMA' => 'AL','ALASKA' => 'AK','AR' => 'AR','ARIZONA' => 'AZ','ARKANSAS' => 'AK','AZ' => 'AZ','CA' => 'CA','CA.' => 'CA','CALIFORNIA' => 'CA','CO' => 'CO','COLORADO' => 'CO','CONNECTICUT' => 'CT','CT' => 'CT','D.F.' => 'DF','DISTRICT OF COLUMBIA' => 'DC','DC' => 'DC','DELAWARE' => 'DE','DE' => 'DE','DF' => 'DF','DISTRITO FEDERAL' => 'DF','FL' => 'FL','FL.' => 'FL','FLORIDA' => 'FL','GA' => 'GA','GEORGIA' => 'GA','HAWAII' => 'HI','HI' => 'HI','IA' => 'IA','ID' => 'ID','IDAHO' => 'ID','IL' => 'IL','ILLINOIS' => 'IL','IN' => 'IN','INDIANA' => 'IN','IOWA' => 'IA','KANSAS' => 'KS','KENTUCKY' => 'KY', 'KS' => 'KS','KY' => 'KY','LA' => 'LA','LA.' => 'LA','LOUISIANA' => 'LA','MA' => 'MA','MAINE' => 'ME','MARYLAND' => 'MD','MASSACHUSETTS' => 'MA','MD' => 'MD','ME' => 'ME','MI' => 'MI','MICHIGAN' => 'MI','MINNESOTA' => 'MN','MISSISSIPPI' => 'MS','MISSOURI' => 'MO','MN' => 'MN','MO' => 'MO','MONTANA' => 'MT','MS' => 'MS','MT' => 'MT','N.Y.' => 'NY','NC' => 'NC','ND' => 'ND','NEBRASKA' => 'NE','NE' => 'NE','NEVADA' => 'NV','NEW HAMPSHIRE' => 'NH','NEW JERSEY' => 'NJ','NEW MEXICO' => 'NM','NEW YORK' => 'NY','NH' => 'NH','NJ' => 'NJ','NM' => 'NM','NORTH CAROLINA' => 'NC','NV' => 'NV','NY' => 'NY','OH' => 'OH','OHIO' => 'OH','OK' => 'OK','OKLAHOMA' => 'OK','OR' => 'OR','OREGON' => 'OR','PA' => 'PA','PENNSYLVANIA' => 'PA','PR' => 'PR','PUERTO RICO' => 'PR','RHODE ISLAND' => 'RI','RI' => 'RI','SC' => 'SC','SD' => 'SD','SOUTH CAROLINA' => 'SC','TENNESSEE' => 'TN','TEXAS' => 'TX','TN' => 'TN','TX' => 'TX','UT' => 'UT','UTAH' => 'UT','VA' => 'VA','VIRGINIA' => 'VA','VERMONT' => 'VT','VT' => 'VT','WA' => 'WA','WASHINGTON' => 'WA','WEST VIRGINIA' => 'WV', 'WI' => 'WI','WISCONSIN' => 'WI','WV' => 'WV','WYOMING' => 'WY','WY' => 'WY'}
 
+	# return a value between 0 and 6 for the number of seconds to delay between OrderItem requests to Amazon
 	def self.get_sleep_time_per_order(order_count)
-		request_buffer = 15.0
-		refresh_interval = 6.0
-		return ([order_count-request_buffer,0.0].max / order_count)*refresh_interval
+		if order_count.is_a?(Numeric) && order_count>0
+			sleep_time = 0.0
+			request_buffer = 15.0
+			refresh_interval = 6.0
+			sleep_time = (([order_count - request_buffer, 0.0].max) / order_count)*refresh_interval
+			return sleep_time
+		else
+			return 0
+		end
 	end
 
 	def set_shipped
@@ -27,12 +37,23 @@ class MwsOrder < ActiveRecord::Base
 		end
 	end
 
-	def item_quantity
+	def get_item_quantity_ordered
+		q = 0
+		q += self.number_of_items_unshipped ? self.number_of_items_unshipped : 0
+		q += self.number_of_items_shipped ? self.number_of_items_shipped : 0
+		return q
+	end
+	
+	def get_item_quantity_loaded
 		q = 0
 		self.mws_order_items.each do |i|
 			q += i.quantity_ordered
 		end
 		return q
+	end
+
+	def get_item_quantity_missing
+		return get_item_quantity_ordered - get_item_quantity_loaded
 	end
 	
 	def get_item_price
@@ -69,18 +90,16 @@ class MwsOrder < ActiveRecord::Base
 
 	def pushed_to_omx?
 		pushed = "Error"
-		self.omx_requests.each do |req|
-			resp = req.omx_response
-			if !resp.nil?
-				if !resp.ordermotion_order_number.nil? && resp.ordermotion_order_number != ''
-					pushed = "Yes"
-				elsif resp.error_data.nil? || resp.error_data == ''
-					pushed = "No"
-				elsif !resp.error_data.match(/The provided Order ID has already been used for the provided store/).nil?
-					pushed = "Dup"
-				end
-			else
-				pushed = "N/A"
+		if self.fulfillment_channel == "AFN"
+			return "N/A"
+		end
+		self.omx_responses.each do |resp|
+			if !resp.ordermotion_order_number.nil? && resp.ordermotion_order_number != ''
+				pushed = "Yes"
+			elsif resp.error_data.nil? || resp.error_data == ''
+				pushed = "No"
+			elsif !resp.error_data.match(/The provided Order ID has already been used for the provided store/).nil?
+				pushed = "Dup"
 			end
 		end
 		return pushed
@@ -88,24 +107,20 @@ class MwsOrder < ActiveRecord::Base
 
 	def reprocess_order
 		store = self.store
-		return process_order(store.get_mws_connection) 
+		if store.mws_connection.nil?
+			logger.debug "store mws connection is nil, store is #{store.name}"
+		else
+			return process_order(store.mws_connection)
+		end 
 	end
 
 	# Process XML order into ActiveRecord, and process items on order
 	def process_order(mws_connection)
 		return_code = fetch_order_items(mws_connection)
-		
-		# retry one time if problem
-		#if (self.item_quantity != (self.number_of_items_unshipped + self.number_of_items_shipped))
-			#sleep ORDER_ITEM_FAIL_WAIT
-			#return_code = fetch_order_items(mws_connection)
-		#end
-		
-		#TODO if reprocessing, use the update API call rather than append
-		if (self.item_quantity == (self.number_of_items_unshipped + self.number_of_items_shipped))		
-			if (self.fulfillment_channel == "MFN" && (self.order_status == "Unshipped" || self.order_status == "PartiallyShipped"))
-				append_to_omx
-			end
+
+		#TODO if reprocessing, use the update OMX API call rather than append
+		if get_item_quantity_missing == 0 && self.fulfillment_channel == "MFN" && (self.order_status == "Unshipped" || self.order_status == "PartiallyShipped")
+			append_to_omx
 		end
 		return return_code
 	end
@@ -146,6 +161,9 @@ class MwsOrder < ActiveRecord::Base
 	end
 
 	def omx_first_name
+		if self.name.nil?
+			return '[Blank]'
+		end
 		a = self.name.strip.split(/ /)
 		a.slice!(a.count-1)
 		first_name = a.join(" ")
@@ -157,6 +175,9 @@ class MwsOrder < ActiveRecord::Base
 	end
 	
 	def omx_last_name
+		if self.name.nil?
+			return '[Blank]'
+		end
 		a = self.name.strip.split(/ /)
 		last_name = a.last
 		if last_name.nil? || last_name == ''
@@ -203,8 +224,7 @@ class MwsOrder < ActiveRecord::Base
 
 	#TODO gift message should be line by line item
 	def omx_gift_wrap_level
-		items = self.mws_order_items
-		items.each do |i| 
+		self.mws_order_items.each do |i| 
 			if !i.gift_wrap_level.nil? && i.gift_wrap_level != ''
 				return i.gift_wrap_level
 			end
@@ -212,7 +232,6 @@ class MwsOrder < ActiveRecord::Base
 		return nil
 	end
 	
-	#TODO gift message should be line by line item
 	def omx_gift_message
 		items = self.mws_order_items
 		items.each do |i| 
@@ -244,9 +263,9 @@ class MwsOrder < ActiveRecord::Base
 		omx_product_amount = 0
 		omx_shipping_amount = 0
 		self.mws_order_items.each do |i| 			
-			omx_line_items << { :item_code => i.clean_sku, :quantity => i.quantity_ordered, :unit_price => i.product_price_per_unit }
-			omx_product_amount += (i.product_price_per_unit * i.quantity_ordered)
-			omx_shipping_amount += i.sh_total
+			omx_line_items << { :item_code => i.clean_sku, :quantity => i.quantity_ordered, :unit_price => i.get_item_price_per_unit }
+			omx_product_amount += (i.get_item_price_per_unit * i.quantity_ordered)
+			omx_shipping_amount += (i.get_ship_price + i.get_gift_price)
 		end 
 		
 		address1 = self.address_line_1

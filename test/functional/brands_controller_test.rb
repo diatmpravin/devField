@@ -3,8 +3,8 @@ require 'test_helper'
 class BrandsControllerTest < ActionController::TestCase
 
   setup do
-    @brand = brands(:carrera)
-    @brand.name = 'Carrera2'
+    @brand = Factory(:brand)
+    @brand.name = 'Carrera3'
   end
 
   test "should get index" do

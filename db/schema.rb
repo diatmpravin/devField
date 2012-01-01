@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20111217155132) do
+ActiveRecord::Schema.define(:version => 20120101160951) do
 
   create_table "brands", :force => true do |t|
     t.string   "name"
@@ -187,6 +187,15 @@ ActiveRecord::Schema.define(:version => 20111217155132) do
   add_index "products", ["brand_id"], :name => "index_products_on_brand_id"
   add_index "products", ["category"], :name => "index_products_on_category"
 
+  create_table "products_stores", :force => true do |t|
+    t.integer  "product_id"
+    t.integer  "store_id"
+    t.string   "handle"
+    t.string   "foreign_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
   create_table "store_products", :force => true do |t|
     t.integer  "store_id"
     t.integer  "product_id"
@@ -200,14 +209,18 @@ ActiveRecord::Schema.define(:version => 20111217155132) do
 
   create_table "stores", :force => true do |t|
     t.string   "name"
-    t.string   "store_type"
+    t.string   "store_type",             :default => "MWS"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.integer  "order_results_per_page"
-    t.integer  "max_order_pages"
-    t.string   "queue_flag"
-    t.string   "verify_flag"
+    t.integer  "order_results_per_page", :default => 100
+    t.integer  "max_order_pages",        :default => 10
+    t.string   "queue_flag",             :default => "False"
+    t.string   "verify_flag",            :default => "True"
     t.string   "authenticated_url"
+    t.string   "icon_file_name"
+    t.string   "icon_content_type"
+    t.integer  "icon_file_size"
+    t.datetime "icon_updated_at"
   end
 
   create_table "variant_images", :force => true do |t|
@@ -260,6 +273,10 @@ ActiveRecord::Schema.define(:version => 20111217155132) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.datetime "scraped_at"
+    t.string   "icon_file_name"
+    t.string   "icon_content_type"
+    t.integer  "icon_file_size"
+    t.datetime "icon_updated_at"
   end
 
 end

@@ -1,35 +1,32 @@
 class ProductsController < ApplicationController
   
-  # PUT /products/1
-  def to_external
-    @product = Product.find(params[:id])
-		@store = Store.find(params[:store_id])
-
-    respond_to do |format|
-      if @product.append_to_shopify(@store)
-        format.html { redirect_to @product, notice: "Product pushed to #{@store.name}." }
-        format.json { head :ok }
-      else
-        format.html { render action: "edit" }
-        format.json { render json: @product.errors, status: :unprocessable_entity }
-      end
-    end  	
-  end
-  
   # GET /products
   # GET /products.json
   def index
   	prod_per_page = 40
-  	@brand = "All"
   
-    if params[:brand_id]
+    if params[:brand_id] && params[:store_id]    	
+    	@brand = Brand.find(params[:brand_id])
+    	@store = Store.find(params[:store_id])
+    	@products = @store.products.where(:brand_id => params[:brand_id]).page(params[:page]).per(prod_per_page)
+    	@title = "#{@brand.name} Brand, #{@store.name} Store"    	
+    elsif params[:brand_id]
+			@brand = Brand.find(params[:brand_id])
     	@products = Product.where(:brand_id => params[:brand_id]).page(params[:page]).per(prod_per_page)
-    	@brand = Brand.find(params[:brand_id]).name
+    	@title = "#{@brand.name} Brand, All Stores"
+    elsif params[:store_id]
+    	@store = Store.find(params[:store_id])
+    	@products = @store.products.page(params[:page]).per(prod_per_page)
+    	@title = "All Brands, #{@store.name} Store"
+    elsif params[:vendor_id]
+    	@vendor = Vendor.find(params[:vendor_id])
+    	@products = @vendor.products.page(params[:page]).per(prod_per_page)
+    	@title = "All #{@vendor.name} Brands, All Stores"
     else
     	@products = Product.page(params[:page]).per(prod_per_page)
+    	@title = "All Brands, All Stores"
     end
     
-
     respond_to do |format|
       format.html # index.html.erb
       format.json { render json: @products }

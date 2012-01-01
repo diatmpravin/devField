@@ -8,24 +8,23 @@ gem 'aws-s3', :require => 'aws/s3'
 #gem 'aws-sdk'		# new version for paperclip
 #gem 'xml-simple'
 gem 'kaminari'	# pagination
+gem 'rmagick'
+gem 'mechanize'
 
 group :production do
 	gem 'pg'
 end
-
-gem 'rmagick'
 
 group :development, :test do
 	gem 'sqlite3'
 	gem 'ruby-debug-base19', "0.11.24"
 	gem 'ruby-debug19', "0.11.6"
 	gem 'heroku'
-  #gem 'rspec-rails'
+	gem 'factory_girl_rails'
 end
 
 #gem 'amazon-mws', :path => "/Ruby/fieldday/amazon-mws"
 gem 'amazon-mws', :git => 'git://github.com/adamwible/amazon-mws.git'
-gem 'mechanize'
 
 #gem 'RubyOmx', :path => "/Ruby/fieldday/RubyOmx"
 gem 'RubyOmx', :git => 'git://github.com/adamwible/RubyOmx.git'
@@ -67,6 +66,8 @@ gem 'jquery-rails'
 # gem 'ruby-debug19', :require => 'ruby-debug'
 
 group :test do
-  # Pretty printed test output
-  gem 'turn', '0.8.2',:require => false
+  gem 'turn', '0.8.2',:require => false	# Pretty printed test output
+	#gem 'rspec-rails'
+	#gem 'shoulda'
+	#gem 'fakeweb'  
 end

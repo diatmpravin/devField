@@ -8,6 +8,8 @@ include Magick
 
 class Vendor < ActiveRecord::Base
 	has_many :brands, :dependent => :destroy
+	has_many :products, :through => :brands
+	has_attached_file :icon, PAPERCLIP_STORAGE_OPTIONS
 	validates_uniqueness_of :name
 
 	BASE_URL = "http://www.mysafilo.com/"
@@ -15,14 +17,11 @@ class Vendor < ActiveRecord::Base
 	ZOOM_WIDTH = 320
 	SLEEP_AFTER_ITEM = 3
 	GET_IMAGES = 1
-	FILE_PREFIX = 'tmp/'
 	
 	@agent = nil
-	@cutoff_date = nil
+	attr_reader :agent
 
-	# add a field cutoff date
-	# chip images are 320x274
-
+	# Remove all products (permanently) from each brand under this vendor (presumably in prep for a new scrape)
 	def clear_products
 		self.brands.each do |b|
 			b.products.each do |p| 
@@ -30,7 +29,7 @@ class Vendor < ActiveRecord::Base
 			end
 		end
 	end
-
+	
 	def login
 		#TODO need to generalize this somehow, but how?
 		self.scraped_at = Time.now # TODO
@@ -86,10 +85,6 @@ class Vendor < ActiveRecord::Base
 						
 		# insert or update the base product into products
 		p = Product.find_or_create_by_brand_id_and_base_sku(brand.id, sku)
-		#puts p.updated_at
-		#if p.updated_at.nil?
-		#	puts "nil for #{p.sku}"
-		#end
 		updated = p.updated_at
 		if (updated.nil? || updated <= self.scraped_at)
 			p.name = product	
@@ -199,9 +194,10 @@ class Vendor < ActiveRecord::Base
 					combo_img.write(file.path)
 					#vi.image_content_type = combo_img.mime_type
 					#vi.image_file_size = combo_img.filesize
+					#vi.image_width = combo_img.columns
 					vi.image = file
 					vi.image.save
-					#vi.image_width = combo_img.columns
+					
 					vi.save!
 				end
 			end

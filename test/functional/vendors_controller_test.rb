@@ -2,7 +2,7 @@ require 'test_helper'
 
 class VendorsControllerTest < ActionController::TestCase
   setup do
-    @vendor = vendors(:safilo)
+    @vendor = Factory(:vendor)
     @vendor.name = "Luxottica"
   end
 

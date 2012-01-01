@@ -2,7 +2,7 @@ require 'test_helper'
 
 class VariantsControllerTest < ActionController::TestCase
   setup do
-    @variant = variants(:carrera_1_brown)
+    @variant = Factory(:variant)
     @variant.sku = 'unique_sku'
   end
 
