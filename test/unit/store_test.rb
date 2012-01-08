@@ -14,10 +14,11 @@ class StoreTest < ActiveSupport::TestCase
   end
   
   test "mws store should have valid connection and page size properties" do
-  	s = Factory.create(:store, :name => 'FieldDay')
+  	s = Factory.create(:store, :name => 'HDO')
+  	s = Store.find_by_name('HDO')
   	
   	# initialize connection
-  	assert_equal 'FieldDay', s.name
+  	assert_equal 'HDO', s.name
   	assert_equal 'MWS', s.store_type
 		assert_instance_of Amazon::MWS::Base, s.mws_connection
 		
@@ -85,6 +86,10 @@ class StoreTest < ActiveSupport::TestCase
 			assert_equal s, o2.store 
 			assert_equal 2, s.get_orders_missing_items.count
 		end
+	end
+
+	test "init_mws_connection should work" do
+		
 	end
 		
 end
