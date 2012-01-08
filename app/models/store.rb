@@ -51,9 +51,8 @@ class Store < ActiveRecord::Base
 		response_id = fetch_orders
 	end
 
-	private
 	def init_mws_connection
-		
+		logger.debug "in the init"	
 		if self.name=='HDO'
 			self.mws_connection = Amazon::MWS::Base.new(
 				"access_key"=>"AKIAIIPPIV2ZWUHDD5HA",
