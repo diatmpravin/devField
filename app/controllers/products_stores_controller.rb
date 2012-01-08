@@ -10,8 +10,8 @@ class ProductsStoresController < ApplicationController
         format.html { redirect_to @ps.product, notice: 'Product was successfully added to store.' }
         format.json { render json: @ps.product, status: :created, location: @ps.product }
       else
-        format.html { render action: "new" }
-        format.json { render json: @product.errors, status: :unprocessable_entity }
+        format.html { redirect_to @ps.product, notice: "Product could not be added to store: #{@ps.errors}." }
+        format.json { render json: @ps.errors, status: :unprocessable_entity }
       end
     end
   end
@@ -23,7 +23,7 @@ class ProductsStoresController < ApplicationController
     @ps.destroy
 
     respond_to do |format|
-      format.html { redirect_to products_url }
+      format.html { redirect_to products_url, notice: 'Product was successfully removed from store.'  }
       format.json { head :ok }
     end
   end

@@ -11,14 +11,16 @@
 	%td
 		= render product.variants
 	%td
-		- stores_arr = product.stores
-		- stores_arr.each do |s|
+		- product_stores_arr = product.products_stores
+		- product_stores_arr.each do |ps|
 			.pill
-				= link_to image_tag('delete.png') + "#{s.name}", s
+				-#= link_to image_tag('delete.png') + "#{s.name}", s
+				= link_to image_tag('delete.png', :title => 'Remove from store', :alt => 'X') + "#{ps.store.name}", ps, :confirm => 'Are you sure you want to remove this product from this store?', :method => :delete
 		%br
-		-#- stores_arr2 = Store.all.keep_if { |s| !stores_arr.include?(s) }
-		-#= form_tag('/posts', :method => :put)
-		-#= hidden_field_tag 'product_id', product.id
-		-#= select_tag 'store_id', options_from_collection_for_select(stores_arr2, 'id', 'name')
-		-#= submit_tag 'Add to'
-		-#%br
+		- stores_arr2 = Store.all.keep_if { |s| !product.stores.include?(s) }
+		- ps = ProductsStore.new(:product_id => product.id)
+		= form_for ps do |f|
+			= f.hidden_field :product_id
+			= f.collection_select(:store_id, stores_arr2, :id, :name)
+			= f.submit 'Add to'
+		%br

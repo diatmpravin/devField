@@ -1,11 +1,16 @@
 Fieldday::Application.routes.draw do
   resources :stores
   resources :vendors
-  resources :brands
+  resources :brands do
+  	member do
+  		put 'add_to_store'
+  		put 'remove_from_store'
+  	end
+  end
   resources :products
   resources :variants, :variant_images
   
-  #TODO resource :products_stores, :only => [:create, :delete]
+  resources :products_stores, :only => [:create, :destroy]
   
   resources :omx_requests, :only => [:show]
   resources :mws_requests, :only => [:show, :index]

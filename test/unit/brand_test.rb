@@ -35,13 +35,28 @@ class BrandTest < ActiveSupport::TestCase
 		#what to test here?
 	#end
 
-	#test "has zero or more products" do
-		#what to test here?
-	#end
-
 	test "has a vendor" do
 		b = Factory(:brand)
 		assert_instance_of Vendor, b.vendor, 'Brand does not have a valid parent vendor'
 	end
-   
+
+	test "add_to_store and remove_from_store should work" do
+		b = Factory(:brand)
+		p = Factory(:product, :brand => b)
+		p2 = Factory(:product, :brand => b)
+		s = Factory(:store, :store_type => 'MWS')
+		assert_difference('ProductsStore.count',2) do 
+			b.add_to_store(s)
+		end
+		assert_equal 1, p.stores.count
+		assert_equal 1, p2.stores.count
+		assert_equal 2, s.products.count
+		assert_difference('ProductsStore.count',-2) do 
+			b.remove_from_store(s)
+		end
+		assert_equal 0, p.reload.stores.count
+		assert_equal 0, p2.reload.stores.count
+		assert_equal 0, s.reload.products.count				
+	end
+
 end

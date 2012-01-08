@@ -36,24 +36,5 @@ class ProductTest < ActiveSupport::TestCase
 		assert p2.invalid?
 		assert p2.errors[:base_sku].any?
 	end
-	
-	test "add_to_store should work" do
-		p = Factory(:product)
-		s = Factory(:store)
-		assert_equal 0, s.products.count
-		assert_equal 0, p.stores.count
-		ps = p.add_to_store(s)
-		assert_instance_of ProductsStore, ps
-		assert_equal 1, s.reload.products.count
-		assert_equal 1, p.reload.stores.count
-		assert_equal p, s.products.first
-		assert_equal s, p.stores.first
-	end
-	
-	test "append_to_shopify should work" do
-		# how to stub the shopify response or just don't?
-		# make it for real and then delete it?
-		# TODO append to shopify test
-	end
-	
+			
 end

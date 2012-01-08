@@ -4,7 +4,10 @@ class BrandsControllerTest < ActionController::TestCase
 
   setup do
     @brand = Factory(:brand)
-    @brand.name = 'Carrera3'
+    @brand2 = Factory.build(:brand)
+    @store = Factory(:store, :store_type => 'MWS')
+    @product1 = Factory(:product, :brand => @brand)
+    @product2 = Factory(:product, :brand => @brand)
   end
 
   test "should get index" do
@@ -20,7 +23,7 @@ class BrandsControllerTest < ActionController::TestCase
 
   test "should create brand" do
     assert_difference('Brand.count') do
-      post :create, brand: @brand.attributes
+      post :create, brand: @brand2.attributes
     end
 
     assert_redirected_to brands_path
@@ -46,6 +49,16 @@ class BrandsControllerTest < ActionController::TestCase
       delete :destroy, id: @brand.to_param
     end
 
+    assert_redirected_to brands_path
+  end
+
+  test "should add brand to store" do
+    put :add_to_store, id: @brand.to_param, store_id: @store.to_param
+    assert_redirected_to brands_path
+  end
+  
+  test "should remove brand from store" do
+    put :remove_from_store, id: @brand.to_param, store_id: @store.to_param
     assert_redirected_to brands_path
   end
 end

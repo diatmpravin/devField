@@ -10,8 +10,8 @@ class ProductsControllerTest < ActionController::TestCase
     @product2 = Factory(:product, :brand => @brand)
     @product3 = Factory(:product, :brand => @brand2)
     @product4 = Factory.build(:product)
-    @product.add_to_store(@store)
-    @product3.add_to_store(@store)
+    @ps = Factory(:products_store, :product => @product, :store => @store)
+    @ps = Factory(:products_store, :product => @product3, :store => @store)
   end
 
   test "should get index" do
@@ -73,11 +73,6 @@ class ProductsControllerTest < ActionController::TestCase
     put :update, id: @product.to_param, product: @product.attributes
     assert_redirected_to product_path(assigns(:product))
   end
-
-  #test "should append product to external" do
-  #  put :to_external, id: @product.to_param, product: @product.attributes, store_id: @store.to_param
-  #  assert_redirected_to product_path(assigns(:product))
-  #end
 
   test "should destroy product" do
     assert_difference('Product.count', -1) do

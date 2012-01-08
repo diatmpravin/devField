@@ -74,7 +74,8 @@ class MwsOrderTest < ActiveSupport::TestCase
 	test "reprocess_order should work" do
 		s = Factory(:store, :name => 'FieldDay')
 		o = Factory(:mws_order, :store => s)		
-  	#o.reprocess_order # TODO what to assert?  Just needs to not return error?
+  	#o.reprocess_order
+  	#TODO what to assert?  Just needs to not return error?
 	end
 	
 	test "omx_responses relation and pushed_to_omx? should work" do
@@ -175,8 +176,8 @@ class MwsOrderTest < ActiveSupport::TestCase
 		assert_equal 'Wrapped', o.omx_gift_wrap_level		
 	end
 				
-	# TODO test append_to_omx
-	# TODO test process_order
-	# TODO test fetch_order_items
-	# TODO test process_order_item
+	#TODO test append_to_omx
+	#TODO test process_order
+	#TODO test fetch_order_items
+	#TODO test process_order_item
 end

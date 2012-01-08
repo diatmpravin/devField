@@ -20,24 +20,24 @@ FactoryGirl.define do
 		authenticated_url 'https://10631e6948f35b5f0e390c16c5b7c810:c9b2449f54de4b0ca0dbfb9ebd31ffc2@rippin-group7856.myshopify.com/admin'
 	end
 
-	factory :products_stores do
+	factory :products_store do
   	product { |a| a.association(:product) }
   	store { |a| a.association(:store) }
-	end	
+	end
 	
 	factory :variant do
 		product
-		color1 'Brown'
-		color2 'Metallic Green'
+		#color1 'Brown'
+		#color2 'Metallic Green'
 		sequence(:sku) { |n| "23423341-12327859-V045C-#{n}" }
-		cost_price 129.99
+		#cost_price 129.99
 	end
 	
 	factory :variant_image do
 		#include ActionDispatch::TestProcess
 		variant
 		image_width 400
-		unique_image_file_name '/test/fixtures/gift.png'
+		sequence(:unique_image_file_name) { |n| "/test/fixtures/gift-#{n}.png" }
 		#TODO paperclip_fixture("variant_image", "image", "png")
 		#image fixture_file_upload('/test/fixtures/gift.png', 'image/png')
 	end

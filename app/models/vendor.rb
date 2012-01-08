@@ -32,7 +32,7 @@ class Vendor < ActiveRecord::Base
 	
 	def login
 		#TODO need to generalize this somehow, but how?
-		self.scraped_at = Time.now # TODO
+		self.scraped_at = Time.now
 		@agent = Mechanize.new
 		@agent.get(BASE_URL+"pub/") #login_url
 		form = @agent.page.forms.first #form_number
