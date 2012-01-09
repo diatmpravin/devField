@@ -91,15 +91,17 @@ class MwsOrder < ActiveRecord::Base
 	def pushed_to_omx?
 		pushed = "Error"
 		if self.fulfillment_channel == "AFN"
-			return "N/A"
+			return 'N/A'
+		elsif (self.order_status != 'Unshipped' && self.order_status != 'PartiallyShipped')
+			return 'Shipped'
 		end
 		self.omx_responses.each do |resp|
 			if !resp.ordermotion_order_number.nil? && resp.ordermotion_order_number != ''
-				pushed = "Yes"
+				pushed = 'Yes'
 			elsif resp.error_data.nil? || resp.error_data == ''
-				pushed = "No"
+				pushed = 'No'
 			elsif !resp.error_data.match(/The provided Order ID has already been used for the provided store/).nil?
-				pushed = "Dup"
+				pushed = 'Dup'
 			end
 		end
 		return pushed
@@ -119,7 +121,7 @@ class MwsOrder < ActiveRecord::Base
 		return_code = fetch_order_items(mws_connection)
 
 		#TODO if reprocessing, use the update OMX API call rather than append
-		if get_item_quantity_missing == 0 && self.fulfillment_channel == "MFN" && (self.order_status == "Unshipped" || self.order_status == "PartiallyShipped")
+		if get_item_quantity_missing == 0 && self.fulfillment_channel == "MFN" && (self.order_status == 'Unshipped' || self.order_status == 'PartiallyShipped')
 			append_to_omx
 		end
 		return return_code

@@ -80,7 +80,7 @@ class MwsOrderTest < ActiveSupport::TestCase
 	
 	test "omx_responses relation and pushed_to_omx? should work" do
 		s = Factory(:store, :name => 'FieldDay')
-		o = Factory(:mws_order, :store => s)
+		o = Factory(:mws_order, :store => s, :order_status => 'Unshipped')
 		assert_equal 0, o.omx_responses.count
 		assert_equal "Error", o.pushed_to_omx?
 		
@@ -95,16 +95,20 @@ class MwsOrderTest < ActiveSupport::TestCase
 
 		resp.ordermotion_order_number = 'omx_order_number'
 		resp.save
-		assert_equal "Yes", o.reload.pushed_to_omx?
+		assert_equal 'Yes', o.reload.pushed_to_omx?
 		
 		resp.ordermotion_order_number = nil
 		resp.error_data = 'The provided Order ID has already been used for the provided store (Amazon.com MFN HDO).'
 		resp.save
-		assert_equal "Dup", o.reload.pushed_to_omx?
+		assert_equal 'Dup', o.reload.pushed_to_omx?
+
+		o.order_status = 'Shipped'
+		o.save
+		assert_equal 'Shipped', o.reload.pushed_to_omx?
 		
 		o.fulfillment_channel = 'AFN'
 		o.save
-		assert_equal "N/A", o.reload.pushed_to_omx?
+		assert_equal 'N/A', o.reload.pushed_to_omx?
 	end
 			
 	test "omx_first_name should work" do
