@@ -8,7 +8,7 @@ class Store < ActiveRecord::Base
 	has_many :products_stores
 	has_many :products, :through => :products_stores
 	has_attached_file :icon, PAPERCLIP_STORAGE_OPTIONS
-	before_validation :init_mws_connection
+	after_initialize :init_mws_connection
 	
 	validates_inclusion_of :store_type, :in => %w(MWS Shopify), :message => 'Invalid store type'
 	validates_uniqueness_of :name, :scope => [:store_type]
@@ -51,8 +51,7 @@ class Store < ActiveRecord::Base
 		response_id = fetch_orders
 	end
 
-	def init_mws_connection
-		logger.debug "in the init"	
+	def init_mws_connection	
 		if self.name=='HDO'
 			self.mws_connection = Amazon::MWS::Base.new(
 				"access_key"=>"AKIAIIPPIV2ZWUHDD5HA",
@@ -74,7 +73,7 @@ class Store < ActiveRecord::Base
  		else
  			self.mws_connection = "Error, no MWS connection defined for this store: #{self.name}"
  			logger.debug "Error, no MWS connection defined for this store"
- 		end	
+ 		end
 	end
 
 	def fetch_orders		
