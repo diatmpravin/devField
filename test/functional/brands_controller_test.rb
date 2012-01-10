@@ -14,6 +14,11 @@ class BrandsControllerTest < ActionController::TestCase
     get :index
     assert_response :success
     assert_not_nil assigns(:brands)
+	end
+	
+	test "should redirect to specific brand if name passed" do    
+    get :index, :name => @brand.name
+    assert_redirected_to @brand
   end
 
   test "should get new" do

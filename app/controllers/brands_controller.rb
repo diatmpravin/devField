@@ -6,10 +6,18 @@ class BrandsController < ApplicationController
   # GET /brands.json
   def index
     @brands = Brand.all
+    if params[:name]
+    	@brand = Brand.find_by_name(params[:name])
+    end
 
     respond_to do |format|
-      format.html # index.html.erb
-      format.json { render json: @brands }
+    	if @brand
+    		format.html { redirect_to @brand }
+    		format.json { render json: @brand }
+    	else
+	      format.html # index.html.erb
+      	format.json { render json: @brands }
+      end
     end
   end
 

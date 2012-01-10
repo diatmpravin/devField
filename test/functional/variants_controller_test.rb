@@ -3,13 +3,19 @@ require 'test_helper'
 class VariantsControllerTest < ActionController::TestCase
   setup do
     @variant = Factory(:variant)
-    @variant.sku = 'unique_sku'
+    #@variant.sku = 'unique_sku'
+    @variant2 = Factory.build(:variant)
   end
 
   test "should get index" do
     get :index
     assert_response :success
     assert_not_nil assigns(:variants)
+  end
+  
+  test "should redirect to specific variant if sku passed" do
+  	get :index, :sku => @variant.sku
+  	assert_redirected_to @variant
   end
 
   test "should get new" do
@@ -19,7 +25,7 @@ class VariantsControllerTest < ActionController::TestCase
 
   test "should create variant" do
     assert_difference('Variant.count') do
-      post :create, variant: @variant.attributes
+      post :create, variant: @variant2.attributes
     end
 
     assert_redirected_to variant_path(assigns(:variant))

@@ -7,7 +7,9 @@ class ProductsController < ApplicationController
   def index
   	prod_per_page = 40
   
-    if params[:brand_id] && params[:store_id]    	
+		if params[:base_sku] && params[:brand_id]
+			@product = Product.find_by_brand_id_and_base_sku(params[:brand_id], params[:base_sku])
+    elsif params[:brand_id] && params[:store_id]    	
     	@brand = Brand.find(params[:brand_id])
     	@store = Store.find(params[:store_id])
     	@products = @store.products.where(:brand_id => params[:brand_id]).page(params[:page]).per(prod_per_page)
@@ -30,8 +32,13 @@ class ProductsController < ApplicationController
     end
     
     respond_to do |format|
-      format.html # index.html.erb
-      format.json { render json: @products }
+    	if @product
+     		format.html { redirect_to @product }
+     		format.json { render json: @product }
+     	else
+      	format.html # index.html.erb
+      	format.json { render json: @products }
+      end
     end
   end
 

@@ -6,10 +6,18 @@ class VariantsController < ApplicationController
   # GET /variants.json
   def index
     @variants = Variant.all
+    if params[:sku]
+    	@variant = Variant.find_by_sku(params[:sku])
+    end
 
     respond_to do |format|
-      format.html # index.html.erb
-      format.json { render json: @variants }
+    	if @variant
+      	format.html { redirect_to @variant }
+      	format.json { render json: @variant }      
+     	else
+      	format.html # index.html.erb
+      	format.json { render json: @variants }
+      end
     end
   end
 

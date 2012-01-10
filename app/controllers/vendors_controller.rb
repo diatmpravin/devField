@@ -6,10 +6,18 @@ class VendorsController < ApplicationController
   # GET /vendors.json
   def index
     @vendors = Vendor.all
+    if params[:name]
+    	@vendor = Vendor.find_by_name(params[:name])
+    end    
 
     respond_to do |format|
-      format.html # index.html.erb
-      format.json { render json: @vendors }
+    	if @vendor
+      	format.html { redirect_to @vendor }
+      	format.json { render json: @vendor }
+     	else
+      	format.html # index.html.erb
+      	format.json { render json: @vendors }
+      end
     end
   end
 

@@ -3,13 +3,18 @@ require 'test_helper'
 class VendorsControllerTest < ActionController::TestCase
   setup do
     @vendor = Factory(:vendor)
-    @vendor.name = "Luxottica"
+    @vendor2 = Factory.build(:vendor)
   end
 
   test "should get index" do
     get :index
     assert_response :success
     assert_not_nil assigns(:vendors)
+  end
+  
+  test "should redirect to specific vendor if name passed" do
+    get :index, :name => @vendor.name
+    assert_redirected_to @vendor
   end
 
   test "should get new" do
@@ -19,7 +24,7 @@ class VendorsControllerTest < ActionController::TestCase
 
   test "should create vendor" do
     assert_difference('Vendor.count') do
-      post :create, vendor: @vendor.attributes
+      post :create, vendor: @vendor2.attributes
     end
 
     assert_redirected_to vendor_path(assigns(:vendor))

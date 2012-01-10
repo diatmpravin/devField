@@ -46,6 +46,11 @@ class ProductsControllerTest < ActionController::TestCase
     assert_select 'tr.product', 3
   end
 
+	test "should get specific product if base_sku and brand_id are passed" do
+		get :index, :base_sku => @product.base_sku, :brand_id => @product.brand_id
+		assert_redirected_to @product
+	end
+
   test "should get new" do
     get :new
     assert_response :success
