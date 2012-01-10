@@ -16,6 +16,11 @@ class VendorsControllerTest < ActionController::TestCase
     get :index, :name => @vendor.name
     assert_redirected_to @vendor
   end
+  
+  test "should get by_name" do
+  	get :by_name, :name => @vendor.name
+  	assert_redirected_to @vendor
+  end
 
   test "should get new" do
     get :new

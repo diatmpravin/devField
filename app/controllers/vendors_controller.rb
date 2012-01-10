@@ -2,8 +2,24 @@ class VendorsController < ApplicationController
 
 	skip_around_filter :shopify_session
 
+	def by_name    
+    if params[:name]
+    	@vendor = Vendor.find_by_name(params[:name])
+    end
+    respond_to do |format|
+    	if @vendor
+      	format.html { redirect_to @vendor }
+      	format.json { render json: @vendor }
+      else
+      	@vendors = Vendor.all
+      	format.html { redirect_to @vendors }
+      	format.json { render json: @vendors }
+      end
+		end
+	end
+	
   # GET /vendors
-  # GET /vendors.json
+  # GET /vendors.json?name=Luxottica
   def index
     @vendors = Vendor.all
     if params[:name]

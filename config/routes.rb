@@ -1,6 +1,8 @@
 Fieldday::Application.routes.draw do
   resources :stores
-  resources :vendors
+  resources :vendors do
+  	get 'by_name', :on => :collection
+  end
   resources :brands do
   	member do
   		put 'add_to_store'
