@@ -20,6 +20,11 @@ class VendorsControllerTest < ActionController::TestCase
   test "should get by_name" do
   	get :by_name, :name => @vendor.name
   	assert_redirected_to @vendor
+	end
+	
+	test "by_name should revert to index if no name is given" do
+		get :by_name
+    assert_redirected_to vendors_url
   end
 
   test "should get new" do

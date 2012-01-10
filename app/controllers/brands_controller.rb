@@ -1,6 +1,21 @@
 class BrandsController < ApplicationController
   
   skip_around_filter :shopify_session
+
+	def by_name    
+    if params[:name]
+    	@brand = Brand.find_by_name(params[:name])
+    end
+    respond_to do |format|
+    	if @brand
+      	format.html { redirect_to @brand }
+      	format.json { render json: @brand }
+      else
+      	format.html { redirect_to brands_url }
+      	format.json { head :ok }
+      end
+		end
+	end
     
   # GET /brands
   # GET /brands.json

@@ -1,6 +1,21 @@
 class ProductsController < ApplicationController
 
 	skip_around_filter :shopify_session
+
+	def by_base_sku_and_brand_id    
+    if params[:base_sku] && params[:brand_id]
+    	@product = Product.find_by_base_sku_and_brand_id(params[:base_sku], params[:brand_id])
+    end
+    respond_to do |format|
+    	if @product
+      	format.html { redirect_to @product }
+      	format.json { render json: @product }
+      else
+      	format.html { redirect_to products_url }
+      	format.json { head :ok }
+      end
+		end
+	end
   
   # GET /products
   # GET /products.json

@@ -51,6 +51,16 @@ class ProductsControllerTest < ActionController::TestCase
 		assert_redirected_to @product
 	end
 
+	test "should get by_base_sku_and_brand_id" do
+		get :by_base_sku_and_brand_id, :base_sku => @product.base_sku, :brand_id => @product.brand_id
+		assert_redirected_to @product
+	end
+
+	test "by_base_sku_and_brand_id should revert to index if no args are given" do
+		get :by_base_sku_and_brand_id
+		assert_redirected_to products_url
+	end
+
   test "should get new" do
     get :new
     assert_response :success

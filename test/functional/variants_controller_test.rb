@@ -18,6 +18,16 @@ class VariantsControllerTest < ActionController::TestCase
   	assert_redirected_to @variant
   end
 
+  test "should get by_sku" do
+  	get :by_sku, :sku => @variant.sku
+  	assert_redirected_to @variant
+  end
+
+  test "by_sku should revert to index if no sku is given" do
+  	get :by_sku
+  	assert_redirected_to variants_path
+  end
+
   test "should get new" do
     get :new
     assert_response :success

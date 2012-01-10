@@ -1,6 +1,21 @@
 class VariantsController < ApplicationController
 
 	skip_around_filter :shopify_session
+
+	def by_sku    
+    if params[:sku]
+    	@variant = Variant.find_by_sku(params[:sku])
+    end
+    respond_to do |format|
+    	if @variant
+      	format.html { redirect_to @variant }
+      	format.json { render json: @variant }
+      else
+      	format.html { redirect_to variants_url }
+      	format.json { head :ok }
+      end
+		end
+	end
 	
   # GET /variants
   # GET /variants.json

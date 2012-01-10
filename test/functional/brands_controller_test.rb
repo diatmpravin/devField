@@ -21,6 +21,16 @@ class BrandsControllerTest < ActionController::TestCase
     assert_redirected_to @brand
   end
 
+	test "should get by_name" do    
+    get :by_name, :name => @brand.name
+    assert_redirected_to @brand
+  end
+  
+  test "by_name should revert to index if no name is given" do  
+    get :by_name
+    assert_redirected_to brands_url    
+  end
+
   test "should get new" do
     get :new
     assert_response :success

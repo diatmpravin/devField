@@ -4,13 +4,19 @@ Fieldday::Application.routes.draw do
   	get 'by_name', :on => :collection
   end
   resources :brands do
+  	get 'by_name', :on => :collection
   	member do
   		put 'add_to_store'
   		put 'remove_from_store'
   	end
   end
-  resources :products
-  resources :variants, :variant_images
+  resources :products do
+  	get 'by_base_sku_and_brand_id', :on => :collection
+  end
+  
+  resources :variants, :variant_images do
+  	get 'by_sku', :on => :collection
+  end
   
   resources :products_stores, :only => [:create, :destroy]
   

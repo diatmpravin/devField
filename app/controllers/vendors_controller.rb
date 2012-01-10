@@ -11,9 +11,8 @@ class VendorsController < ApplicationController
       	format.html { redirect_to @vendor }
       	format.json { render json: @vendor }
       else
-      	@vendors = Vendor.all
-      	format.html { redirect_to @vendors }
-      	format.json { render json: @vendors }
+      	format.html { redirect_to vendors_url }
+      	format.json { head :ok }
       end
 		end
 	end
