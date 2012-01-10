@@ -12,7 +12,7 @@ class ProductsController < ApplicationController
       	format.json { render json: @product }
       else
       	format.html { redirect_to products_url }
-      	format.json { head :ok }
+      	format.json { render json: @product }
       end
 		end
 	end
