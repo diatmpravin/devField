@@ -10,6 +10,7 @@ gem 'aws-s3', :require => 'aws/s3'
 gem 'kaminari'	# pagination
 gem 'rmagick'
 gem 'mechanize'
+#gem 'mechanize', :git => 'git://github.com/caribio/mechanize.git'
 
 group :production do
 	gem 'pg'
@@ -21,6 +22,8 @@ group :development, :test do
 	gem 'ruby-debug19', "0.11.6"
 	gem 'heroku'
 	gem 'factory_girl_rails'
+	#gem 'watir'
+	gem 'watir-webdriver'
 end
 
 #gem 'amazon-mws', :path => "/Ruby/fieldday/amazon-mws"

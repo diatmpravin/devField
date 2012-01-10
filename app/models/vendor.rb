@@ -34,12 +34,27 @@ class Vendor < ActiveRecord::Base
 		#TODO need to generalize this somehow, but how?
 		self.scraped_at = Time.now
 		@agent = Mechanize.new
-		@agent.get(BASE_URL+"pub/") #login_url
-		form = @agent.page.forms.first #form_number
-		form.username = '125616500' #username
-		form.password = '6m4gyeqj' #password
-		form.submit
-		@agent.page.link_with(:text => "Our Brands").click #brand nexus url
+		@agent.get(self.login_url) #BASE_URL+"pub/") #login_url
+		if self.name == 'Safilo'
+			form = @agent.page.forms.first #form_number
+			form.username = self.username #'125616500'
+			form.password = self.password #'6m4gyeqj'
+			form.submit
+			@agent.page.link_with(:text => "Our Brands").click #brand nexus url
+		elsif self.name == 'Oakley'
+			form = @agent.page.forms.first #form_number
+			form.UserId = self.username #'19066'
+			form.nolog_password = self.password #'hdosport1'
+			form.submit
+		elsif self.name == 'Luxottica'
+			@agent = Watir::Browser
+			form = @agent.page.form(:name=>'Logon')
+			form.logonId = self.username
+			form.logonPassword = self.password
+			@agent.page.link_with(:text => 'Catalog').click
+			
+			
+		end
 	end
 	
 	def process_brands
@@ -52,8 +67,13 @@ class Vendor < ActiveRecord::Base
 	end
 	
 	def process_brand(b)
-		@agent.page.link_with(:text => b.name).click #link better be the brand name
-		@agent.page.link_with(:text => "View Collection").click # safilo specific...
+		if self.name == 'Safilo'
+			@agent.page.link_with(:text => b.name).click #link better be the brand name
+			@agent.page.link_with(:text => "View Collection").click # safilo specific...
+		elsif self.name == 'Oakley'
+		
+		end
+		
 		process_items_page(b)		
 	end
 

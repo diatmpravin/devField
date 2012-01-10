@@ -4,6 +4,8 @@
 		%br
 		%b= store.name
 		%br
+		%i= store.store_type
+		%br
 		= link_to "#{store.products.count} products", products_path(:store_id => store.id)
 		%br
 		= link_to 'Show', store

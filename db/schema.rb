@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120101160951) do
+ActiveRecord::Schema.define(:version => 20120109085030) do
 
   create_table "brands", :force => true do |t|
     t.string   "name"
@@ -277,6 +277,10 @@ ActiveRecord::Schema.define(:version => 20120101160951) do
     t.string   "icon_content_type"
     t.integer  "icon_file_size"
     t.datetime "icon_updated_at"
+    t.string   "base_url"
+    t.string   "login_url"
+    t.string   "username"
+    t.string   "password"
   end
 
 end

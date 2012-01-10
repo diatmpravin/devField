@@ -6,5 +6,13 @@
 	= @vendor.name
 
 %p
+	%b Base URL:
+	= link_to @vendor.base_url, @vendor.base_url
+	
+%p
+	%b Login URL:
+	= link_to @vendor.login_url, @vendor.login_url
+
+%p
 	= link_to 'Edit', edit_vendor_path(@vendor)
 	= link_to 'Back', vendors_path
