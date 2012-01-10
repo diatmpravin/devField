@@ -1,4 +1,6 @@
 class ProductsController < ApplicationController
+
+	skip_around_filter :shopify_session
   
   # GET /products
   # GET /products.json

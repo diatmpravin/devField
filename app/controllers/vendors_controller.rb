@@ -1,5 +1,7 @@
 class VendorsController < ApplicationController
 
+	skip_around_filter :shopify_session
+
   # GET /vendors
   # GET /vendors.json
   def index

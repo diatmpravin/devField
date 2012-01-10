@@ -1,4 +1,7 @@
 class VariantImagesController < ApplicationController
+
+	skip_around_filter :shopify_session
+	
   # GET /variant_images
   # GET /variant_images.json
   def index
