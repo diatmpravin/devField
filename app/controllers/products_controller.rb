@@ -12,7 +12,7 @@ class ProductsController < ApplicationController
       	format.json { render json: @product }
       else
       	format.html { redirect_to products_url }
-      	format.json { render json: @product }
+      	format.json { render :status => 404, :json => {:error => 'not found'} }
       end
 		end
 	end

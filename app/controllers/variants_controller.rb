@@ -12,7 +12,7 @@ class VariantsController < ApplicationController
       	format.json { render json: @variant }
       else
       	format.html { redirect_to variants_url }
-      	format.json { head :ok }
+      	format.json { render :status => 404, :json => {:error => 'not found'} }
       end
 		end
 	end

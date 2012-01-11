@@ -12,7 +12,7 @@ class VendorsController < ApplicationController
       	format.json { render json: @vendor }
       else
       	format.html { redirect_to vendors_url }
-      	format.json { head :ok }
+      	format.json { render :status => 404, :json => {:error => 'not found'} }
       end
 		end
 	end

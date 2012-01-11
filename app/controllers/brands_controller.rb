@@ -12,7 +12,7 @@ class BrandsController < ApplicationController
       	format.json { render json: @brand }
       else
       	format.html { redirect_to brands_url }
-      	format.json { head :ok }
+      	format.json { render :status => 404, :json => {:error => 'not found'} }
       end
 		end
 	end

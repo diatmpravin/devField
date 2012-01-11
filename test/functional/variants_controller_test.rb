@@ -3,7 +3,6 @@ require 'test_helper'
 class VariantsControllerTest < ActionController::TestCase
   setup do
     @variant = Factory(:variant)
-    #@variant.sku = 'unique_sku'
     @variant2 = Factory.build(:variant)
   end
 
@@ -21,11 +20,19 @@ class VariantsControllerTest < ActionController::TestCase
   test "should get by_sku" do
   	get :by_sku, :sku => @variant.sku
   	assert_redirected_to @variant
+  	
+  	get :by_sku, { :sku => @variant.sku, :format => :json }
+  	v = ActiveSupport::JSON.decode @response.body
+  	assert_equal @variant.sku, v['variant']['sku']
   end
 
-  test "by_sku should revert to index if no sku is given" do
+  test "by_sku should revert to index if no match" do
   	get :by_sku
   	assert_redirected_to variants_path
+  	
+  	get :by_sku, { :sku => 'different_sku', :format => :json }
+  	v = ActiveSupport::JSON.decode @response.body
+  	assert_equal 'not found', v['error']
   end
 
   test "should get new" do

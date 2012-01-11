@@ -24,11 +24,19 @@ class BrandsControllerTest < ActionController::TestCase
 	test "should get by_name" do    
     get :by_name, :name => @brand.name
     assert_redirected_to @brand
+    
+    get :by_name, { :name => @brand.name, :format => :json }
+    b = ActiveSupport::JSON.decode @response.body
+    assert_equal @brand.name, b['brand']['name']
   end
   
   test "by_name should revert to index if no name is given" do  
     get :by_name
-    assert_redirected_to brands_url    
+    assert_redirected_to brands_url
+    
+    get :by_name, { :name => 'different_name', :format => :json }
+    b = ActiveSupport::JSON.decode @response.body
+    assert_equal 'not found', b['error']    
   end
 
   test "should get new" do
