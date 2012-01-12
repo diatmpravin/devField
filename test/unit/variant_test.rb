@@ -47,7 +47,7 @@ class VariantTest < ActiveSupport::TestCase
 		v = Factory(:variant)
 		assert_equal nil, v.get_image_for_shopify(nil)
 		assert_equal nil, v.get_image_for_shopify(0)
-		vi = Factory(:variant_image, :variant => v, :image_file_name => 'blah')
+		vi = Factory(:variant_image, :variant => v, :image_file_name => 'blah', :image_width => 400)
 		temp1 = { :src => vi.image.url }
 		assert_equal temp1, v.reload.get_image_for_shopify(0)
 		vi2 = Factory(:variant_image, :variant => v, :image_file_name => 'blah2', :image_width => 320)

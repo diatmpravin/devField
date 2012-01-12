@@ -9,12 +9,14 @@ class VariantImageTest < ActiveSupport::TestCase
 		assert vi2.invalid?
 	end
 
-	test "image_width should be present and numeric" do
-		vi = Factory(:variant_image)
-		assert_equal 400, vi.image_width
-			
-		#TODO test that an image is attached and auto assigned
-		#TODO test that if there is an image_width provided, it's a number, and if not, it gets it from the file
+	test "image upload should work via remote URL" do
+		vi = Factory(:variant_image, :unique_image_file_name => 'http://cdn.shopify.com/s/files/1/0109/9112/t/4/assets/logo.png' )
+		assert vi.valid?
+		assert_equal 300, vi.image_width
+		assert_equal 7447, vi.image_file_size
+		assert_equal 'image/png', vi.image_content_type
+		assert_equal 'logo.png', vi.image_file_name
+		assert_equal 'http://cdn.shopify.com/s/files/1/0109/9112/t/4/assets/logo.png', vi.unique_image_file_name
 	end
 
 end
