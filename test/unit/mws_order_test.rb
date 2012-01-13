@@ -179,6 +179,47 @@ class MwsOrderTest < ActiveSupport::TestCase
 		assert_equal nil, o.omx_gift_message
 		assert_equal 'Wrapped', o.omx_gift_wrap_level		
 	end
+
+	test "search should work" do
+		o = Factory(:mws_order, :name => 'Carmichel')
+		oi = Factory(:mws_order_item, :mws_order => o, :title => 'Ray-Bans')
+		oi2 = Factory(:mws_order_item, :mws_order => o, :title => 'Ray-Bans')
+		o2 = Factory(:mws_order, :name => 'Carmichel')
+		oi3 = Factory(:mws_order_item, :mws_order => o2, :asin => 'Ray-ABC345')
+		o3 = Factory(:mws_order, :name => 'Nonsense')
+		
+		# search term matching a single order via two items
+		arr = MwsOrder.search('Ray-Ban')
+		assert_instance_of ActiveRecord::Relation, arr
+		assert_equal 1, arr.length
+		assert_equal o, arr[0]
+		
+		# search term partially matching 2 orders
+		arr = MwsOrder.search('Ray-')
+		assert_instance_of ActiveRecord::Relation, arr
+		assert_equal 2, arr.length
+		assert_equal [o,o2], arr
+
+		arr = MwsOrder.search('Carmichel')
+		assert_equal 2, arr.length
+		
+		# search term matching back half of string only matching 1 order
+		arr = MwsOrder.search('ABC')
+		assert_instance_of ActiveRecord::Relation, arr
+		assert_equal 1, arr.size
+		assert_equal o2, arr[0]
+		
+		# search term should not match any orders
+		arr = MwsOrder.search('xxx')
+		assert_instance_of ActiveRecord::Relation, arr
+		assert arr.empty?
+	
+		# no search term should return all 3 orders
+		arr = MwsOrder.search(nil)
+		assert_instance_of ActiveRecord::Relation, arr
+		assert_equal 3, arr.length
+
+	end
 				
 	#TODO test append_to_omx
 	#TODO test process_order

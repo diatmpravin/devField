@@ -77,7 +77,7 @@
 		%tr.total
 			%td
 			%td
-			%td.num= (@mws_order.number_of_items_shipped + @mws_order.number_of_items_unshipped)
+			%td.num= @mws_order.get_item_quantity_ordered
 			%td.num= @mws_order.number_of_items_unshipped
 			%td.num= number_to_currency(@mws_order.get_item_price, :precision => 2)
 			%td.num= number_to_currency(@mws_order.get_ship_price, :precision => 2)

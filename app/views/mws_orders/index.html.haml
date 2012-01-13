@@ -1,6 +1,11 @@
 = paginate @mws_orders
 %br
 
+= form_tag mws_orders_path, :method => 'get' do
+	%p
+		= text_field_tag :search, @search
+		= submit_tag :search, :name => nil	
+
 %h1="Listing Orders Received From Amazon"
 
 %table
@@ -30,7 +35,7 @@
 			%td= mws_order.city
 			%td= mws_order.omx_state
 			%td= mws_order.country_code
-			%td= mws_order.number_of_items_unshipped
+			%td= mws_order.get_item_quantity_ordered
 			%td
 				- missing = mws_order.get_item_quantity_missing 
 				- if missing > 0

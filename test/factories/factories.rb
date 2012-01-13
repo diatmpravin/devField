@@ -71,5 +71,9 @@ FactoryGirl.define do
 	factory :omx_response do
 		omx_request
 	end
+
+  factory :variant_update do
+    variant
+  end
 	
 end

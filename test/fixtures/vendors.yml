@@ -1,9 +1,0 @@
-# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
-
-safilo:
-  name: Safilo
-  scraped_at: nil
-
-oakley:
-  name: Oakley
-  scraped_at: nil

@@ -11,4 +11,14 @@ class MwsHelper
 			return obj_hash
 	end
 	
+	def self.search_helper(fields, search)
+		clauses = Array.new
+		bind_vars = Array.new
+		fields.each do |f|
+			clauses << "#{f} LIKE ?"
+			bind_vars << "%#{search}%"
+		end
+		bind_vars.unshift(clauses.join(' OR '))
+	end
+	
 end

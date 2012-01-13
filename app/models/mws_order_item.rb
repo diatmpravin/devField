@@ -9,6 +9,16 @@ class MwsOrderItem < ActiveRecord::Base
 	validates_presence_of :clean_sku
 	validates :item_price, :item_tax, :promotion_discount, :shipping_price, :shipping_tax, :shipping_discount, :gift_price, :gift_tax, :numericality => { :only_integer => false, :greater_than_or_equal_to => 0 }
 	validates :quantity_ordered, :quantity_shipped, :numericality => { :only_integer => true, :greater_than_or_equal_to => 0 }
+
+	# searches order items BUT returns an ActiveRecord association of the mws_orders associated with the matched mws_order_items
+	def self.search(search)
+		if search
+			fields = [ 'asin', 'clean_sku', 'title'] 
+			select("mws_order_id").where(MwsHelper::search_helper(fields, search)).group('mws_order_id')
+		else
+			where(1)
+		end
+	end
 		
 	def set_shipped
 		self.quantity_shipped = self.quantity_ordered

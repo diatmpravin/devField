@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120109085030) do
+ActiveRecord::Schema.define(:version => 20120112072311) do
 
   create_table "brands", :force => true do |t|
     t.string   "name"
@@ -237,6 +237,15 @@ ActiveRecord::Schema.define(:version => 20120109085030) do
 
   add_index "variant_images", ["unique_image_file_name"], :name => "index_variant_images_on_unique_image_file_name"
   add_index "variant_images", ["variant_id"], :name => "index_variant_images_on_variant_id"
+
+  create_table "variant_updates", :force => true do |t|
+    t.integer  "variant_id"
+    t.float    "price"
+    t.float    "cost_price"
+    t.string   "availability"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "variants", :force => true do |t|
     t.integer  "product_id"
