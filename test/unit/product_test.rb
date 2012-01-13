@@ -37,4 +37,40 @@ class ProductTest < ActiveSupport::TestCase
 		assert p2.errors[:base_sku].any?
 	end
 			
+	test "search should work" do
+		p = Factory(:product, :name => 'Carmichel')
+		v = Factory(:variant, :product => p, :upc => 'Ray-Bans')
+		v2 = Factory(:variant, :product => p, :upc => 'Ray-Bans')
+		p2 = Factory(:product, :name => 'Carmichel')
+		v3 = Factory(:variant, :product => p2, :sku => 'Ray-ABC345')
+		p3 = Factory(:product, :name => 'Nonsense')
+		
+		# search term matching a single order via two items
+		arr = Product.search('Ray-Ban')
+		assert_instance_of ActiveRecord::Relation, arr
+		assert_equal 1, arr.length
+		assert_equal p, arr[0]
+		
+		# search term partially matching 2 orders
+		arr = Product.search('Ray-')
+		assert_instance_of ActiveRecord::Relation, arr
+		assert_equal 2, arr.length
+		assert_equal [p, p2], arr
+
+		arr = Product.search('Carmichel')
+		assert_equal 2, arr.length
+		
+		# search term matching back half of string only matching 1 order
+		arr = Product.search('ABC')
+		assert_instance_of ActiveRecord::Relation, arr
+		assert_equal 1, arr.size
+		assert_equal p2, arr[0]
+		
+		# search term should not match any orders
+		arr = Product.search('xxx')
+		assert_instance_of ActiveRecord::Relation, arr
+		assert arr.empty?
+	
+	end
+				
 end

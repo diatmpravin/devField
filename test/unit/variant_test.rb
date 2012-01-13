@@ -55,5 +55,38 @@ class VariantTest < ActiveSupport::TestCase
 		assert_equal temp1, v.reload.get_image_for_shopify(0)
 		assert_equal temp2, v.reload.get_image_for_shopify(1)
 	end
+
+	test "search should work" do
+		p = Factory(:product)
+		v = Factory(:variant, :product => p, :upc => 'Ray-Bans')
+		v2 = Factory(:variant, :product => p, :upc => 'Ray-Bans')
+		p2 = Factory(:product)
+		v3 = Factory(:variant, :product => p2, :upc => 'Ray-ABC345')
+		p3 = Factory(:product)
+
+		# search term partially matching 2 orders
+		arr = Variant.search('Ray-')
+		assert_equal 2, arr.length
+		assert_instance_of ActiveRecord::Relation, arr
+		assert_equal v.product_id, arr[0].product_id
+		assert_equal v3.product_id, arr[1].product_id
+		
+		# search term matching a single order via two items
+		arr = Variant.search('Ray-Ban')
+		assert_instance_of ActiveRecord::Relation, arr
+		assert_equal v.product_id, arr[0].product_id
+		assert_equal 1, arr.length
+		
+		# search term matching back half of string only matching 1 order
+		arr = Variant.search('ABC')
+		assert_instance_of ActiveRecord::Relation, arr
+		assert_equal v3.product_id, arr[0].product_id
+		assert_equal 1, arr.length
+		
+		# search term should not match any orders
+		arr = Variant.search('xxx')
+		assert_instance_of ActiveRecord::Relation, arr
+		assert arr.empty?
+	end
 	
 end

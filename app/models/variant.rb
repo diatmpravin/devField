@@ -5,6 +5,12 @@ class Variant < ActiveRecord::Base
 	has_many :mws_order_items, :class_name => 'MwsOrderItem', :foreign_key => 'clean_sku', :primary_key => 'sku'
 	
 	validates_uniqueness_of :sku
+
+	# searches variants BUT returns an ActiveRecord association of the products associated with the matched variants
+	def self.search(search)
+		fields = [ 'sku', 'upc', 'size', 'color1', 'color2','color1_code','color2_code','availability', 'amazon_product_name', 'amazon_product_id', 'amazon_product_description' ] 
+		select('product_id').where(MwsHelper::search_helper(fields, search)).group('product_id')
+	end
 	
 	def get_style
 		color1 = self.color1.nil? ? '' : self.color1.strip

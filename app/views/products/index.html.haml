@@ -1,5 +1,11 @@
 
 = paginate @products
+
+= form_tag products_path, :method => 'get' do
+	%p
+		= text_field_tag :search, @search
+		= submit_tag :search, :name => nil
+
 %br
 %h1= "Showing Products: #{@title}"
 %table.whole

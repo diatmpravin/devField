@@ -29,5 +29,19 @@ class Product < ActiveRecord::Base
 	validates :name, :presence => true
 	validates_presence_of :brand_id
 	validates_uniqueness_of :base_sku, :scope => [:brand_id]
+
+	def self.search(search)
+		# get sub_matches from order_items
+		o1 = Variant.search(search).collect { |v| v.product_id }
+		
+		# get direct matches at order level
+		# TODO searching a brand won't work here
+		fields = [ 'name', 'description', 'meta_description', 'meta_keywords', 'base_sku', 'category' ]
+		bind_vars = MwsHelper::search_helper(fields, search)
+		o2 = select('id').where(bind_vars).collect { |p| p.id }
+			
+		# combine the two arrays of IDs and remove duplicates, and return all relevant records
+		where(:id => o1 | o2)
+	end
 	
 end
