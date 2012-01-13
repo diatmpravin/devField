@@ -15,8 +15,8 @@ class MwsHelper
 		clauses = Array.new
 		bind_vars = Array.new
 		fields.each do |f|
-			clauses << "#{f} LIKE ?"
-			bind_vars << "%#{search}%"
+			clauses << "UPPER(#{f}) LIKE ?"
+			bind_vars << "%#{search.upcase}%"
 		end
 		bind_vars.unshift(clauses.join(' OR '))
 	end
