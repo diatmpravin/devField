@@ -1,0 +1,45 @@
+= form_for(@product) do |f|
+	- if @product.errors.any?
+		#error_explanation
+			%h2= pluralize(@product.errors.count, "error") + " prohibited this product from being saved:"
+
+			%ul
+				- @product.errors.full_messages.each do |msg|
+					%li= msg
+
+	.field
+		= f.label :name
+		= f.text_field :name
+
+	.field
+		= f.label :brand_id
+		= f.collection_select(:brand_id, Brand.all, :id, :name)
+
+	.field
+		= f.label :base_sku
+		= f.text_field :base_sku
+
+	.field
+		= f.label :category
+		= f.text_field :category
+
+	.field
+		= f.label :available_on
+		= f.datetime_select :available_on
+  
+	.field
+		= f.label :description
+		%br
+		= f.text_area :description
+    
+	.field
+		= f.label :meta_description
+		%br
+		= f.text_area :meta_description
+  
+	.field
+		= f.label :meta_keywords
+		= f.text_field :meta_keywords
+    
+	.actions
+		= f.submit

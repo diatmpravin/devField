@@ -210,14 +210,14 @@ class MwsOrderTest < ActiveSupport::TestCase
 		assert_equal o2, arr[0]
 		
 		# search term should not match any orders
-		#arr = MwsOrder.search('xxx')
-		#assert_instance_of ActiveRecord::Relation, arr
-		#assert arr.empty?
+		arr = MwsOrder.search('xxx')
+		assert_instance_of ActiveRecord::Relation, arr
+		assert arr.empty?
 	
 		# no search term should return all 3 orders
-		arr = MwsOrder.search(nil)
-		assert_instance_of ActiveRecord::Relation, arr
-		assert_equal 3, arr.length
+		#arr = MwsOrder.search(nil)
+		#assert_instance_of ActiveRecord::Relation, arr
+		#assert_equal 3, arr.length
 
 	end
 				

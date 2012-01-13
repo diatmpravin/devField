@@ -8,8 +8,8 @@ gem 'aws-s3', :require => 'aws/s3'
 #gem 'aws-sdk'		# new version for paperclip
 #gem 'xml-simple'
 gem 'kaminari'	# pagination
-gem 'rmagick'
-gem 'mechanize'
+#gem 'rmagick'
+#gem 'mechanize'
 #gem 'mechanize', :git => 'git://github.com/caribio/mechanize.git'
 
 group :production do

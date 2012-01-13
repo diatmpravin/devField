@@ -1,0 +1,72 @@
+= form_for(@variant) do |f|
+	- if @variant.errors.any?
+		#error_explanation
+			%h2= pluralize(@variant.errors.count, "error") + " prohibited this variant from being saved:"
+
+			%ul
+				- @variant.errors.full_messages.each do |msg|
+					%li= msg
+	
+	.field	
+		= "Product: #{@variant.product.name}"
+		= f.hidden_field :product_id
+	.field
+		= f.label :sku
+		= f.text_field :sku
+	.field
+		= f.label :upc
+		= f.text_field :upc		
+	.field
+		= f.label :price
+		= f.text_field :price
+	.field
+		= f.label :cost_price
+		= f.text_field :cost_price
+	.field
+		= f.label :weight
+		= f.text_field :weight
+	.field
+		= f.label :height
+		= f.text_field :height
+	.field
+		= f.label :width
+		= f.text_field :width
+	.field
+		= f.label :depth
+		= f.text_field :depth
+	.field
+		= f.label :size
+		= f.text_field :size
+	.field
+		= f.label :color1
+		= f.text_field :color1
+	.field
+		= f.label :color1_code
+		= f.text_field :color1_code
+	.field
+		= f.label :color2
+		= f.text_field :color2
+	.field
+		= f.label :color2_code
+		= f.text_field :color2_code
+	.field
+		= f.label :availability
+		= f.text_field :availability
+	.field
+		= f.label :is_master
+		= f.check_box :is_master
+	.field
+		= f.label :position 
+		= f.number_field :position
+	.field
+		= f.label :amazon_product_id
+		= f.text_field :amazon_product_id
+	.field
+		= f.label :amazon_product_name
+		= f.text_field :amazon_product_name
+	.field
+		= f.label :amazon_product_description
+		%br
+		= f.text_area :amazon_product_description
+	.actions
+		= f.submit

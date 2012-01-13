@@ -27,13 +27,13 @@ class VendorTest < ActiveSupport::TestCase
 		end
 	end
 
-	test "login should assign a mechanize object" do
-		v = Factory(:vendor, :login_url => 'https://1242.ovault.com/oakb2b/b2b/init.do', :name => 'Oakley')
-		v.login
-		assert_not_nil v.agent
-		assert_instance_of Mechanize, v.agent
+	#test "login should assign a mechanize object" do
+	#	v = Factory(:vendor, :login_url => 'https://1242.ovault.com/oakb2b/b2b/init.do', :name => 'Oakley')
+	#	v.login
+	#	assert_not_nil v.agent
+	#	assert_instance_of Mechanize, v.agent
 		# assert that the URL equals the brand nexus URL?
-	end
+	#end
 
 	#process_brands
 	#process_brand(b)

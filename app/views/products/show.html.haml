@@ -2,9 +2,19 @@
 %p
 	%b Name:
 	= @product.name
+
+%p
+	%b Brand:
+	= @product.brand.name
+
 %p
 	%b Base SKU:
-	= @product.base_sku	
+	= @product.base_sku
+
+%p
+	%b Category:
+	= @product.category
+	
 %p
 	%b Description:
 	= @product.description
@@ -24,5 +34,6 @@
 -#	= f.select(:store_id, Store.all.collect {|s| [ s.name, s.id ] })
 -#	= f.submit "Push to Shopify"
 
+= link_to 'Add Variant', new_variant_path(:product_id => @product.id)
 = link_to 'Edit', edit_product_path(@product)
 = link_to 'Back', products_path

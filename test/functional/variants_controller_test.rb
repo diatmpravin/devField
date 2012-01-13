@@ -2,7 +2,8 @@ require 'test_helper'
 
 class VariantsControllerTest < ActionController::TestCase
   setup do
-    @variant = Factory(:variant)
+    @product = Factory(:product)
+    @variant = Factory(:variant, :product => @product)
     @variant2 = Factory.build(:variant)
   end
 
@@ -36,7 +37,7 @@ class VariantsControllerTest < ActionController::TestCase
   end
 
   test "should get new" do
-    get :new
+    get :new, :product_id => @product.id
     assert_response :success
   end
 

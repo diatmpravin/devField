@@ -51,6 +51,7 @@ class VariantsController < ApplicationController
   # GET /variants/new.json
   def new
     @variant = Variant.new
+    @variant.product_id = params[:product_id]
 
     respond_to do |format|
       format.html # new.html.erb

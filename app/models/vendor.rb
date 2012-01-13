@@ -1,5 +1,5 @@
-require 'RMagick'
-include Magick
+#require 'RMagick'
+#include Magick
 
 # find a way to slow this down so it doesn't time out, OR CATCH TIMEOUT EXCEPTION AND SLEEP THEN RESTART
 # find a way to have it pick up where it left off - remember what page it was on, or continue flipping until finding the last product
@@ -12,6 +12,7 @@ class Vendor < ActiveRecord::Base
 	has_attached_file :icon, PAPERCLIP_STORAGE_OPTIONS
 	validates_uniqueness_of :name
 
+=begin
 	BASE_URL = "http://www.mysafilo.com/"
 	BASE_WIDTH = 400
 	ZOOM_WIDTH = 320
@@ -20,6 +21,7 @@ class Vendor < ActiveRecord::Base
 	
 	@agent = nil
 	attr_reader :agent
+=end
 
 	# Remove all products (permanently) from each brand under this vendor (presumably in prep for a new scrape)
 	def clear_products
@@ -29,7 +31,8 @@ class Vendor < ActiveRecord::Base
 			end
 		end
 	end
-	
+
+=begin	
 	def login
 		#TODO need to generalize this somehow, but how?
 		self.scraped_at = Time.now
@@ -222,5 +225,6 @@ class Vendor < ActiveRecord::Base
 				end
 			end
 	end
+=end
 	
 end
