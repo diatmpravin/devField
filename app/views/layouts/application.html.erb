@@ -22,12 +22,13 @@
   <div id="container" class="clearfix">
     <ul id="tabs">
       <%= tab :index, {:controller => '/home'}, :label => 'Home' %>
-      <%= tab :stores, {:controller => '/mws_requests', :action => 'index'}, :label => 'Amazon Requests' %>
-      <%= tab :stores, {:controller => '/mws_orders', :action => 'index'}, :label => 'Amazon Orders' %>
+      <%= tab :mws_requests, {:controller => '/mws_requests', :action => 'index'}, :label => 'Amazon Requests' %>
+      <%= tab :mws_orders, {:controller => '/mws_orders', :action => 'index'}, :label => 'Amazon Orders' %>
       <%= tab :stores, {:controller => '/stores', :action => 'index'}, :label => 'Stores' %>
-      <%= tab :stores, {:controller => '/vendors', :action => 'index'}, :label => 'Vendors' %>
-      <%= tab :stores, {:controller => '/brands', :action => 'index'}, :label => 'Brands' %>
-      <%= tab :stores, {:controller => '/products', :action => 'index'}, :label => 'Products' %>
+      <%= tab :vendors, {:controller => '/vendors', :action => 'index'}, :label => 'Vendors' %>
+      <%= tab :brands, {:controller => '/brands', :action => 'index'}, :label => 'Brands' %>
+      <%= tab :products, {:controller => '/products', :action => 'index'}, :label => 'Products' %>
+      <%= tab :states, {:controller => '/states', :action => 'index'}, :label => 'State Abbrevs' %>
     </ul>
     
     <!-- Flash error & notice-->

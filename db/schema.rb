@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120112072311) do
+ActiveRecord::Schema.define(:version => 20120114032031) do
 
   create_table "brands", :force => true do |t|
     t.string   "name"
@@ -192,6 +192,13 @@ ActiveRecord::Schema.define(:version => 20120112072311) do
     t.integer  "store_id"
     t.string   "handle"
     t.string   "foreign_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "states", :force => true do |t|
+    t.string   "raw_state"
+    t.string   "clean_state"
     t.datetime "created_at"
     t.datetime "updated_at"
   end

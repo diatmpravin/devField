@@ -1,0 +1,21 @@
+<h1>Listing states</h1>
+
+<%= link_to 'Add State Abbreviation Mapping', new_state_path %>
+
+<table>
+  <tr>
+    <th>Raw state</th>
+    <th>Clean state</th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @states.each do |state| %>
+  <tr>
+    <td><%= state.raw_state %></td>
+    <td><%= state.clean_state %></td>
+    <td><%= link_to 'Edit', edit_state_path(state) %></td>
+    <td><%= link_to 'Destroy', state, confirm: 'Are you sure?', method: :delete %></td>
+  </tr>
+<% end %>
+</table>

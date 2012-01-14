@@ -1,4 +1,5 @@
 Fieldday::Application.routes.draw do
+  resources :states
   resources :stores
   resources :vendors do
   	get 'by_name', :on => :collection

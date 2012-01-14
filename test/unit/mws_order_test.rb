@@ -148,6 +148,7 @@ class MwsOrderTest < ActiveSupport::TestCase
 
 	test "omx_state should work" do
 		o = Factory(:mws_order)
+		s = Factory(:state, :raw_state => 'Pennsylvania', :clean_state => 'PA')
 		assert_equal nil, o.omx_state
 		o.state_or_region = 'Not In The List'
 		assert_equal 'Not In The List', o.omx_state

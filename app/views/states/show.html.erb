@@ -1,0 +1,15 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>Raw state:</b>
+  <%= @state.raw_state %>
+</p>
+
+<p>
+  <b>Clean state:</b>
+  <%= @state.clean_state %>
+</p>
+
+
+<%= link_to 'Edit', edit_state_path(@state) %> |
+<%= link_to 'Back', states_path %>

@@ -75,5 +75,10 @@ FactoryGirl.define do
   factory :variant_update do
     variant
   end
+
+  factory :state do
+    sequence(:raw_state) { |n| "Pennsylvania-#{n}" }
+    clean_state "PA"
+  end
 	
 end
