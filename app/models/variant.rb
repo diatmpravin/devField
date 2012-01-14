@@ -23,8 +23,12 @@ class Variant < ActiveRecord::Base
 		elsif b == 'Dolce & Gabbana' 	#DD8039-502-73 vs. 0DD8089-501/8G-5916
 			# tricky as there are two versions
 			# 0DD1176-814-5217 > DD1176-675-52, DD2192-338 doesn't have size at all, DD3034-154413 same
-			#return "#{p.base_sku}-#{v.color1_code}-#{v.size[0,2]}"
-			return "#{p.base_sku}-#{self.color1_code.gsub(/\//,'-')}-#{self.size[0,2]}"			
+			# if there is a / in the color1_code, then don't include the size, otherwise do
+			if self.color1_code.include '/'
+				return "#{p.base_sku}-#{self.color1_code.gsub(/\//,'-')}"
+			else
+				return "#{p.base_sku}-#{self.color1_code}-#{self.size[0,2]}"
+			end			
 		elsif b == 'Ray-Ban'
 			return "#{p.base_sku}-#{self.color1_code}-#{self.size[0,2]}"							#RB3025-13
 		else
