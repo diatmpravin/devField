@@ -12,22 +12,23 @@ class Variant < ActiveRecord::Base
 	#end
 
 	def get_clean_sku
-		b = self.product.brand.name
+		p = self.product
+		b = p.brand.name
 		if b == 'Vogue' 							#VO2648-1437-49
-			return "#{p.base_sku}-#{v.color1_code}-#{v.size[0,2]}"
+			return "#{p.base_sku}-#{self.color1_code}-#{self.size[0,2]}"
 		elsif b == 'Polo'							#PH3042-900171
-			return "#{p.base_sku}-#{v.color1_code}"
+			return "#{p.base_sku}-#{self.color1_code}"
 		elsif b == 'Ralph'						#RA4004-10313-59
-			return "#{p.base_sku}-#{v.color1_code.gsub(/\//,'')}-#{v.size[0,2]}"
+			return "#{p.base_sku}-#{self.color1_code.gsub(/\//,'')}-#{self.size[0,2]}"
 		elsif b == 'Dolce & Gabbana' 	#DD8039-502-73 vs. 0DD8089-501/8G-5916
 			# tricky as there are two versions
 			# 0DD1176-814-5217 > DD1176-675-52, DD2192-338 doesn't have size at all, DD3034-154413 same
 			#return "#{p.base_sku}-#{v.color1_code}-#{v.size[0,2]}"
-			return "#{p.base_sku}-#{v.color1_code.gsub(/\//,'-')}-#{v.size[0,2]}"			
+			return "#{p.base_sku}-#{self.color1_code.gsub(/\//,'-')}-#{self.size[0,2]}"			
 		elsif b == 'Ray-Ban'
-			return v.sku								#RB3025-13
+			return "#{p.base_sku}-#{self.color1_code}-#{self.size[0,2]}"							#RB3025-13
 		else
-			return v.sku
+			return self.sku
 		end
 	end
 
