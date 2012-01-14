@@ -24,7 +24,7 @@ class Variant < ActiveRecord::Base
 			# tricky as there are two versions
 			# 0DD1176-814-5217 > DD1176-675-52, DD2192-338 doesn't have size at all, DD3034-154413 same
 			# if there is a / in the color1_code, then don't include the size, otherwise do
-			if self.color1_code.include '/'
+			if self.color1_code.include? '/'
 				return "#{p.base_sku}-#{self.color1_code.gsub(/\//,'-')}"
 			else
 				return "#{p.base_sku}-#{self.color1_code}-#{self.size[0,2]}"
