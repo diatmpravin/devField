@@ -2,7 +2,7 @@ require 'open-uri'
 
 class VariantImage < ActiveRecord::Base
 	belongs_to :variant
-	has_attached_file :image, PAPERCLIP_STORAGE_OPTIONS
+	has_attached_file :image, PAPERCLIP_STORAGE_OPTIONS.merge({:path => "/:class/:attachment/:id/:style/:filename"})
 	before_validation :prep_paperclip
 	
 	validates_uniqueness_of :unique_image_file_name, :scope => [:variant_id]
