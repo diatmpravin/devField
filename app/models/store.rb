@@ -7,7 +7,7 @@ class Store < ActiveRecord::Base
 	has_many :mws_order_items, :through => :mws_orders
 	has_many :products_stores
 	has_many :products, :through => :products_stores
-	has_attached_file :icon, PAPERCLIP_STORAGE_OPTIONS
+	has_attached_file :icon, PAPERCLIP_STORAGE_OPTIONS.merge({:path => "/:class/:attachment/:id/:style/:filename"})
 	after_initialize :init_mws_connection
 	
 	validates_inclusion_of :store_type, :in => %w(MWS Shopify), :message => 'Invalid store type'

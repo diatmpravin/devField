@@ -156,6 +156,16 @@ class MwsOrderTest < ActiveSupport::TestCase
 		assert_equal 'PA', o.omx_state
 	end
 
+	test "omx_country should work" do
+		o = Factory(:mws_order)
+		s = Factory(:state, :raw_state => 'GB', :clean_state => 'UK')
+		assert_equal nil, o.omx_country
+		o.country_code = 'Not In The List'
+		assert_equal 'Not In The List', o.omx_country
+		o.country_code = 'GB'
+		assert_equal 'UK', o.omx_country
+	end
+
 	test "omx_gift_wrap etc should work" do
 		o = Factory(:mws_order)
 		assert_equal nil, o.omx_gift_wrap_level
