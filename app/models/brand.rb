@@ -6,12 +6,19 @@ class Brand < ActiveRecord::Base
 	validates_uniqueness_of :name
 	validates_numericality_of :default_markup, { :only_integer => false, :greater_than => 0 }
 
-	def revise_skus
+	def revise_base_skus
 		self.products.each do |p|
-			p.base_sku = p.base_sku[1,p.base_sku.length-1]
-			p.save
+			if self.name == 'Juicy Couture' || self.name == 'Polo' || self.name == 'Ralph' || self.name == 'Dolce & Gabbana' || self.name == 'Ray-Ban'
+				p.base_sku = p.base_sku[1,p.base_sku.length-1]
+				p.save
+			end
+		end
+	end
+	
+	def revise_variant_skus
+		self.products.each do |p|			
 			p.variants.each do |v|
-				v.sku = v.sku[1,v.sku.length-3]
+				v.sku = v.get_clean_sku
 				v.save
 			end
 		end
