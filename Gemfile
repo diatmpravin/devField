@@ -3,7 +3,7 @@ gem 'rails', '3.1.3'
 
 # Bundle edge Rails instead:
 # gem 'rails',     :git => 'git://github.com/rails/rails.git'
-gem 'paperclip'
+gem 'paperclip', "~>2.4.5"
 gem 'aws-s3', :require => 'aws/s3'
 #gem 'aws-sdk'		# new version for paperclip
 #gem 'xml-simple'
