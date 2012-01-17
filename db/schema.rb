@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120114032031) do
+ActiveRecord::Schema.define(:version => 20120117113147) do
 
   create_table "brands", :force => true do |t|
     t.string   "name"
@@ -228,6 +228,16 @@ ActiveRecord::Schema.define(:version => 20120114032031) do
     t.string   "icon_content_type"
     t.integer  "icon_file_size"
     t.datetime "icon_updated_at"
+  end
+
+  create_table "sub_variants", :force => true do |t|
+    t.integer  "variant_id"
+    t.string   "sku"
+    t.string   "size"
+    t.string   "availability"
+    t.string   "upc"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "variant_images", :force => true do |t|

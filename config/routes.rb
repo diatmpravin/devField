@@ -18,6 +18,10 @@ Fieldday::Application.routes.draw do
   resources :variants, :variant_images do
   	get 'by_sku', :on => :collection
   end
+
+  resources :sub_variants do
+  	get 'by_sku', :on => :collection
+  end
   
   resources :products_stores, :only => [:create, :destroy]
   

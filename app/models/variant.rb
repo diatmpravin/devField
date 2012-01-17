@@ -2,6 +2,7 @@ class Variant < ActiveRecord::Base
 	belongs_to :product
 	#delegate_belongs_to :product, :name, :description, :available_on, :meta_description, :meta_keywords
 	has_many :variant_images, :dependent => :destroy
+	has_many :sub_variants, :dependent => :destroy
 	has_many :mws_order_items, :class_name => 'MwsOrderItem', :foreign_key => 'clean_sku', :primary_key => 'sku'
 	
 	validates_uniqueness_of :sku
@@ -16,7 +17,8 @@ class Variant < ActiveRecord::Base
 		b = p.brand.name
 		if b == 'Vogue' 							#VO2648-1437-49
 			return "#{p.base_sku}-#{self.color1_code}-#{self.size[0,2]}"
-		elsif b == 'Polo'							#PH3042-900171
+		elsif b == 'Polo'							#PH3042-900171, PH2053-5003-54
+			# if there is only 1 size for the product, then leave it off, otherwise keep it on
 			return "#{p.base_sku}-#{self.color1_code}"
 		elsif b == 'Ralph'						#RA4004-10313-59
 			return "#{p.base_sku}-#{self.color1_code.gsub(/\//,'')}-#{self.size[0,2]}"
@@ -24,11 +26,12 @@ class Variant < ActiveRecord::Base
 			# tricky as there are two versions
 			# 0DD1176-814-5217 > DD1176-675-52, DD2192-338 doesn't have size at all, DD3034-154413 same
 			# if there is a / in the color1_code, then don't include the size, otherwise do
-			if self.color1_code.include? '/'
-				return "#{p.base_sku}-#{self.color1_code.gsub(/\//,'-')}"
-			else
-				return "#{p.base_sku}-#{self.color1_code}-#{self.size[0,2]}"
-			end			
+			# order 4694 has DD2192-338, no slash and yet no size
+			#if self.color1_code.include? '/'
+			return "#{p.base_sku}-#{self.color1_code.gsub(/\//,'-')}"
+			#else
+			#	return "#{p.base_sku}-#{self.color1_code}-#{self.size[0,2]}"
+			#end			
 		elsif b == 'Ray-Ban'
 			return "#{p.base_sku}-#{self.color1_code}-#{self.size[0,2]}"							#RB3025-13
 		else

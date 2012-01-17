@@ -80,5 +80,10 @@ FactoryGirl.define do
     sequence(:raw_state) { |n| "Pennsylvania-#{n}" }
     clean_state "PA"
   end
+
+  factory :sub_variant do
+    variant
+    sequence(:sku) { |n| "sku-#{n}" }
+  end
 	
 end

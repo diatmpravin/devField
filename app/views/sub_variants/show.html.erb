@@ -1,0 +1,30 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>Variant:</b>
+  <%= @sub_variant.variant_id %>
+</p>
+
+<p>
+  <b>Sku:</b>
+  <%= @sub_variant.sku %>
+</p>
+
+<p>
+  <b>Upc:</b>
+  <%= @sub_variant.upc %>
+</p>
+
+<p>
+  <b>Size:</b>
+  <%= @sub_variant.size %>
+</p>
+
+<p>
+  <b>Availability:</b>
+  <%= @sub_variant.availability %>
+</p>
+
+
+<%= link_to 'Edit', edit_sub_variant_path(@sub_variant) %> |
+<%= link_to 'Back', sub_variants_path %>
