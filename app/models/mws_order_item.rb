@@ -1,7 +1,9 @@
 class MwsOrderItem < ActiveRecord::Base
 	belongs_to :mws_order
 	belongs_to :mws_response
+	belongs_to :product, :foreign_key => 'clean_sku', :primary_key => 'base_sku'
 	belongs_to :variant, :foreign_key => 'clean_sku', :primary_key => 'sku'
+	belongs_to :sub_variant, :foreign_key => 'clean_sku', :primary_key => 'sku'
 	before_validation :save_clean_sku, :zero_missing_numbers
 	
 	validates_uniqueness_of :amazon_order_item_id
@@ -97,6 +99,19 @@ class MwsOrderItem < ActiveRecord::Base
 #		response = omx_connection.get_item_info(:raw_xml => 0, :item_code => self.clean_sku)
 #		return response
 #	end	
+
+	# returns either a product, variant, or sub_variant depending on what is available
+	def get_catalog_match
+		if !self.sub_variant.nil?
+			return self.sub_variant
+		elsif !self.variant.nil?
+			return self.variant
+		elsif !self.product.nil?
+			return self.product
+		else
+			return SkuMapping.get_catalog_match(self.clean_sku)
+		end
+	end
 
 	protected
 	def save_clean_sku

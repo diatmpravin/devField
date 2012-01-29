@@ -2,9 +2,9 @@
 	-#%td= mws_order_item.asin
 	-#%td= mws_order_item.amazon_order_item_id
 	-#- variant = Variant.find_by_sku(mws_order_item.clean_sku)
-	- variant = mws_order_item.variant
-	- if !variant.nil?
-		%td= link_to(mws_order_item.clean_sku,variant)
+	- x = mws_order_item.get_catalog_match
+	- if !x.nil?
+		%td= link_to(mws_order_item.clean_sku,x)
 	- else
 		%td= mws_order_item.clean_sku
 	%td= truncate(mws_order_item.title, :length => 100)

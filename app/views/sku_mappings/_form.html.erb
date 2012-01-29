@@ -1,0 +1,29 @@
+<%= form_for(@sku_mapping) do |f| %>
+  <% if @sku_mapping.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@sku_mapping.errors.count, "error") %> prohibited this sku_mapping from being saved:</h2>
+
+      <ul>
+      <% @sku_mapping.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :sku %><br />
+    <%= f.text_field :sku %>
+  </div>
+  <div class="field">
+    <%= f.label :granularity %><br />
+    <%= f.text_field :granularity %>
+  </div>
+  <div class="field">
+    <%= f.label :foreign_id %><br />
+    <%= f.number_field :foreign_id %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

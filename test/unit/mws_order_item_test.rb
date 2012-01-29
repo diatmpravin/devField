@@ -126,5 +126,24 @@ class MwsOrderItemTest < ActiveSupport::TestCase
 		assert_instance_of ActiveRecord::Relation, arr
 		assert arr.empty?
 	end
+
+	test "get_catalog_match should work" do
+		
+		oi = Factory(:mws_order_item)
+		p = Factory(:product, :base_sku=>oi.clean_sku) 
+		assert_equal p, oi.get_catalog_match
+		
+		v = Factory(:variant, :product=>p, :sku=>p.base_sku+'apple')
+		oi2 = Factory(:mws_order_item,:seller_sku=>v.sku)
+		assert_equal v, oi2.get_catalog_match
+		
+		sv = Factory(:sub_variant, :variant=>v, :sku=>v.sku+'orange')
+		oi3 = Factory(:mws_order_item, :seller_sku=>sv.sku)
+		assert_equal sv, oi3.get_catalog_match
+		
+		oi4 = Factory(:mws_order_item, :seller_sku=>'unique_seller_sku')
+		assert_nil oi4.get_catalog_match
+
+	end
 	
 end

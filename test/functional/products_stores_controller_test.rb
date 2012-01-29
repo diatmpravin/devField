@@ -13,6 +13,12 @@ class ProductsStoresControllerTest < ActionController::TestCase
     assert_difference('ProductsStore.count') do
       post :create, products_store: @ps.attributes
     end
+    
+    #TODO delete created product to avoid collecting too many in test store
+    #assert_difference('ProductsStore.count',-1) do    
+    #	delete :destroy, id: @ps.to_param
+    #end
+    
 		#TODO assert_redirected_to product_path(assigns(:product))
   end
 

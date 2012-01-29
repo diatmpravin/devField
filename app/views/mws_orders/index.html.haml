@@ -1,10 +1,11 @@
 = paginate @mws_orders
 %br
 
-= form_tag mws_orders_path, :method => 'get' do
-	%p
-		= text_field_tag :search, @search
-		= submit_tag :search, :name => nil	
+.right
+	= form_tag mws_orders_path, :method => 'get' do
+		%p
+			= text_field_tag :search, @search
+			= submit_tag :search, :name => nil	
 
 %h1="Listing Orders Received From Amazon"
 

@@ -1,4 +1,6 @@
 Fieldday::Application.routes.draw do
+  resources :sku_mappings
+
   resources :states
   resources :stores
   resources :vendors do

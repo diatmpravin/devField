@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120119134145) do
+ActiveRecord::Schema.define(:version => 20120129171253) do
 
   create_table "brands", :force => true do |t|
     t.string   "name"
@@ -204,6 +204,16 @@ ActiveRecord::Schema.define(:version => 20120119134145) do
     t.datetime "created_at"
     t.datetime "updated_at"
   end
+
+  create_table "sku_mappings", :force => true do |t|
+    t.string   "sku"
+    t.string   "granularity"
+    t.integer  "foreign_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "sku_mappings", ["sku"], :name => "index_sku_mappings_on_sku", :unique => true
 
   create_table "states", :force => true do |t|
     t.string   "raw_state"

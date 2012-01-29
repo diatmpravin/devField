@@ -7,6 +7,7 @@ class Variant < ActiveRecord::Base
 	
 	validates_uniqueness_of :sku
 	after_create :set_default_master
+	after_create :save_sku_mappings
 	around_destroy :product_master_succession
 	#before_update :register_changes
 
@@ -46,8 +47,21 @@ class Variant < ActiveRecord::Base
 		self.save
 	end
 
-	def get_clean_sku
+	def save_sku_mappings
 		p = self.product
+		if !p.base_sku.nil? && !self.color1_code.nil?
+			if !self.size.nil? && self.size.length>=2
+				SkuMapping.create(:sku=>"#{p.base_sku}-#{self.color1_code}-#{self.size[0,2]}",:granularity=>'variant',:foreign_id=>self.id)
+				SkuMapping.create(:sku=>"#{p.base_sku}-#{self.color1_code.gsub(/\//,'')}-#{self.size[0,2]}",:granularity=>'variant',:foreign_id=>self.id)
+				SkuMapping.create(:sku=>"#{p.base_sku}-#{self.color1_code}-#{self.size[0,2]}",:granularity=>'variant',:foreign_id=>self.id)
+			end
+			SkuMapping.create(:sku=>"#{p.base_sku}-#{self.color1_code}",:granularity=>'variant',:foreign_id=>self.id)
+			SkuMapping.create(:sku=>"#{p.base_sku}-#{self.color1_code.gsub(/\//,'-')}",:granularity=>'variant',:foreign_id=>self.id)
+		end
+	end
+
+	def get_clean_sku
+		p = self.product		
 		b = p.brand.name
 		if b == 'Vogue' 							#VO2648-1437-49
 			return "#{p.base_sku}-#{self.color1_code}-#{self.size[0,2]}"

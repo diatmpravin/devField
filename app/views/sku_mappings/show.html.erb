@@ -1,0 +1,20 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>Sku:</b>
+  <%= @sku_mapping.sku %>
+</p>
+
+<p>
+  <b>Granularity:</b>
+  <%= @sku_mapping.granularity %>
+</p>
+
+<p>
+  <b>Foreign:</b>
+  <%= @sku_mapping.foreign_id %>
+</p>
+
+
+<%= link_to 'Edit', edit_sku_mapping_path(@sku_mapping) %> |
+<%= link_to 'Back', sku_mappings_path %>

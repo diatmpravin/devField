@@ -3,6 +3,7 @@ class Product < ActiveRecord::Base
 	has_many :products_stores
 	has_many :stores, :through => :products_stores
 	has_many :variants, :dependent => :destroy
+	has_many :mws_order_items, :class_name => 'MwsOrderItem', :foreign_key => 'clean_sku', :primary_key => 'base_sku'	
 	validates_associated :brand
 
   has_one :master, :class_name => 'Variant',

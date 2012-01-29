@@ -1,0 +1,27 @@
+<h1>Listing sku_mappings</h1>
+
+<table>
+  <tr>
+    <th>Sku</th>
+    <th>Granularity</th>
+    <th>Foreign</th>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @sku_mappings.each do |sku_mapping| %>
+  <tr>
+    <td><%= sku_mapping.sku %></td>
+    <td><%= sku_mapping.granularity %></td>
+    <td><%= sku_mapping.foreign_id %></td>
+    <td><%= link_to 'Show', sku_mapping %></td>
+    <td><%= link_to 'Edit', edit_sku_mapping_path(sku_mapping) %></td>
+    <td><%= link_to 'Destroy', sku_mapping, confirm: 'Are you sure?', method: :delete %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New Sku mapping', new_sku_mapping_path %>
