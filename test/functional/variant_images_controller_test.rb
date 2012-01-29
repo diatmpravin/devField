@@ -22,7 +22,7 @@ class VariantImagesControllerTest < ActionController::TestCase
       post :create, variant_image: @variant_image.attributes
     end
 
-    assert_redirected_to variant_image_path(assigns(:variant_image))
+    assert_redirected_to variant_path(assigns(:variant))
   end
 
   test "should show variant_image" do
@@ -37,7 +37,7 @@ class VariantImagesControllerTest < ActionController::TestCase
 
   test "should update variant_image" do
     put :update, id: @variant_image.to_param, variant_image: @variant_image.attributes
-    assert_redirected_to variant_image_path(assigns(:variant_image))
+    assert_redirected_to variant_image_path(assigns(:variant))
   end
 
   test "should destroy variant_image" do

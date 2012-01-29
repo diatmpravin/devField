@@ -54,7 +54,7 @@ class VariantImagesController < ApplicationController
 
     respond_to do |format|
       if @variant_image.save
-        format.html { redirect_to @variant_image, notice: 'Variant image was successfully created.' }
+        format.html { redirect_to @variant, notice: 'Variant image was successfully created.' }
         format.json { render json: @variant_image, status: :created, location: @variant_image }
       else
         format.html { render action: "new" }

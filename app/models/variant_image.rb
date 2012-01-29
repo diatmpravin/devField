@@ -4,14 +4,14 @@ require 'open-uri'
 
 class VariantImage < ActiveRecord::Base
 	belongs_to :variant
-	has_attached_file :image, PAPERCLIP_STORAGE_OPTIONS.merge({:styles => { :thumb => "x30" }, :path => "/:class/:attachment/:id/:style/:filename"})
+	has_attached_file :image, PAPERCLIP_STORAGE_OPTIONS.merge({:styles => { :thumb => "x30" }})
 	before_validation :prep_paperclip
 	validates_uniqueness_of :unique_image_file_name, :scope => [:variant_id]
 	validates_numericality_of :image_width
 
 	def self.reprocess_all
 		VariantImage.all.each do |vi|
-			vi.image.reprocess!
+			vi.image.reprocess! if vi.image
 		end
 	end
 

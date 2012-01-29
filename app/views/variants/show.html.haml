@@ -1,20 +1,26 @@
-= link_to(image_tag(@variant.product.brand.icon),products_path(:brand_id => @variant.product.brand.id))
-%br
-%b= link_to "#{@variant.product.brand.name} #{@variant.product.name}", @variant.product
-.images_right
-	= render :partial => '/variant_images/variant_image', :collection => @variant.variant_images
-	= link_to "Add Image", new_variant_image_path(:variant_id => @variant.to_param)
-%p= "SKU: #{@variant.sku}"
-%p= "UPC: #{@variant.upc}"
-%p= "Cost: $#{@variant.cost_price}"
-%p= "Size: #{@variant.size}"
-%p= "Color1: #{@variant.color1} (#{@variant.color1_code})"
-%p= "Color2: #{@variant.color2} (#{@variant.color2_code})"
-%p= "Availability: #{@variant.availability}"
-%p= "Master?: #{@variant.is_master}"
+.pane
+	= link_to(image_tag(@variant.product.brand.icon),products_path(:brand_id => @variant.product.brand.id))
+	%br
+	%b= link_to "#{@variant.product.brand.name} #{@variant.product.name}", @variant.product
+	%p= "SKU: #{@variant.sku}"
+	%p= "UPC: #{@variant.upc}"
+	%p= "Cost: $#{@variant.cost_price}"
+	%p= "Size: #{@variant.size}"
+	%p= "Color1: #{@variant.color1} (#{@variant.color1_code})"
+	%p= "Color2: #{@variant.color2} (#{@variant.color2_code})"
+	%p= "Availability: #{@variant.availability}"
+	%p= "Master?: #{@variant.is_master}"
+	
+	%p= "Amazon Product ID: #{@variant.amazon_product_id}"
+	%p
+		= link_to 'Edit', edit_variant_path(@variant)
+		= link_to 'Back', @variant.product
+	%p
+		= "Sub Variants"
+		%br
+		- @variant.sub_variants.each do |sv|
+			= link_to "#{sv.size} ", sv
 
-%p= "Product Properties: #{@variant.product.meta_keywords}"
-%p= "Amazon Product ID: #{@variant.amazon_product_id}"
-%p
-	= link_to 'Edit', edit_variant_path(@variant)
-	= link_to 'Back', variants_path
+.pane
+	= render :partial => '/variant_images/variant_image', :collection => @variant.variant_images, :locals => { :style => nil }
+	= link_to "Add Image", new_variant_image_path(:variant_id => @variant.to_param)

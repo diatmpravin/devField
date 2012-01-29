@@ -19,31 +19,31 @@ class ProductsControllerTest < ActionController::TestCase
     get :index
     assert_response :success
     assert_not_nil assigns(:products)
-    assert_select 'tr.product', 3
+    assert_select 'div.product', 3
     
     # only 2 products are for same store
     get :index, :store_id => @store.id
     assert_response :success
     assert_not_nil assigns(:products)
-    assert_select 'tr.product', 2
+    assert_select 'div.product', 2
     
     # only 2 products are for the given brand
     get :index, :brand_id => @brand.id
     assert_response :success
     assert_not_nil assigns(:products)
-    assert_select 'tr.product', 2
+    assert_select 'div.product', 2
     
     # only 1 product for this combination of brand and store
     get :index, :brand_id => @brand.id, :store_id => @store.id
     assert_response :success
     assert_not_nil assigns(:products)
-    assert_select 'tr.product', 1
+    assert_select 'div.product', 1
     
     # 3 products across 2 brands for this vendor
     get :index, :vendor_id => @vendor.id
     assert_response :success
     assert_not_nil assigns(:products)
-    assert_select 'tr.product', 3
+    assert_select 'div.product', 3
   end
 
 	test "should get specific product if base_sku and brand_id are passed" do

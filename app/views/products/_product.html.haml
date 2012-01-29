@@ -1,26 +1,26 @@
-- variants_arr = product.variants
-%tr.product
-	%td
-		= image_tag product.brand.icon, :width => 100
-		%br
-		%b= product.name
-		%br
-		= link_to 'Show', product
-		= link_to 'Edit', edit_product_path(product)
-		= link_to 'Destroy', product, confirm: 'Are you sure?', method: :delete
-	%td
-		= render product.variants
-	%td
-		- product_stores_arr = product.products_stores
-		- product_stores_arr.each do |ps|
-			.pill
-				-#= link_to image_tag('delete.png') + "#{s.name}", s
-				= link_to image_tag('delete.png', :title => 'Remove from store', :alt => 'X') + "#{ps.store.name}", ps, :confirm => 'Are you sure you want to remove this product from this store?', :method => :delete
-		%br
-		- stores_arr2 = Store.all.keep_if { |s| !product.stores.include?(s) }
-		- ps = ProductsStore.new(:product_id => product.id)
-		= form_for ps do |f|
-			= f.hidden_field :product_id
-			= f.collection_select(:store_id, stores_arr2, :id, :name)
-			= f.submit 'Add to'
-		%br
+-#- variants_arr = product.variants
+.product
+	%div
+		= image_tag product.brand.icon(:thumb)
+		- if !product.master.nil?
+			= link_to image_tag(product.master.variant_images.first.image(:thumb)), product
+	%div
+		= link_to "#{product.name} [#{product.variants.count}]", product
+	%div
+		%input{:type=>"checkbox", :name=>"product_ids", :value=>product.id}
+		= link_to image_tag('page_edit.png', :title=>'Edit Product', :alt=>'E'), edit_product_path(product)
+		= link_to image_tag('delete.png', :title=>'Delete Product', :alt=>'X'), product, confirm: 'Are you sure?', method: :delete
+	-#%td
+	-#	- product_stores_arr = product.products_stores
+	-#	- product_stores_arr.each do |ps|
+	-#		.pill
+	-#			-#= link_to image_tag('delete.png') + "#{s.name}", s
+	-#			= link_to image_tag('delete.png', :title => 'Remove from store', :alt => 'X') + "#{ps.store.name}", ps, :confirm => 'Are you sure you want to remove this product from this store?', :method => :delete
+	-#	%br
+	-#	- stores_arr2 = Store.all.keep_if { |s| !product.stores.include?(s) }
+	-#	- ps = ProductsStore.new(:product_id => product.id)
+	-#	= form_for ps do |f|
+	-#		= f.hidden_field :product_id
+	-#		= f.collection_select(:store_id, stores_arr2, :id, :name)
+	-#		= f.submit 'Add to'
+	-#	%br

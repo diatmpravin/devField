@@ -1,39 +1,40 @@
-%p=link_to image_tag(@product.brand.icon), products_path(:brand_id => @product.brand.id)
-%p
-	%b Name:
-	= @product.name
-
-%p
-	%b Brand:
-	= @product.brand.name
-
-%p
-	%b Base SKU:
-	= @product.base_sku
-
-%p
-	%b Category:
-	= @product.category
+.pane
+	%p=link_to image_tag(@product.brand.icon), products_path(:brand_id => @product.brand.id)
 	
-%p
-	%b Description:
-	= @product.description
+	%p
+		%b Name:
+		= @product.name
 
-%p
-	%b Meta Keywords:
-	= @product.meta_keywords
+	%p
+		%b Base SKU:
+		= @product.base_sku
 
-%p
-	%b Available on:
-	= @product.available_on
-%p
-	%b Variants
-	= render @product.variants
+	%p
+		%b Category:
+		= @product.category
+		
+	%p
+		%b Description:
+		= @product.description
+	
+	%p
+		%b Meta Keywords:
+		= @product.meta_keywords
+	
+	%p
+		%b Available on:
+		= @product.available_on
 
--#= form_for(@product) do |f|
+	= link_to 'Edit', edit_product_path(@product)
+	= link_to 'Back', products_path
+
+.pane
+	%p
+		%b Variants
+		= render @product.variants
+	
+	-#= form_for(@product) do |f|
 -#	= f.select(:store_id, Store.all.collect {|s| [ s.name, s.id ] })
 -#	= f.submit "Push to Shopify"
 
-= link_to 'Add Variant', new_variant_path(:product_id => @product.id)
-= link_to 'Edit', edit_product_path(@product)
-= link_to 'Back', products_path
+	= link_to 'Add Variant', new_variant_path(:product_id => @product.id)

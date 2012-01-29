@@ -6,6 +6,15 @@ tr.product > td { border-bottom: 1px solid #DDDDDD; }
 tr.product td:first-child { text-align: center; }
 tr.product > td > img { clear:both; float:none; }
 
+div.right { float:right; }
+div.left { float:left; }
+
+div.product { float:left; width: 180px; }
+div.product div { clear:left; margin: 4px 0px; }
+div.product div input { float:left; margin-right:10px;  }
+div.product a { text-decoration:none; }
+div.pane { width: 45%; float:left;}
+
 div.pill {
   background: #AAA;
   text-align: center;  

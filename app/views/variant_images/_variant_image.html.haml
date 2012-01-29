@@ -1,1 +1,4 @@
-=link_to(image_tag(variant_image.image.url, :height => height||='', :alt => variant_image.variant.sku, :title => variant_image.variant.sku), variant_image)
+- if style.nil?
+	=link_to(image_tag(variant_image.image.url, :alt => variant_image.variant.sku, :title => variant_image.variant.sku), variant_image)
+- elsif style=='thumb'
+	=link_to(image_tag(variant_image.image.url(:thumb), :alt => variant_image.variant.sku, :title => variant_image.variant.sku), variant_image)
