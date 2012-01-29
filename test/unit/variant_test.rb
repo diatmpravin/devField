@@ -11,6 +11,41 @@ class VariantTest < ActiveSupport::TestCase
 		assert v2.invalid?
 	end
 	
+	test "should be one master" do
+		p = Factory(:product)
+		v = Factory(:variant, :product => p)
+		assert_equal true, v.is_master
+		assert_equal v, p.reload.master
+		
+		v2 = Factory(:variant, :product => p)
+		
+		# First ID inserted should be the default master
+		assert_equal v.id, p.reload.master.id
+		assert_equal true, v.is_master
+		assert_equal false, v2.is_master
+		
+		# adding another variant should not change that
+		v3 = Factory(:variant, :product => p)
+		assert_equal false, v3.is_master
+		
+		# destroying the master variant should assign the next as master
+		assert_difference 'Variant.count', -1 do
+			v.destroy
+		end
+		assert_equal true, v2.reload.is_master
+		v3.reload.set_as_master
+		assert_equal false, v2.reload.is_master
+		assert_equal true, v3.reload.is_master
+		v2.set_as_master
+		assert_equal true, v2.reload.is_master
+		assert_equal false, v3.reload.is_master		
+		v3.set_as_master
+		assert_equal false, v2.reload.is_master
+		assert_equal true, v3.reload.is_master		
+		v3.destroy
+		assert_equal true, v2.reload.is_master
+	end
+	
 	test "mws_order_items association should work" do
 		v = Factory(:variant, :sku => 'ABCDEFG')
 		assert_equal 0, v.mws_order_items.count

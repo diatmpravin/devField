@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120117113147) do
+ActiveRecord::Schema.define(:version => 20120119134145) do
 
   create_table "brands", :force => true do |t|
     t.string   "name"
@@ -112,6 +112,7 @@ ActiveRecord::Schema.define(:version => 20120117113147) do
 
   add_index "mws_orders", ["amazon_order_id"], :name => "index_mws_orders_on_amazon_order_id"
   add_index "mws_orders", ["mws_response_id"], :name => "index_mws_orders_on_mws_response_id"
+  add_index "mws_orders", ["purchase_date"], :name => "index_mws_orders_on_purchase_date"
   add_index "mws_orders", ["store_id"], :name => "index_mws_orders_on_store_id"
 
   create_table "mws_requests", :force => true do |t|
@@ -181,6 +182,14 @@ ActiveRecord::Schema.define(:version => 20120117113147) do
     t.datetime "updated_at"
     t.string   "base_sku"
     t.string   "category",         :default => "Sunglasses"
+    t.string   "product_type",     :default => "Accessory"
+    t.string   "variation_theme",  :default => "Color"
+    t.string   "department"
+    t.datetime "file_date"
+    t.string   "amazon_template"
+    t.text     "keywords"
+    t.text     "keywords2"
+    t.text     "keywords3"
   end
 
   add_index "products", ["base_sku"], :name => "index_products_on_base_sku"
@@ -202,6 +211,8 @@ ActiveRecord::Schema.define(:version => 20120117113147) do
     t.datetime "created_at"
     t.datetime "updated_at"
   end
+
+  add_index "states", ["raw_state"], :name => "index_states_on_raw_state"
 
   create_table "store_products", :force => true do |t|
     t.integer  "store_id"
@@ -238,6 +249,8 @@ ActiveRecord::Schema.define(:version => 20120117113147) do
     t.string   "upc"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.text     "asin"
+    t.text     "size_code"
   end
 
   create_table "variant_images", :force => true do |t|
@@ -288,6 +301,11 @@ ActiveRecord::Schema.define(:version => 20120117113147) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "upc"
+    t.float    "sale_price"
+    t.float    "msrp"
+    t.string   "currency"
+    t.integer  "leadtime_to_ship"
+    t.text     "asin"
   end
 
   add_index "variants", ["amazon_product_id"], :name => "index_variants_on_amazon_product_id"

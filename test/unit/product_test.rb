@@ -15,11 +15,11 @@ class ProductTest < ActiveSupport::TestCase
 	
 	test "variants relation should work" do
 		p = Factory(:product)
-		assert_equal 0, p.variants_including_master.count
+		assert_equal 0, p.variants.count
 		v = Factory(:variant, :product => p)
-		assert_equal 1, p.variants_including_master.count
+		assert_equal 1, p.variants.count
 		v2 = Factory(:variant, :product => p)
-		assert_equal 2, p.variants_including_master.count
+		assert_equal 2, p.variants.count
 	end
 	
 	test "brand should be valid" do

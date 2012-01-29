@@ -6,11 +6,45 @@ class Variant < ActiveRecord::Base
 	has_many :mws_order_items, :class_name => 'MwsOrderItem', :foreign_key => 'clean_sku', :primary_key => 'sku'
 	
 	validates_uniqueness_of :sku
+	after_create :set_default_master
+	around_destroy :product_master_succession
 	#before_update :register_changes
 
 	#def register_changes
 		
 	#end
+
+	def product_master_succession
+		# while deleting, if this was the master previously, then set a new master
+		p = self.product
+		is_master = self.is_master
+		#puts "deleting variant #{self.id}, master? #{is_master}"
+		
+		yield
+		if is_master == true
+			p.set_default_master
+			#puts "deleted variant. now master is #{p.reload.master.id}"
+		end
+	end
+	
+	def set_default_master
+		if self.product.master.nil?
+			self.is_master = true
+		else
+			self.is_master = false
+		end
+		self.save
+	end
+	
+	def set_as_master
+		v = self.product.reload.master
+		if !v.nil? && self!=v
+			v.is_master = false
+			v.save
+		end
+		self.is_master = true
+		self.save
+	end
 
 	def get_clean_sku
 		p = self.product

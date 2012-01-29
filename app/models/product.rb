@@ -10,16 +10,17 @@ class Product < ActiveRecord::Base
 	
 	#delegate_belongs_to :master, :sku, :price, :weight, :height, :width, :depth, :cost_price, :is_master
 
-  has_many :variants,
+  has_many :variants_excluding_master,
       :class_name => 'Variant',
       :conditions => ["variants.is_master = ? AND variants.deleted_at IS NULL", false],
       :dependent => :destroy, #added this
       :order => "variants.position ASC"
 
-  has_many :variants_including_master,
+  has_many :variants,
       :class_name => 'Variant',
       :conditions => ["variants.deleted_at IS NULL"],
-      :dependent => :destroy
+      :dependent => :destroy,
+      :order => "variants.position ASC, variants.id ASC"
 
   has_many :variants_with_only_master,
       :class_name => 'Variant',
@@ -42,6 +43,23 @@ class Product < ActiveRecord::Base
 			
 		# combine the two arrays of IDs and remove duplicates, and return all relevant records
 		where(:id => o1 | o2)
+	end
+
+	#TODO delete this after running once on legacy products
+	def self.set_default_masters
+		Product.all.each do |p|
+			p.set_default_master
+		end
+	end
+
+	# If product does not have a master variant, then set the first variant as master
+	def set_default_master	
+		variants = self.reload.variants
+		master = self.reload.master
+		if variants.count >= 1 && master.nil?
+			variants[0].is_master = true
+			variants[0].save
+		end
 	end
 	
 end

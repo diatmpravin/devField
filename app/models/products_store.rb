@@ -33,7 +33,7 @@ class ProductsStore < ActiveRecord::Base
 		variants_arr = Array.new
 		images_arr = Array.new 
 		i = 0
-		self.product.variants_including_master.each do |v|
+		self.product.variants.each do |v|
 			variants_arr << v.attributes_for_shopify
 			images_arr << v.image_for_shopify(i)
 			i += 1
