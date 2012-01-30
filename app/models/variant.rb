@@ -1,9 +1,8 @@
 class Variant < ActiveRecord::Base
 	belongs_to :product
-	#delegate_belongs_to :product, :name, :description, :available_on, :meta_description, :meta_keywords
 	has_many :variant_images, :dependent => :destroy
 	has_many :sub_variants, :dependent => :destroy
-	has_many :mws_order_items, :class_name => 'MwsOrderItem', :foreign_key => 'clean_sku', :primary_key => 'sku'
+	has_many :mws_order_items, :foreign_key => 'parent_variant_id'
 	
 	validates_uniqueness_of :sku
 	after_create :set_default_master

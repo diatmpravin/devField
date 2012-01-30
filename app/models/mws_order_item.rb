@@ -1,9 +1,14 @@
 class MwsOrderItem < ActiveRecord::Base
 	belongs_to :mws_order
 	belongs_to :mws_response
-	belongs_to :product, :foreign_key => 'clean_sku', :primary_key => 'base_sku'
-	belongs_to :variant, :foreign_key => 'clean_sku', :primary_key => 'sku'
-	belongs_to :sub_variant, :foreign_key => 'clean_sku', :primary_key => 'sku'
+	#belongs_to :product, :foreign_key => 'clean_sku', :primary_key => 'base_sku'
+	#belongs_to :variant, :foreign_key => 'clean_sku', :primary_key => 'sku'
+	#belongs_to :sub_variant, :foreign_key => 'clean_sku', :primary_key => 'sku'
+	
+	belongs_to :product, :foreign_key => 'parent_product_id'
+	belongs_to :variant, :foreign_key => 'parent_variant_id'
+	belongs_to :sub_variant, :foreign_key => 'parent_variant_id'
+	
 	before_validation :save_clean_sku, :zero_missing_numbers
 	
 	validates_uniqueness_of :amazon_order_item_id
@@ -11,6 +16,8 @@ class MwsOrderItem < ActiveRecord::Base
 	validates_presence_of :clean_sku
 	validates :item_price, :item_tax, :promotion_discount, :shipping_price, :shipping_tax, :shipping_discount, :gift_price, :gift_tax, :numericality => { :only_integer => false, :greater_than_or_equal_to => 0 }
 	validates :quantity_ordered, :quantity_shipped, :numericality => { :only_integer => true, :greater_than_or_equal_to => 0 }
+
+	before_save :save_catalog_match
 
 	# searches order items BUT returns an ActiveRecord association of the mws_orders associated with the matched mws_order_items
 	def self.search(search)
@@ -100,20 +107,33 @@ class MwsOrderItem < ActiveRecord::Base
 #		return response
 #	end	
 
+
 	# returns either a product, variant, or sub_variant depending on what is available
-	def get_catalog_match
-		if !self.sub_variant.nil?
-			return self.sub_variant
-		elsif !self.variant.nil?
-			return self.variant
-		elsif !self.product.nil?
-			return self.product
-		else
-			return SkuMapping.get_catalog_match(self.clean_sku)
+	protected
+	def save_catalog_match
+		x = get_catalog_match
+		if x.class.name == 'Product'
+			self.parent_product_id = x.id
+		elsif x.class.name == 'Variant'
+			self.parent_variant_id = x.id
+			self.parent_product_id = x.product.id
+		elsif x.class.name == 'SubVariant'
+			self.parent_sub_variant_id = x.id
+			self.parent_variant_id = x.variant.id
+			self.parent_product_id = x.variant.product.id
 		end
 	end
 
-	protected
+	def get_catalog_match
+		x = SubVariant.find_by_sku(self.clean_sku)
+		return x if !x.nil?
+		x = Variant.find_by_sku(self.clean_sku)
+		return x if !x.nil?
+		x = Product.find_by_base_sku(self.clean_sku)
+		return x if !x.nil?
+		return SkuMapping.get_catalog_match(self.clean_sku)
+	end
+
 	def save_clean_sku
 		if !self.seller_sku.nil?
 			self.clean_sku = self.seller_sku.gsub(/-AZ.*$/,'')

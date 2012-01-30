@@ -9,7 +9,7 @@ tr.product > td > img { clear:both; float:none; }
 div.right { float:right; }
 div.left { float:left; }
 
-div.product { float:left; width: 180px; }
+div.product { float:left; height:100px; width:180px; font-size:1.0em; }
 div.product div { clear:left; margin: 4px 0px; }
 div.product div input { float:left; margin-right:10px;  }
 div.product a { text-decoration:none; }

@@ -3,14 +3,12 @@ class Product < ActiveRecord::Base
 	has_many :products_stores
 	has_many :stores, :through => :products_stores
 	has_many :variants, :dependent => :destroy
-	has_many :mws_order_items, :class_name => 'MwsOrderItem', :foreign_key => 'clean_sku', :primary_key => 'base_sku'	
+	has_many :mws_order_items, :foreign_key => 'parent_product_id'
 	validates_associated :brand
 
   has_one :master, :class_name => 'Variant',
       		:conditions => ["variants.is_master = ? AND variants.deleted_at IS NULL", true]	
 	
-	#delegate_belongs_to :master, :sku, :price, :weight, :height, :width, :depth, :cost_price, :is_master
-
   has_many :variants_excluding_master,
       :class_name => 'Variant',
       :conditions => ["variants.is_master = ? AND variants.deleted_at IS NULL", false],

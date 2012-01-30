@@ -129,21 +129,33 @@ class MwsOrderItemTest < ActiveSupport::TestCase
 
 	test "get_catalog_match should work" do
 		
-		oi = Factory(:mws_order_item)
-		p = Factory(:product, :base_sku=>oi.clean_sku) 
-		assert_equal p, oi.get_catalog_match
+		p = Factory(:product)
+		oi = Factory(:mws_order_item, :seller_sku=>p.base_sku)
+		assert_equal p.id, oi.parent_product_id
+		assert_equal p, oi.product
 		
 		v = Factory(:variant, :product=>p, :sku=>p.base_sku+'apple')
 		oi2 = Factory(:mws_order_item,:seller_sku=>v.sku)
-		assert_equal v, oi2.get_catalog_match
+		assert_equal p, oi2.product
+		assert_equal v, oi2.variant
 		
 		sv = Factory(:sub_variant, :variant=>v, :sku=>v.sku+'orange')
 		oi3 = Factory(:mws_order_item, :seller_sku=>sv.sku)
-		assert_equal sv, oi3.get_catalog_match
+		assert_equal sv, oi3.sub_variant
+		assert_equal v, oi3.variant
+		assert_equal p, oi3.product
 		
 		oi4 = Factory(:mws_order_item, :seller_sku=>'unique_seller_sku')
-		assert_nil oi4.get_catalog_match
-
+		assert_nil oi4.product
+		assert_nil oi4.variant
+		assert_nil oi4.sub_variant
+		
+		# changing sku should change the parent stuff
+		oi4.seller_sku = sv.sku
+		oi4.save
+		assert_equal sv, oi4.sub_variant
+		assert_equal v, oi4.variant
+		assert_equal p, oi4.product
 	end
-	
+		
 end
