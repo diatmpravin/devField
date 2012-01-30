@@ -2,11 +2,11 @@ class Variant < ActiveRecord::Base
 	belongs_to :product
 	has_many :variant_images, :dependent => :destroy
 	has_many :sub_variants, :dependent => :destroy
-	has_many :mws_order_items, :foreign_key => 'parent_variant_id'
+	has_many :mws_order_items#, :foreign_key => 'parent_variant_id'
 	
 	validates_uniqueness_of :sku
 	after_create :set_default_master
-	after_create :save_sku_mappings
+	after_save :save_sku_mappings
 	around_destroy :product_master_succession
 	#before_update :register_changes
 
@@ -44,19 +44,6 @@ class Variant < ActiveRecord::Base
 		end
 		self.is_master = true
 		self.save
-	end
-
-	def save_sku_mappings
-		p = self.product
-		if !p.base_sku.nil? && !self.color1_code.nil?
-			if !self.size.nil? && self.size.length>=2
-				SkuMapping.create(:sku=>"#{p.base_sku}-#{self.color1_code}-#{self.size[0,2]}",:granularity=>'variant',:foreign_id=>self.id)
-				SkuMapping.create(:sku=>"#{p.base_sku}-#{self.color1_code.gsub(/\//,'')}-#{self.size[0,2]}",:granularity=>'variant',:foreign_id=>self.id)
-				SkuMapping.create(:sku=>"#{p.base_sku}-#{self.color1_code}-#{self.size[0,2]}",:granularity=>'variant',:foreign_id=>self.id)
-			end
-			SkuMapping.create(:sku=>"#{p.base_sku}-#{self.color1_code}",:granularity=>'variant',:foreign_id=>self.id)
-			SkuMapping.create(:sku=>"#{p.base_sku}-#{self.color1_code.gsub(/\//,'-')}",:granularity=>'variant',:foreign_id=>self.id)
-		end
 	end
 
 	def get_clean_sku
@@ -125,6 +112,24 @@ class Variant < ActiveRecord::Base
 			end
 		else
 			return nil
+		end
+	end
+
+	protected
+	def save_sku_mappings
+		SkuMapping.where(:granularity=>'variant',:foreign_id=>self.id,:source=>'auto').each do |sm|
+			sm.destroy
+		end
+		
+		p = self.product
+		if !p.base_sku.nil? && !self.color1_code.nil?
+			if !self.size.nil? && self.size.length>=2
+				SkuMapping.create(:sku=>"#{p.base_sku}-#{self.color1_code}-#{self.size[0,2]}",:granularity=>'variant',:foreign_id=>self.id,:source=>'auto')
+				SkuMapping.create(:sku=>"#{p.base_sku}-#{self.color1_code.gsub(/\//,'')}-#{self.size[0,2]}",:granularity=>'variant',:foreign_id=>self.id,:source=>'auto')
+				SkuMapping.create(:sku=>"#{p.base_sku}-#{self.color1_code}-#{self.size[0,2]}",:granularity=>'variant',:foreign_id=>self.id,:source=>'auto')
+			end
+			SkuMapping.create(:sku=>"#{p.base_sku}-#{self.color1_code}",:granularity=>'variant',:foreign_id=>self.id,:source=>'auto')
+			SkuMapping.create(:sku=>"#{p.base_sku}-#{self.color1_code.gsub(/\//,'-')}",:granularity=>'variant',:foreign_id=>self.id,:source=>'auto')
 		end
 	end
 	

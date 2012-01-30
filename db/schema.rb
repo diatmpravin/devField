@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120130005556) do
+ActiveRecord::Schema.define(:version => 20120130151711) do
 
   create_table "brands", :force => true do |t|
     t.string   "name"
@@ -68,9 +68,9 @@ ActiveRecord::Schema.define(:version => 20120130005556) do
     t.datetime "updated_at"
     t.integer  "mws_response_id"
     t.string   "clean_sku"
-    t.integer  "parent_product_id"
-    t.integer  "parent_variant_id"
-    t.integer  "parent_sub_variant_id"
+    t.integer  "product_id"
+    t.integer  "variant_id"
+    t.integer  "sub_variant_id"
   end
 
   add_index "mws_order_items", ["amazon_order_id"], :name => "index_mws_order_items_on_amazon_order_id"
@@ -214,6 +214,7 @@ ActiveRecord::Schema.define(:version => 20120130005556) do
     t.integer  "foreign_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "source",      :default => "manual"
   end
 
   add_index "sku_mappings", ["sku"], :name => "index_sku_mappings_on_sku", :unique => true

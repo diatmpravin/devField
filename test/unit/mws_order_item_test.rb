@@ -131,7 +131,6 @@ class MwsOrderItemTest < ActiveSupport::TestCase
 		
 		p = Factory(:product)
 		oi = Factory(:mws_order_item, :seller_sku=>p.base_sku)
-		assert_equal p.id, oi.parent_product_id
 		assert_equal p, oi.product
 		
 		v = Factory(:variant, :product=>p, :sku=>p.base_sku+'apple')

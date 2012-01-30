@@ -5,9 +5,9 @@ class MwsOrderItem < ActiveRecord::Base
 	#belongs_to :variant, :foreign_key => 'clean_sku', :primary_key => 'sku'
 	#belongs_to :sub_variant, :foreign_key => 'clean_sku', :primary_key => 'sku'
 	
-	belongs_to :product, :foreign_key => 'parent_product_id'
-	belongs_to :variant, :foreign_key => 'parent_variant_id'
-	belongs_to :sub_variant, :foreign_key => 'parent_variant_id'
+	belongs_to :product#, :foreign_key => 'parent_product_id'
+	belongs_to :variant#, :foreign_key => 'parent_variant_id'
+	belongs_to :sub_variant#, :foreign_key => 'parent_variant_id'
 	
 	before_validation :save_clean_sku, :zero_missing_numbers
 	
@@ -113,14 +113,14 @@ class MwsOrderItem < ActiveRecord::Base
 	def save_catalog_match
 		x = get_catalog_match
 		if x.class.name == 'Product'
-			self.parent_product_id = x.id
+			self.product_id = x.id
 		elsif x.class.name == 'Variant'
-			self.parent_variant_id = x.id
-			self.parent_product_id = x.product.id
+			self.variant_id = x.id
+			self.product_id = x.product.id
 		elsif x.class.name == 'SubVariant'
-			self.parent_sub_variant_id = x.id
-			self.parent_variant_id = x.variant.id
-			self.parent_product_id = x.variant.product.id
+			self.sub_variant_id = x.id
+			self.variant_id = x.variant.id
+			self.product_id = x.variant.product.id
 		end
 	end
 

@@ -3,8 +3,10 @@ class Product < ActiveRecord::Base
 	has_many :products_stores
 	has_many :stores, :through => :products_stores
 	has_many :variants, :dependent => :destroy
-	has_many :mws_order_items, :foreign_key => 'parent_product_id'
+	has_many :mws_order_items#, :foreign_key => 'parent_product_id'
 	validates_associated :brand
+	
+	after_save :save_sku_mappings
 
   has_one :master, :class_name => 'Variant',
       		:conditions => ["variants.is_master = ? AND variants.deleted_at IS NULL", true]	
@@ -44,13 +46,6 @@ class Product < ActiveRecord::Base
 		where(:id => o1 | o2)
 	end
 
-	#TODO delete this after running once on legacy products
-	def self.set_default_masters
-		Product.all.each do |p|
-			p.set_default_master
-		end
-	end
-
 	# If product does not have a master variant, then set the first variant as master
 	def set_default_master	
 		variants = self.reload.variants
@@ -59,6 +54,25 @@ class Product < ActiveRecord::Base
 			variants[0].is_master = true
 			variants[0].save
 		end
+	end
+
+	def self.refresh_all_sku_mappings
+		Product.all.each do |p|
+			p.variants.each do |v|
+				v.sub_variants.each do |sv|
+					sv.save
+				end
+				v.save
+			end
+			p.save
+		end
+	end
+
+	protected
+	def save_sku_mappings
+		#SkuMapping.where(:granularity=>'product',:foreign_id=>self.id,:source=>'auto').each do |sm|
+		#	sm.destroy
+		#end
 	end
 	
 end
