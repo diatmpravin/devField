@@ -13,6 +13,7 @@ class MwsOrder < ActiveRecord::Base
 	validates_presence_of :mws_response_id
 	validates_presence_of :purchase_date
 	validates_associated :store
+	default_scope :order => 'purchase_date DESC'
 	
 	MAX_ORDER_ITEM_PAGES = 20
 	MAX_FAILURE_COUNT = 1

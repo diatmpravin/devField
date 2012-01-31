@@ -4,12 +4,12 @@ class MwsOrdersController < ApplicationController
   # GET /mws_orders.json
   def index
     if params[:search]
-    	@mws_orders = MwsOrder.search(params[:search]).order('purchase_date DESC').page(params[:page]).per(100)
+    	@mws_orders = MwsOrder.search(params[:search]).page(params[:page]).per(100)
     	@search = params[:search]
     elsif params[:unmatched]
     	@mws_orders = MwsOrder.get_unmatched_skus.page(params[:page]).per(100)
     else
-    	@mws_orders = MwsOrder.order('purchase_date DESC').page(params[:page]).per(100)
+    	@mws_orders = MwsOrder.page(params[:page]).per(100)
     end
 
     respond_to do |format|

@@ -11,7 +11,7 @@ class SubVariant < ActiveRecord::Base
 			sm.destroy
 		end
 		
-		last_two = self.sku[self.sku.length-3,2]
+		last_two = self.sku[self.sku.length-2,2]
 		if last_two == '.0'
 			SkuMapping.create(:sku=>self.sku[0,self.sku.length-3],:granularity=>'sub_variant',:foreign_id=>self.id,:source=>'auto')
 		end
