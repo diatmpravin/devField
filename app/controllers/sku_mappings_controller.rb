@@ -2,7 +2,7 @@ class SkuMappingsController < ApplicationController
   # GET /sku_mappings
   # GET /sku_mappings.json
   def index
-    @sku_mappings = SkuMapping.all
+    @sku_mappings = SkuMapping.where(:source=>'manual')
 
     respond_to do |format|
       format.html # index.html.erb

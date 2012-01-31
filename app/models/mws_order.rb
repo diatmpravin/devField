@@ -25,6 +25,10 @@ class MwsOrder < ActiveRecord::Base
 	#	end
 	#end
 
+	def self.get_unmatched_skus
+		where(:id => MwsOrderItem.get_unmatched_skus)
+	end
+
 	def self.search(search)
 		# get sub_matches from order_items
 		o1 = MwsOrderItem.search(search).collect { |o| o.mws_order_id }

@@ -1,8 +1,9 @@
 class SkuMapping < ActiveRecord::Base
 	validates_uniqueness_of :sku
-	validates_inclusion_of :granularity, :in => %w(product variant sub_variant), :message => 'Invalid granularity'
+	validates_inclusion_of :granularity, :in=>%w(product variant sub_variant), :message => 'Invalid granularity'
+	validates_inclusion_of :source, :in=>%w(manual auto), :message=>'Invalid source'
 	validates_numericality_of :foreign_id, { :only_integer => true, :greater_than => 0 }
-
+	
 	def self.get_catalog_match(sku)
 		sm = SkuMapping.find_by_sku(sku)
 		if sm.nil?

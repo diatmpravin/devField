@@ -1,13 +1,10 @@
 class MwsOrderItem < ActiveRecord::Base
 	belongs_to :mws_order
 	belongs_to :mws_response
-	#belongs_to :product, :foreign_key => 'clean_sku', :primary_key => 'base_sku'
-	#belongs_to :variant, :foreign_key => 'clean_sku', :primary_key => 'sku'
-	#belongs_to :sub_variant, :foreign_key => 'clean_sku', :primary_key => 'sku'
 	
-	belongs_to :product#, :foreign_key => 'parent_product_id'
-	belongs_to :variant#, :foreign_key => 'parent_variant_id'
-	belongs_to :sub_variant#, :foreign_key => 'parent_variant_id'
+	belongs_to :product
+	belongs_to :variant
+	belongs_to :sub_variant
 	
 	before_validation :save_clean_sku, :zero_missing_numbers
 	
@@ -107,6 +104,15 @@ class MwsOrderItem < ActiveRecord::Base
 #		return response
 #	end	
 
+	def self.get_unmatched_skus
+		MwsOrderItem.select("mws_order_id").where(:product_id=>nil).group('mws_order_id')
+	end
+
+	def refresh_all_sku_mappings
+		MwsOrderItem.all.each do |oi|
+			oi.save
+		end
+	end
 
 	# returns either a product, variant, or sub_variant depending on what is available
 	protected

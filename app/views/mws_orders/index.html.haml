@@ -5,7 +5,9 @@
 	= form_tag mws_orders_path, :method => 'get' do
 		%p
 			= text_field_tag :search, @search
-			= submit_tag :search, :name => nil	
+			= submit_tag :search, :name => nil
+		%p
+			= link_to 'Orders With Unmatched SKUs', mws_orders_path(:unmatched=>1)
 
 %h1="Listing Orders Received From Amazon"
 
