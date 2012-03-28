@@ -2,7 +2,7 @@ require 'test_helper'
 
 class MwsRequestsControllerTest < ActionController::TestCase
   setup do
-    @mws_request = Factory(:mws_request)
+    @mws_request = FactoryGirl.create(:mws_request)
   end
 
   test "should get index" do

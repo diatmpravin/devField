@@ -2,8 +2,8 @@ require 'test_helper'
 
 class SkuMappingsControllerTest < ActionController::TestCase
   setup do
-    @sku_mapping = Factory(:sku_mapping)
-    @sku_mapping2 = Factory.build(:sku_mapping)
+    @sku_mapping = FactoryGirl.create(:sku_mapping)
+    @sku_mapping2 = FactoryGirl.build(:sku_mapping)
   end
 
   test "should get index" do

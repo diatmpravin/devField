@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<SubmitFeedResponse xmlns="http://mws.amazonaws.com/doc/2009-01-01/">
+<SubmitFeedResult>
+  <FeedSubmissionInfo>
+    <FeedSubmissionId>5023807698</FeedSubmissionId>
+    <FeedType>_POST_PRODUCT_DATA_</FeedType>
+    <SubmittedDate>2012-03-27T22:15:41+00:00</SubmittedDate>
+    <FeedProcessingStatus>_SUBMITTED_</FeedProcessingStatus>
+  </FeedSubmissionInfo>
+</SubmitFeedResult>
+<ResponseMetadata>
+  <RequestId>bca661a7-e843-4e67-b4cb-dea42c766300</RequestId>
+</ResponseMetadata>
+</SubmitFeedResponse>

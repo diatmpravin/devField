@@ -2,11 +2,11 @@ require 'test_helper'
 
 class ProductsStoresControllerTest < ActionController::TestCase
   setup do
-    @store = Factory(:store, :store_type => 'Shopify')
-    @product = Factory(:product)
-    @product2 = Factory(:product)
-    @ps = Factory.build(:products_store, :store => @store, :product => @product)
-    @ps2 = Factory(:products_store, :store => @store, :product => @product2)
+    @store = FactoryGirl.create(:store, :store_type => 'Shopify')
+    @product = FactoryGirl.create(:product)
+    @product2 = FactoryGirl.create(:product)
+    @ps = FactoryGirl.build(:products_store, :store => @store, :product => @product)
+    @ps2 = FactoryGirl.create(:products_store, :store => @store, :product => @product2)
   end
 
   test "should create products_store" do

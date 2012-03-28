@@ -3,7 +3,7 @@ require 'test_helper'
 class BrandTest < ActiveSupport::TestCase
 
 	test "name should be unique" do
-		b = Factory(:brand)
+		b = FactoryGirl.create(:brand)
 		assert_difference('Brand.count',0) do
 			Brand.create(b.attributes)
 		end	
@@ -15,7 +15,7 @@ class BrandTest < ActiveSupport::TestCase
 	end
    
 	test "default_markup should be a number greater than zero" do   	
-		b = Factory(:brand)
+		b = FactoryGirl.create(:brand)
 		b.default_markup = "NAN"
 		assert b.invalid?
 		assert b.errors[:default_markup].any?
@@ -36,15 +36,15 @@ class BrandTest < ActiveSupport::TestCase
 	#end
 
 	test "has a vendor" do
-		b = Factory(:brand)
+		b = FactoryGirl.create(:brand)
 		assert_instance_of Vendor, b.vendor, 'Brand does not have a valid parent vendor'
 	end
 
 	test "add_to_store and remove_from_store should work" do
-		b = Factory(:brand)
-		p = Factory(:product, :brand => b)
-		p2 = Factory(:product, :brand => b)
-		s = Factory(:store, :store_type => 'MWS')
+		b = FactoryGirl.create(:brand)
+		p = FactoryGirl.create(:product, :brand => b)
+		p2 = FactoryGirl.create(:product, :brand => b)
+		s = FactoryGirl.create(:store, :store_type => 'MWS')
 		assert_difference('ProductsStore.count',2) do 
 			b.add_to_store(s)
 		end

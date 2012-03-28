@@ -2,7 +2,7 @@ require 'test_helper'
 
 class StoresControllerTest < ActionController::TestCase
   setup do
-    @store = Factory(:store)
+    @store = FactoryGirl.create(:store)
     @store.name = "UniqueStore"
   end
 

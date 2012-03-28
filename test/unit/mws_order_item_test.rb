@@ -3,27 +3,27 @@ require 'test_helper'
 class MwsOrderItemTest < ActiveSupport::TestCase
 
 	test "amazon_order_item_id should be unique" do
-		o = Factory(:mws_order)
-		i = Factory(:mws_order_item, :mws_order => o)
-		i2 = Factory.build(:mws_order_item, :mws_order => o)
+		o = FactoryGirl.create(:mws_order)
+		i = FactoryGirl.create(:mws_order_item, :mws_order => o)
+		i2 = FactoryGirl.build(:mws_order_item, :mws_order => o)
 		i2.amazon_order_item_id = i.amazon_order_item_id
 		assert i2.invalid?
 	end
 	
 	test "should save clean_sku" do
-		i = Factory(:mws_order_item)
+		i = FactoryGirl.create(:mws_order_item)
 		assert_not_nil i.clean_sku
 	end
 
 	test "set_shipped should work" do
-		i = Factory(:mws_order_item, :quantity_ordered => 2, :quantity_shipped => 0)
+		i = FactoryGirl.create(:mws_order_item, :quantity_ordered => 2, :quantity_shipped => 0)
 		assert_equal 0, i.quantity_shipped
 		i.set_shipped
 		assert_equal 2, i.quantity_shipped
 	end
 
 	test "is_gift should work" do
-		i = Factory(:mws_order_item)
+		i = FactoryGirl.create(:mws_order_item)
 		assert_equal 0, i.is_gift?
 		i.gift_message_text = "Testing"
 		assert_equal 1, i.is_gift?
@@ -35,7 +35,7 @@ class MwsOrderItemTest < ActiveSupport::TestCase
 
 	test "get_item_price_per_unit should work" do
 		price = 150.0
-		i = Factory(:mws_order_item)
+		i = FactoryGirl.create(:mws_order_item)
 		assert_equal 0, i.get_item_price_per_unit
 		i.quantity_ordered = 0
 		assert_equal 0, i.get_item_price_per_unit
@@ -51,8 +51,8 @@ class MwsOrderItemTest < ActiveSupport::TestCase
 	end
 	
 	test "get_item_prices etc should work" do
-		o = Factory(:mws_order)
-		i = Factory(:mws_order_item, :mws_order => o)
+		o = FactoryGirl.create(:mws_order)
+		i = FactoryGirl.create(:mws_order_item, :mws_order => o)
 		assert_equal 0, i.get_item_price
 		assert_equal 0, i.get_ship_price
 		assert_equal 0, i.get_gift_price
@@ -61,7 +61,7 @@ class MwsOrderItemTest < ActiveSupport::TestCase
 		assert_equal 0, i.get_discount_subtotal
 		assert_equal 0, i.get_tax_subtotal
 
-		i2 = Factory(:mws_order_item, :mws_order => o, :quantity_ordered => 2, :item_price => 300, :item_tax => 20, :promotion_discount => 5, :shipping_price => 19, :shipping_tax => 5, :shipping_discount => 3, :gift_price => 7, :gift_tax => 1.5)
+		i2 = FactoryGirl.create(:mws_order_item, :mws_order => o, :quantity_ordered => 2, :item_price => 300, :item_tax => 20, :promotion_discount => 5, :shipping_price => 19, :shipping_tax => 5, :shipping_discount => 3, :gift_price => 7, :gift_tax => 1.5)
 		assert_equal 315, i2.get_item_price
 		assert_equal (19+5-3), i2.get_ship_price
 		assert_equal (7+1.5), i2.get_gift_price
@@ -73,7 +73,7 @@ class MwsOrderItemTest < ActiveSupport::TestCase
 	end
 
 	test "numbers should be positive and valid" do
-		i = Factory(:mws_order_item)
+		i = FactoryGirl.create(:mws_order_item)
 		i.item_price = -26.5
 		assert i.invalid?
 		i.item_price = "nan"
@@ -89,12 +89,12 @@ class MwsOrderItemTest < ActiveSupport::TestCase
 	end
 	
 	test "search should work" do
-		o = Factory(:mws_order)
-		oi = Factory(:mws_order_item, :mws_order => o, :title => 'Ray-Bans')
-		oi2 = Factory(:mws_order_item, :mws_order => o, :title => 'Ray-Bans')
-		o2 = Factory(:mws_order)
-		oi3 = Factory(:mws_order_item, :mws_order => o2, :asin => 'Ray-ABC345')
-		o3 = Factory(:mws_order)
+		o = FactoryGirl.create(:mws_order)
+		oi = FactoryGirl.create(:mws_order_item, :mws_order => o, :title => 'Ray-Bans')
+		oi2 = FactoryGirl.create(:mws_order_item, :mws_order => o, :title => 'Ray-Bans')
+		o2 = FactoryGirl.create(:mws_order)
+		oi3 = FactoryGirl.create(:mws_order_item, :mws_order => o2, :asin => 'Ray-ABC345')
+		o3 = FactoryGirl.create(:mws_order)
 
 		# search term partially matching 2 orders
 		arr = MwsOrderItem.search('Ray-')
@@ -129,22 +129,22 @@ class MwsOrderItemTest < ActiveSupport::TestCase
 
 	test "get_catalog_match should work" do
 		
-		p = Factory(:product)
-		oi = Factory(:mws_order_item, :seller_sku=>p.base_sku)
+		p = FactoryGirl.create(:product)
+		oi = FactoryGirl.create(:mws_order_item, :seller_sku=>p.base_sku)
 		assert_equal p, oi.product
 		
-		v = Factory(:variant, :product=>p, :sku=>p.base_sku+'apple')
-		oi2 = Factory(:mws_order_item,:seller_sku=>v.sku)
+		v = FactoryGirl.create(:variant, :product=>p, :sku=>p.base_sku+'apple')
+		oi2 = FactoryGirl.create(:mws_order_item,:seller_sku=>v.sku)
 		assert_equal p, oi2.product
 		assert_equal v, oi2.variant
 		
-		sv = Factory(:sub_variant, :variant=>v, :sku=>v.sku+'orange')
-		oi3 = Factory(:mws_order_item, :seller_sku=>sv.sku)
+		sv = FactoryGirl.create(:sub_variant, :variant=>v, :sku=>v.sku+'orange')
+		oi3 = FactoryGirl.create(:mws_order_item, :seller_sku=>sv.sku)
 		assert_equal sv, oi3.sub_variant
 		assert_equal v, oi3.variant
 		assert_equal p, oi3.product
 		
-		oi4 = Factory(:mws_order_item, :seller_sku=>'unique_seller_sku')
+		oi4 = FactoryGirl.create(:mws_order_item, :seller_sku=>'unique_seller_sku')
 		assert_nil oi4.product
 		assert_nil oi4.variant
 		assert_nil oi4.sub_variant

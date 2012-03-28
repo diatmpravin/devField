@@ -3,21 +3,21 @@ require 'test_helper'
 class VariantTest < ActiveSupport::TestCase
 
 	test "sku should be unique" do
-		p = Factory(:product)
-		v = Factory(:variant, :product => p)
-		v2 = Factory(:variant, :product => p)
+		p = FactoryGirl.create(:product)
+		v = FactoryGirl.create(:variant, :product => p)
+		v2 = FactoryGirl.create(:variant, :product => p)
 		assert v2.valid?
 		v2.sku = v.sku
 		assert v2.invalid?
 	end
 	
 	test "should be one master" do
-		p = Factory(:product)
-		v = Factory(:variant, :product => p)
+		p = FactoryGirl.create(:product)
+		v = FactoryGirl.create(:variant, :product => p)
 		assert_equal true, v.is_master
 		assert_equal v, p.reload.master
 		
-		v2 = Factory(:variant, :product => p)
+		v2 = FactoryGirl.create(:variant, :product => p)
 		
 		# First ID inserted should be the default master
 		assert_equal v.id, p.reload.master.id
@@ -25,7 +25,7 @@ class VariantTest < ActiveSupport::TestCase
 		assert_equal false, v2.is_master
 		
 		# adding another variant should not change that
-		v3 = Factory(:variant, :product => p)
+		v3 = FactoryGirl.create(:variant, :product => p)
 		assert_equal false, v3.is_master
 		
 		# destroying the master variant should assign the next as master
@@ -47,18 +47,18 @@ class VariantTest < ActiveSupport::TestCase
 	end
 	
 	test "mws_order_items association should work" do
-		v = Factory(:variant, :sku => 'ABCDEFG')
+		v = FactoryGirl.create(:variant, :sku => 'ABCDEFG')
 		assert_equal 0, v.mws_order_items.count
 		
-		o = Factory(:mws_order)
-		i = Factory(:mws_order_item, :mws_order => o, :seller_sku => 'ABCDEFG')
+		o = FactoryGirl.create(:mws_order)
+		i = FactoryGirl.create(:mws_order_item, :mws_order => o, :seller_sku => 'ABCDEFG')
 		assert_equal 1, v.mws_order_items.count
-		i2 = Factory(:mws_order_item, :mws_order => o, :seller_sku => 'ABCDEFG')
+		i2 = FactoryGirl.create(:mws_order_item, :mws_order => o, :seller_sku => 'ABCDEFG')
 		assert_equal 2, v.mws_order_items.count
 	end
 
 	test "get_style should work" do
-		v = Factory(:variant)
+		v = FactoryGirl.create(:variant)
 		assert_equal '', v.get_style
 		v.color1 = 'Green '
 		v.save
@@ -69,8 +69,8 @@ class VariantTest < ActiveSupport::TestCase
 	end
 	
 	test "get_attributes_for_shopify should work" do
-		p = Factory(:product, :name => 'Aviators')
-		v = Factory(:variant, :product => p, :color1 => 'Green', :color2 => 'Blue', :cost_price => 1)
+		p = FactoryGirl.create(:product, :name => 'Aviators')
+		v = FactoryGirl.create(:variant, :product => p, :color1 => 'Green', :color2 => 'Blue', :cost_price => 1)
 		a = v.get_attributes_for_shopify
 		assert_equal 'Aviators (Green Blue)', a[:title]
 		assert_equal 'Green Blue', a[:option1]
@@ -79,25 +79,25 @@ class VariantTest < ActiveSupport::TestCase
 	end
 	
 	test "get_image_for_shopify(i) should work" do
-		v = Factory(:variant)
+		v = FactoryGirl.create(:variant)
 		assert_equal nil, v.get_image_for_shopify(nil)
 		assert_equal nil, v.get_image_for_shopify(0)
-		vi = Factory(:variant_image, :variant => v, :image_file_name => 'blah', :image_width => 400)
+		vi = FactoryGirl.create(:variant_image, :variant => v, :image_file_name => 'blah', :image_width => 400)
 		temp1 = { :src => vi.image.url }
 		assert_equal temp1, v.reload.get_image_for_shopify(0)
-		vi2 = Factory(:variant_image, :variant => v, :image_file_name => 'blah2', :image_width => 320)
+		vi2 = FactoryGirl.create(:variant_image, :variant => v, :image_file_name => 'blah2', :image_width => 320)
 		temp2 = { :src => vi2.image.url }
 		assert_equal temp1, v.reload.get_image_for_shopify(0)
 		assert_equal temp2, v.reload.get_image_for_shopify(1)
 	end
 
 	test "search should work" do
-		p = Factory(:product)
-		v = Factory(:variant, :product => p, :upc => 'Ray-Bans')
-		v2 = Factory(:variant, :product => p, :upc => 'Ray-Bans')
-		p2 = Factory(:product)
-		v3 = Factory(:variant, :product => p2, :upc => 'Ray-ABC345')
-		p3 = Factory(:product)
+		p = FactoryGirl.create(:product)
+		v = FactoryGirl.create(:variant, :product => p, :upc => 'Ray-Bans')
+		v2 = FactoryGirl.create(:variant, :product => p, :upc => 'Ray-Bans')
+		p2 = FactoryGirl.create(:product)
+		v3 = FactoryGirl.create(:variant, :product => p2, :upc => 'Ray-ABC345')
+		p3 = FactoryGirl.create(:product)
 
 		# search term partially matching 2 orders
 		arr = Variant.search('Ray-')

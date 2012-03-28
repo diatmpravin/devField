@@ -2,9 +2,9 @@ require 'test_helper'
 
 class VariantsControllerTest < ActionController::TestCase
   setup do
-    @product = Factory(:product)
-    @variant = Factory(:variant, :product => @product)
-    @variant2 = Factory.build(:variant)
+    @product = FactoryGirl.create(:product)
+    @variant = FactoryGirl.create(:variant, :product => @product)
+    @variant2 = FactoryGirl.build(:variant)
   end
 
   test "should get index" do
@@ -23,8 +23,8 @@ class VariantsControllerTest < ActionController::TestCase
   	assert_redirected_to @variant
   	
   	get :by_sku, { :sku => @variant.sku, :format => :json }
-  	v = ActiveSupport::JSON.decode @response.body
-  	assert_equal @variant.sku, v['variant']['sku']
+  	v = JSON.parse(@response.body)
+  	assert_equal @variant.sku, v['']['sku']
   end
 
   test "by_sku should revert to index if no match" do

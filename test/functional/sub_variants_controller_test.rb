@@ -2,8 +2,8 @@ require 'test_helper'
 
 class SubVariantsControllerTest < ActionController::TestCase
   setup do
-    @sub_variant = Factory(:sub_variant)
-    @sub_variant2 = Factory.build(:sub_variant)
+    @sub_variant = FactoryGirl.create(:sub_variant)
+    @sub_variant2 = FactoryGirl.build(:sub_variant)
   end
 
   test "should get index" do
@@ -17,8 +17,8 @@ class SubVariantsControllerTest < ActionController::TestCase
   	assert_redirected_to @sub_variant
   	
   	get :by_sku, { :sku => @sub_variant.sku, :format => :json }
-  	sv = ActiveSupport::JSON.decode @response.body
-  	assert_equal @sub_variant.sku, sv['sub_variant']['sku']
+  	sv = JSON.parse(@response.body)
+  	assert_equal @sub_variant.sku, sv['']['sku']
   end
 
   test "should get new" do

@@ -5,6 +5,5 @@ tmp/
 .sass-cache/
 todo.txt
 XMLSandbox/
-amazon-mws/
-RubyOmx/
 public/system/
+coverage/

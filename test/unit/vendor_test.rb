@@ -3,7 +3,7 @@ require 'test_helper'
 class VendorTest < ActiveSupport::TestCase
  
 	test "name should be unique" do
-		v = Factory(:vendor)
+		v = FactoryGirl.create(:vendor)
 		
 		assert_difference('Vendor.count',0) do
 			Vendor.create(v.attributes)
@@ -16,10 +16,10 @@ class VendorTest < ActiveSupport::TestCase
 	end
 
 	test "products relation should work and clear_products should remove all products" do
-		v = Factory(:vendor)
-		b = Factory(:brand, :vendor => v)
-		p = Factory(:product, :brand => b)
-		p2 = Factory(:product, :brand => b)
+		v = FactoryGirl.create(:vendor)
+		b = FactoryGirl.create(:brand, :vendor => v)
+		p = FactoryGirl.create(:product, :brand => b)
+		p2 = FactoryGirl.create(:product, :brand => b)
 		assert_equal 2, v.products.count
 		
 		assert_difference('Product.count',-2) do
@@ -28,7 +28,7 @@ class VendorTest < ActiveSupport::TestCase
 	end
 
 	#test "login should assign a mechanize object" do
-	#	v = Factory(:vendor, :login_url => 'https://1242.ovault.com/oakb2b/b2b/init.do', :name => 'Oakley')
+	#	v = FactoryGirl.create(:vendor, :login_url => 'https://1242.ovault.com/oakb2b/b2b/init.do', :name => 'Oakley')
 	#	v.login
 	#	assert_not_nil v.agent
 	#	assert_instance_of Mechanize, v.agent

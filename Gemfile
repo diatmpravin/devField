@@ -1,5 +1,6 @@
 source 'http://rubygems.org'
 gem 'rails', '3.1.3'
+#gem 'rails', '3.2.2'
 
 # Bundle edge Rails instead:
 # gem 'rails',     :git => 'git://github.com/rails/rails.git'
@@ -22,15 +23,16 @@ group :development, :test do
 	gem 'ruby-debug19', "0.11.6"
 	gem 'heroku'
 	gem 'factory_girl_rails'
+	gem 'mocha'
 	#gem 'watir'
 	gem 'watir-webdriver'
 end
 
 #gem 'amazon-mws', :path => "/Ruby/fieldday/amazon-mws"
-gem 'amazon-mws', :git => 'git://github.com/adamwible/amazon-mws.git'
+gem 'amazon-mws', :git => 'git://github.com/aew/amazon-mws.git'
 
 #gem 'RubyOmx', :path => "/Ruby/fieldday/RubyOmx"
-gem 'RubyOmx', :git => 'git://github.com/adamwible/RubyOmx.git'
+gem 'RubyOmx', :git => 'git://github.com/aew/RubyOmx.git'
 
 #gem 'jeweler'
 gem 'ruby-hmac'
@@ -70,6 +72,7 @@ gem 'jquery-rails'
 
 group :test do
   gem 'turn', '0.8.2',:require => false	# Pretty printed test output
+	gem 'simplecov', :require => false
 	#gem 'rspec-rails'
 	#gem 'shoulda'
 	#gem 'fakeweb'  

@@ -2,8 +2,8 @@ require 'test_helper'
 
 class VendorsControllerTest < ActionController::TestCase
   setup do
-    @vendor = Factory(:vendor)
-    @vendor2 = Factory.build(:vendor)
+    @vendor = FactoryGirl.create(:vendor)
+    @vendor2 = FactoryGirl.build(:vendor)
   end
 
   test "should get index" do
@@ -23,7 +23,7 @@ class VendorsControllerTest < ActionController::TestCase
   	
   	get :by_name, { :name => @vendor.name, :format => :json }
   	v = ActiveSupport::JSON.decode @response.body
-  	assert_equal @vendor.name, v['vendor']['name']
+  	assert_equal @vendor.name, v['']['name']
 	end
 	
 	test "by_name should revert to index if no name is given" do

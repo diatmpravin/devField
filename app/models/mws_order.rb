@@ -18,14 +18,8 @@ class MwsOrder < ActiveRecord::Base
 	MAX_ORDER_ITEM_PAGES = 20
 	MAX_FAILURE_COUNT = 1
 	ORDER_ITEM_FAIL_WAIT = 60
-		
-	#@@state_lookup = {'AK' => 'AK','AL' => 'AL','ALABAMA' => 'AL','ALASKA' => 'AK','AR' => 'AR','ARIZONA' => 'AZ','ARKANSAS' => 'AK','AZ' => 'AZ','CA' => 'CA','CA.' => 'CA','CALIFORNIA' => 'CA','CO' => 'CO','COLORADO' => 'CO','CONNECTICUT' => 'CT','CT' => 'CT','D.F.' => 'DF','DISTRICT OF COLUMBIA' => 'DC','DC' => 'DC','DELAWARE' => 'DE','DE' => 'DE','DF' => 'DF','DISTRITO FEDERAL' => 'DF','FL' => 'FL','FL.' => 'FL','FLORIDA' => 'FL','GA' => 'GA','GEORGIA' => 'GA','HAWAII' => 'HI','HI' => 'HI','IA' => 'IA','ID' => 'ID','IDAHO' => 'ID','IL' => 'IL','ILLINOIS' => 'IL','IN' => 'IN','INDIANA' => 'IN','IOWA' => 'IA','KANSAS' => 'KS','KENTUCKY' => 'KY', 'KS' => 'KS','KY' => 'KY','LA' => 'LA','LA.' => 'LA','LOUISIANA' => 'LA','MA' => 'MA','MAINE' => 'ME','MARYLAND' => 'MD','MASSACHUSETTS' => 'MA','MD' => 'MD','ME' => 'ME','MI' => 'MI','MICHIGAN' => 'MI','MINNESOTA' => 'MN','MISSISSIPPI' => 'MS','MISSOURI' => 'MO','MN' => 'MN','MO' => 'MO','MONTANA' => 'MT','MS' => 'MS','MT' => 'MT','N.Y.' => 'NY','NC' => 'NC','ND' => 'ND','NEBRASKA' => 'NE','NE' => 'NE','NEVADA' => 'NV','NEW HAMPSHIRE' => 'NH','NEW JERSEY' => 'NJ','NEW MEXICO' => 'NM','NEW YORK' => 'NY','NH' => 'NH','NJ' => 'NJ','NM' => 'NM','NORTH CAROLINA' => 'NC','NV' => 'NV','NY' => 'NY','OH' => 'OH','OHIO' => 'OH','OK' => 'OK','OKLAHOMA' => 'OK','OR' => 'OR','OREGON' => 'OR','PA' => 'PA','PENNSYLVANIA' => 'PA','PR' => 'PR','PUERTO RICO' => 'PR','RHODE ISLAND' => 'RI','RI' => 'RI','SC' => 'SC','SD' => 'SD','SOUTH CAROLINA' => 'SC','SOUTH DAKOTA' => 'SD', 'TENNESSEE' => 'TN','TEXAS' => 'TX','TN' => 'TN','TX' => 'TX','UT' => 'UT','UTAH' => 'UT','VA' => 'VA','VIRGINIA' => 'VA','VERMONT' => 'VT','VT' => 'VT','WA' => 'WA','WASHINGTON' => 'WA','WEST VIRGINIA' => 'WV', 'WI' => 'WI','WISCONSIN' => 'WI','WV' => 'WV','WYOMING' => 'WY','WY' => 'WY', 'AUSTRALIAN CAPITAL TERRITORY' => 'ACT','NEW SOUTH WALES' => 'NSW','NORTHERN TERRITORY' => 'NT','QUEENSLAND' => 'QLD','SOUTH AUSTRALIA' => 'SA','TASMANIA' => 'TAS','VICTORIA' => 'VIC','WESTERN AUSTRALIA' => 'WA','ALBERTA' => 'AB','BRITISH COLUMBIA' => 'BC','MANITOBA' => 'MB','NEW BRUNSWICK' => 'NB','NEWFOUNDLAND & LABRADOR' => 'NL','NORTHWEST TERRITORIES' => 'NT','NOVA SCOTIA' => 'NS','NUNAVUT' => 'NU','ONTARIO' => 'ON','PRINCE EDWARD ISLAND' => 'PE','QUEBEC' => 'QC','SASKATCHEWAN' => 'SK','YUKON' => 'YT','BRITISH COLUMBIA' => 'BC','ALBERTA' => 'AB','BRITISH COLUMBIA' => 'BC','MANITOBA' => 'MB','NEW BRUNSWICK' => 'NB','NEWFOUNDLAND & LABRADOR' => 'NL','NORTHWEST TERRITORIES' => 'NT','NOVA SCOTIA' => 'NS','NUNAVUT' => 'NU','ONTARIO' => 'ON','PRINCE EDWARD ISLAND' => 'PE','QUEBEC' => 'QC','SASKATCHEWAN' => 'SK','YUKON' => 'YT','ANDAMAN AND NICOBAR ISLANDS' => 'AN','ANDHRA PRADESH' => 'AP','ARUNACHAL PRADESH' => 'AR','ASSAM' => 'AS','BIHAR' => 'BR','CHANDIGARH' => 'CHD','DADRA AND NAGAR HAVELI' => 'DNH','DAMAN AND DIU' => 'DD','DELHI' => 'DEL','GOA' => 'GOA','GUJARAT' => 'GUJ','HARYANA' => 'HR','HIMACHAL PRADESH' => 'HP','JAMMU AND KASHMIR' => 'JK','KARNATAKA' => 'KRN','KERALA' => 'KER','LAKSHADWEEP' => 'LKP','MADHYA PRADESH' => 'MP','MAHARASHTRA' => 'MAH','MANIPUR' => 'MNP','MEGHALAYA' => 'MEG','MIZORAM' => 'MIZ','NAGALAND' => 'NLD','ORISSA' => 'OR','PONDICHERRY' => 'PDY','PUNJAB' => 'PU','RAJASTHAN' => 'RAJ','SIKKIM' => 'SKM','TAMIL NADU' => 'TN','TRIPURA' => 'TRP','UTTAR PRADESH' => 'UP','UTTARANCHAL' => 'UA','WEST BENGAL' => 'WB','GB' => 'UK', 'ACRE' => 'AC','ALAGOAS' => 'AL','AMAPÁ' => 'AP','AMAZONAS' => 'AM','BAHÍA' => 'BA','CEARÁ' => 'CE','DF (FEDERAL DISTRICT)' => 'DF','ESPIRITO SANTO' => 'ES','GOIÁS' => 'GO','MARANHÃO' => 'MA','MATO GROSSO' => 'MT','MATO GROSSO DO SUL' => 'MS','MINAS GERAÍS' => 'MG','PARÁ' => 'PA','PARAÍBA' => 'PB','PARANÁ' => 'PR','PERNAMBUCO' => 'PE','PIAUÍ' => 'PI','RIO DE JANEIRO' => 'RJ','RIO GRANDE DO NORTE' => 'RN','RIO GRANDE DO SUL' => 'RS','RONDÔNIA' => 'RO','RORAIMA' => 'RR','SANTA CATARINA' => 'SC','SÃO PAULO' => 'SP','SERGIPE' => 'SE','TOCANTINS' => 'TO', 'ACT' => 'ACT','NSW' => 'NSW','NT' => 'NT','QLD' => 'QLD','SA' => 'SA','TAS' => 'TAS','VIC' => 'VIC','WA' => 'WA','AB' => 'AB','BC' => 'BC','MB' => 'MB','NB' => 'NB','NL' => 'NL','NT' => 'NT','NS' => 'NS','NU' => 'NU','ON' => 'ON','PE' => 'PE','QC' => 'QC','SK' => 'SK','YT' => 'YT','BC' => 'BC','AB' => 'AB','BC' => 'BC','MB' => 'MB','NB' => 'NB','NL' => 'NL','NT' => 'NT','NS' => 'NS','NU' => 'NU','ON' => 'ON','PE' => 'PE','QC' => 'QC','SK' => 'SK','YT' => 'YT','AN' => 'AN','AP' => 'AP','AR' => 'AR','AS' => 'AS','BR' => 'BR','CHD' => 'CHD','DNH' => 'DNH','DD' => 'DD','DEL' => 'DEL','GOA' => 'GOA','GUJ' => 'GUJ','HR' => 'HR','HP' => 'HP','JK' => 'JK','KRN' => 'KRN','KER' => 'KER','LKP' => 'LKP','MP' => 'MP','MAH' => 'MAH','MNP' => 'MNP','MEG' => 'MEG','MIZ' => 'MIZ','NLD' => 'NLD','OR' => 'OR','PDY' => 'PDY','PU' => 'PU','RAJ' => 'RAJ','SKM' => 'SKM','TN' => 'TN','TRP' => 'TRP','UP' => 'UP','UA' => 'UA','WB' => 'WB','UK' => 'UK','AC' => 'AC','AL' => 'AL','AP' => 'AP','AM' => 'AM','BA' => 'BA','CE' => 'CE','DF' => 'DF','ES' => 'ES','GO' => 'GO','MA' => 'MA','MT' => 'MT','MS' => 'MS','MG' => 'MG','PA' => 'PA','PB' => 'PB','PR' => 'PR','PE' => 'PE','PI' => 'PI','RJ' => 'RJ','RN' => 'RN','RS' => 'RS','RO' => 'RO','RR' => 'RR','SC' => 'SC','SP' => 'SP','SE' => 'SE','TO' => 'TO','AGUASCALIENTES' => 'AGS','BAJA CALIFORNIA NORTE' => 'BCN','BAJA CALIFORNIA SUR' => 'BCS','CAMPECHE' => 'CAM','CHIAPAS' => 'CHIS','CHIHUAHUA' => 'CHIH','COAHUILA' => 'COAH','COLIMA' => 'COL','DISTRITO FEDERAL' => 'DF','DURANGO' => 'DGO','GUANAJUATO' => 'GTO','GUERRERO' => 'GRO','HIDALGO' => 'HGO','JALISCO' => 'JAL','MÉXICO (ESTADO DE)' => 'MEX','MICHOACÁN' => 'MICH','MORELOS' => 'MOR','NAYARIT' => 'NAY','NUEVO LEÓN' => 'NL','OAXACA' => 'OAX','PUEBLA' => 'PUE','QUERÉTARO' => 'QRO','QUINTANA ROO' => 'QROO','SAN LUIS POTOSÍ' => 'SLP','SINALOA' => 'SIN','SONORA' => 'SON','TABASCO' => 'TAB','TAMAULIPAS' => 'TAMPS','TLAXCALA' => 'TLAX','VERACRUZ' => 'VER','YUCATÁN' => 'YUC','ZACATECAS' => 'ZAC','AGS' => 'AGS','BCN' => 'BCN','BCS' => 'BCS','CAM' => 'CAM','CHIS' => 'CHIS','CHIH' => 'CHIH','COAH' => 'COAH','COL' => 'COL','DF' => 'DF','DGO' => 'DGO','GTO' => 'GTO','GRO' => 'GRO','HGO' => 'HGO','JAL' => 'JAL','MEX' => 'MEX','MICH' => 'MICH','MOR' => 'MOR','NAY' => 'NAY','NL' => 'NL','OAX' => 'OAX','PUE' => 'PUE','QRO' => 'QRO','QROO' => 'QROO','SLP' => 'SLP','SIN' => 'SIN','SON' => 'SON','TAB' => 'TAB','TAMPS' => 'TAMPS','TLAX' => 'TLAX','VER' => 'VER','YUC' => 'YUC','ZAC' => 'ZAC' }
-	#def self.add_states
-	#	@@state_lookup2.each do|raw,clean|
-  #		State.create(:raw_state => raw, :clean_state => clean)
-	#	end
-	#end
 
+	# return a list of skus that, as yet, have not been matched up to products, variants, or sub_variants
 	def self.get_unmatched_skus
 		where(:id => MwsOrderItem.get_unmatched_skus)
 	end
@@ -215,10 +209,34 @@ class MwsOrder < ActiveRecord::Base
 	end
 	
 	def omx_shipping_method
+		# Shipping Methods
+		# 0	UPS Ground (1-4 Days Transit Time)	 	0.00	
+		# 2	Drop-Ship Montague	1	40.00	
+		# 1	UPS Free UPS Ground Shipping (US ONLY)	0	0.00	
+		# 3	UPS Ground	003	0.00	
+		# 4	UPS 2nd Day Air	002	0.00	
+		# 5	UPS Next Day Air	001	0.00	
+		# 7	UPS 3 Day Select	004	0.00	
+		# 12	UPS Worldwide Expedited	008	0.00	
+		# 13	UPS Worldwide Express	009	0.00	
+		# 14	UPS Worldwide Express Plus	010	0.00	
+		# 6	International Flat Rate via USPS Express	2	35.00
+		# 8	USPS Express	 	29.99	
+		# 9	USPS Priority	 	6.99	
+		# 10	Int. Express USPS	 	0.00	
+		# 11	Int. Priority USPS	 	0.00	
+		# 15	USPS Domestic Priority Flat Rate	 	6.99	
+		# 16	USPS Domestic Express Flat Rate	 	34.99	
+		# 17	USPS International Global Priority	 	29.99	
+		# 18	USPS International Global Express	 	39.99	
+		# 19	Next Day Air (USA Only)	 	0.00	
+		# 20	2nd Day Air (USA Only)	 	0.00	
+		# 21	Priority Mail (Free $74.99 and above), 3-6 days 0.00	
+	
 		if self.shipment_service_level_category == 'Expedited'
-			return 11
+			return 18
 		elsif self.shipment_service_level_category == 'NextDay'
-			return 8
+			return 19
 		elsif self.shipment_service_level_category == 'SecondDay'
 			return 20
 		else

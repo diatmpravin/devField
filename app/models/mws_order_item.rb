@@ -108,7 +108,7 @@ class MwsOrderItem < ActiveRecord::Base
 		MwsOrderItem.select("mws_order_id").where(:product_id=>nil).group('mws_order_id')
 	end
 
-	def refresh_all_sku_mappings
+	def self.refresh_all_sku_mappings
 		MwsOrderItem.all.each do |oi|
 			oi.save
 		end

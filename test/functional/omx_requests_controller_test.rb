@@ -2,8 +2,8 @@ require 'test_helper'
 
 class OmxRequestsControllerTest < ActionController::TestCase
   setup do
-    @omx_request = Factory(:omx_request)
-    @omx_response = Factory(:omx_response, :omx_request => @omx_request )
+    @omx_request = FactoryGirl.create(:omx_request)
+    @omx_response = FactoryGirl.create(:omx_response, :omx_request => @omx_request )
   end
 
   test "should show omx_request" do

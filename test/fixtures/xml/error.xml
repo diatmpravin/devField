@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<ErrorResponse xmlns="http://mws.amazonaws.com/doc/2009-01-01/">
+  <Error>
+    <Type>Sender</Type>
+    <Code>InvalidAccessKeyId</Code>
+    <Message>The AWS Access Key Id you provided does not exist in our records.</Message>
+  </Error>
+  <RequestID>c79f2851-12b6-44a2-9542-a0a625bb5824</RequestID>
+</ErrorResponse>

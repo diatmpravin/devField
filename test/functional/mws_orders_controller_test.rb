@@ -2,8 +2,8 @@ require 'test_helper'
 
 class MwsOrdersControllerTest < ActionController::TestCase
   setup do
-    @store = Factory(:store, :name => 'FieldDay')
-    @mws_order = Factory(:mws_order, :store => @store)
+    @store = FactoryGirl.create(:store, :name => 'FieldDay')
+    @mws_order = FactoryGirl.create(:mws_order, :store => @store)
   end
 
   test "should get index" do

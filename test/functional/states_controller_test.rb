@@ -2,8 +2,8 @@ require 'test_helper'
 
 class StatesControllerTest < ActionController::TestCase
   setup do
-    @state = Factory(:state)
-    @state2 = Factory.build(:state)
+    @state = FactoryGirl.create(:state)
+    @state2 = FactoryGirl.build(:state)
   end
 
   test "should get index" do

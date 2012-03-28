@@ -21,8 +21,10 @@ FactoryGirl.define do
 	end
 
 	factory :products_store do
-  	product { |a| a.association(:product) }
-  	store { |a| a.association(:store) }
+  	#product { |a| a.association(:product) }
+  	#store { |a| a.association(:store) }
+  	product
+  	store
 	end
 	
 	factory :variant do

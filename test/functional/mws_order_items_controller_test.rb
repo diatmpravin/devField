@@ -2,7 +2,7 @@ require 'test_helper'
 
 class MwsOrderItemsControllerTest < ActionController::TestCase
   setup do
-    @mws_order_item = Factory(:mws_order_item)
+    @mws_order_item = FactoryGirl.create(:mws_order_item)
   end
 
   test "should show mws_order_item" do

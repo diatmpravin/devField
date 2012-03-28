@@ -2,16 +2,16 @@ require 'test_helper'
 
 class ProductsControllerTest < ActionController::TestCase
   setup do
-    @store = Factory(:store)
-    @vendor = Factory(:vendor)
-    @brand = Factory(:brand, :vendor => @vendor)
-    @brand2 = Factory(:brand, :vendor => @vendor)
-    @product = Factory(:product, :brand => @brand)
-    @product2 = Factory(:product, :brand => @brand)
-    @product3 = Factory(:product, :brand => @brand2)
-    @product4 = Factory.build(:product)
-    @ps = Factory(:products_store, :product => @product, :store => @store)
-    @ps = Factory(:products_store, :product => @product3, :store => @store)
+    @store = FactoryGirl.create(:store)
+    @vendor = FactoryGirl.create(:vendor)
+    @brand = FactoryGirl.create(:brand, :vendor => @vendor)
+    @brand2 = FactoryGirl.create(:brand, :vendor => @vendor)
+    @product = FactoryGirl.create(:product, :brand => @brand)
+    @product2 = FactoryGirl.create(:product, :brand => @brand)
+    @product3 = FactoryGirl.create(:product, :brand => @brand2)
+    @product4 = FactoryGirl.build(:product)
+    @ps = FactoryGirl.create(:products_store, :product => @product, :store => @store)
+    @ps2 = FactoryGirl.create(:products_store, :product => @product3, :store => @store)
   end
 
   test "should get index" do
@@ -56,9 +56,8 @@ class ProductsControllerTest < ActionController::TestCase
 		assert_redirected_to @product
 
 		get :by_base_sku_and_brand_id, { :base_sku => @product.base_sku, :brand_id => @product.brand_id, :format => :json }
-		#p = JSON.parse(@response.body)
-		p = ActiveSupport::JSON.decode @response.body
-		assert_equal @product.name, p['product']['name']
+		p = JSON.parse(@response.body)
+		assert_equal @product.name, p['']['name']
 	end
 
 	test "by_base_sku_and_brand_id should revert to index if no match" do

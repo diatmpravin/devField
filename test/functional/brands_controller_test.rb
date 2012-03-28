@@ -3,11 +3,11 @@ require 'test_helper'
 class BrandsControllerTest < ActionController::TestCase
 
   setup do
-    @brand = Factory(:brand)
-    @brand2 = Factory.build(:brand)
-    @store = Factory(:store, :store_type => 'MWS')
-    @product1 = Factory(:product, :brand => @brand)
-    @product2 = Factory(:product, :brand => @brand)
+    @brand = FactoryGirl.create(:brand)
+    @brand2 = FactoryGirl.build(:brand)
+    @store = FactoryGirl.create(:store, :store_type => 'MWS')
+    @product1 = FactoryGirl.create(:product, :brand => @brand)
+    @product2 = FactoryGirl.create(:product, :brand => @brand)
   end
 
   test "should get index" do
@@ -17,28 +17,10 @@ class BrandsControllerTest < ActionController::TestCase
 	end
 	
 	test "should redirect to specific brand if name passed" do    
-    get :index, :name => @brand.name
+    get :index, id: nil, name: @brand.name
     assert_redirected_to @brand
-  end
-
-	test "should get by_name" do    
-    get :by_name, :name => @brand.name
-    assert_redirected_to @brand
-    
-    get :by_name, { :name => @brand.name, :format => :json }
-    b = ActiveSupport::JSON.decode @response.body
-    assert_equal @brand.name, b['brand']['name']
   end
   
-  test "by_name should revert to index if no name is given" do  
-    get :by_name
-    assert_redirected_to brands_url
-    
-    get :by_name, { :name => 'different_name', :format => :json }
-    b = ActiveSupport::JSON.decode @response.body
-    assert_equal 'not found', b['error']    
-  end
-
   test "should get new" do
     get :new
     assert_response :success
@@ -55,6 +37,15 @@ class BrandsControllerTest < ActionController::TestCase
   test "should show brand" do
     get :show, id: @brand.to_param
     assert_response :success
+  end
+
+	test "should show brand by name" do    
+    get :by_name, :name=>@brand.name
+    assert_redirected_to @brand
+    
+    get :by_name, :name=>@brand.name, :format => :json
+    b = JSON.parse(@response.body)
+    assert_equal @brand.name, b['']['name'] #TODO why is root element blank?
   end
 
   test "should get edit" do

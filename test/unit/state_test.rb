@@ -4,7 +4,7 @@ class StateTest < ActiveSupport::TestCase
 
   test "raw state should be upper case and unique" do
   	
-		s = Factory(:state)
+		s = FactoryGirl.create(:state)
 		
 		# duplicate name	
 		assert_difference('Store.count',0) do

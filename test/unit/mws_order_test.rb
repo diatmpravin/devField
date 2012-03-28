@@ -3,21 +3,21 @@ require 'test_helper'
 class MwsOrderTest < ActiveSupport::TestCase
 
 	test "basic mws_order should be valid" do
-		o = Factory(:mws_order)
+		o = FactoryGirl.create(:mws_order)
 		assert o.valid?
 	end
 
 	#validates_uniqueness_of :amazon_order_id
 	test "amazon_order_id should be unique" do		
 		assert_difference('MwsOrder.count',1) do
-			o = Factory(:mws_order)
+			o = FactoryGirl.create(:mws_order)
 			MwsOrder.create(o.attributes)
 		end
 	end
 	
 	#validates_presence_of :mws_response_id
 	test "mws_response_id is required" do
-		o = Factory(:mws_order)
+		o = FactoryGirl.create(:mws_order)
 		o.mws_response_id = nil
 		assert_difference('MwsOrder.count',0) do
 			MwsOrder.create(o.attributes)
@@ -25,7 +25,7 @@ class MwsOrderTest < ActiveSupport::TestCase
 	end
 	
 	test "purchase date should not be nil" do
-		o = Factory(:mws_order)
+		o = FactoryGirl.create(:mws_order)
 		o.purchase_date = nil
 		assert o.invalid?
 		o.purchase_date = Time.now
@@ -33,17 +33,17 @@ class MwsOrderTest < ActiveSupport::TestCase
 	end
 	
 	test "get_item_quantity_loaded/ordered/missing should work" do
-		o = Factory(:mws_order, :number_of_items_unshipped => 2, :number_of_items_shipped => 1)
+		o = FactoryGirl.create(:mws_order, :number_of_items_unshipped => 2, :number_of_items_shipped => 1)
 		assert_equal 0, o.get_item_quantity_loaded
 		assert_equal 3, o.get_item_quantity_ordered
 		assert_equal 3, o.get_item_quantity_missing
 		
-		i = Factory(:mws_order_item, :mws_order => o, :quantity_shipped => 0, :quantity_ordered => 2)
+		i = FactoryGirl.create(:mws_order_item, :mws_order => o, :quantity_shipped => 0, :quantity_ordered => 2)
 		assert_equal 2, o.reload.get_item_quantity_loaded
 		assert_equal 3, o.get_item_quantity_ordered
 		assert_equal 1, o.get_item_quantity_missing
 		
-		i2 = Factory(:mws_order_item, :mws_order => o, :quantity_shipped => 1, :quantity_ordered => 1)
+		i2 = FactoryGirl.create(:mws_order_item, :mws_order => o, :quantity_shipped => 1, :quantity_ordered => 1)
 		assert_equal 3, o.reload.get_item_quantity_loaded
 		assert_equal 3, o.get_item_quantity_ordered
 		assert_equal 0, o.get_item_quantity_missing
@@ -61,8 +61,8 @@ class MwsOrderTest < ActiveSupport::TestCase
 	end
 	
 	test "order should have an associated MWS connection" do
-		s = Factory(:store, :name => 'FieldDay')
-		o = Factory(:mws_order, :store => s)
+		s = FactoryGirl.create(:store, :name => 'FieldDay')
+		o = FactoryGirl.create(:mws_order, :store => s)
   	#o = MwsOrder.find(o.id)
   	s = o.reload.store
   	assert s.valid?
@@ -72,21 +72,21 @@ class MwsOrderTest < ActiveSupport::TestCase
 	end
 	
 	test "reprocess_order should work" do
-		s = Factory(:store, :name => 'FieldDay')
-		o = Factory(:mws_order, :store => s)		
+		s = FactoryGirl.create(:store, :name => 'FieldDay')
+		o = FactoryGirl.create(:mws_order, :store => s)		
   	#o.reprocess_order
   	#TODO what to assert?  Just needs to not return error?
 	end
 	
 	test "omx_responses relation and pushed_to_omx? should work" do
-		s = Factory(:store, :name => 'FieldDay')
-		o = Factory(:mws_order, :store => s, :order_status => 'Unshipped')
+		s = FactoryGirl.create(:store, :name => 'FieldDay')
+		o = FactoryGirl.create(:mws_order, :store => s, :order_status => 'Unshipped')
 		assert_equal 0, o.omx_responses.count
 		assert_equal "Error", o.pushed_to_omx?
 		
-		i = Factory(:mws_order_item, :mws_order => o)
-		req = Factory(:omx_request, :mws_order => o)
-		resp = Factory(:omx_response, :omx_request => req)
+		i = FactoryGirl.create(:mws_order_item, :mws_order => o)
+		req = FactoryGirl.create(:omx_request, :mws_order => o)
+		resp = FactoryGirl.create(:omx_response, :omx_request => req)
 		assert_equal 1, o.omx_responses.count
 		assert_equal "Error", o.pushed_to_omx?
 		
@@ -112,7 +112,7 @@ class MwsOrderTest < ActiveSupport::TestCase
 	end
 			
 	test "omx_first_name should work" do
-		o = Factory(:mws_order, :name => 'Bob C. Smith')
+		o = FactoryGirl.create(:mws_order, :name => 'Bob C. Smith')
 		assert_equal 'Bob C.', o.omx_first_name
 		
 		o.name = 'Smith'
@@ -123,7 +123,7 @@ class MwsOrderTest < ActiveSupport::TestCase
 	end
 
 	test "omx_last_name should work" do
-		o = Factory(:mws_order, :name => 'Bob C. Smith')
+		o = FactoryGirl.create(:mws_order, :name => 'Bob C. Smith')
 		assert_equal 'Smith', o.omx_last_name
 		
 		o.name = 'Smith'
@@ -134,12 +134,12 @@ class MwsOrderTest < ActiveSupport::TestCase
 	end
 	
 	test "omx_shipping_method should work" do
-		o = Factory(:mws_order)
+		o = FactoryGirl.create(:mws_order)
 		assert_equal 9, o.omx_shipping_method
 		o.shipment_service_level_category = 'Expedited'
-		assert_equal 11, o.omx_shipping_method
+		assert_equal 18, o.omx_shipping_method
 		o.shipment_service_level_category = 'NextDay'
-		assert_equal 8, o.omx_shipping_method
+		assert_equal 19, o.omx_shipping_method
 		o.shipment_service_level_category = 'SecondDay'
 		assert_equal 20, o.omx_shipping_method
 		o.shipment_service_level_category = 'Blah Blah'
@@ -147,8 +147,8 @@ class MwsOrderTest < ActiveSupport::TestCase
 	end
 
 	test "omx_state should work" do
-		o = Factory(:mws_order)
-		s = Factory(:state, :raw_state => 'Pennsylvania', :clean_state => 'PA')
+		o = FactoryGirl.create(:mws_order)
+		s = FactoryGirl.create(:state, :raw_state => 'Pennsylvania', :clean_state => 'PA')
 		assert_equal nil, o.omx_state
 		o.state_or_region = 'Not In The List'
 		assert_equal 'Not In The List', o.omx_state
@@ -157,8 +157,8 @@ class MwsOrderTest < ActiveSupport::TestCase
 	end
 
 	test "omx_country should work" do
-		o = Factory(:mws_order)
-		s = Factory(:state, :raw_state => 'GB', :clean_state => 'UK')
+		o = FactoryGirl.create(:mws_order)
+		s = FactoryGirl.create(:state, :raw_state => 'GB', :clean_state => 'UK')
 		assert_equal nil, o.omx_country
 		o.country_code = 'Not In The List'
 		assert_equal 'Not In The List', o.omx_country
@@ -167,13 +167,13 @@ class MwsOrderTest < ActiveSupport::TestCase
 	end
 
 	test "omx_gift_wrap etc should work" do
-		o = Factory(:mws_order)
+		o = FactoryGirl.create(:mws_order)
 		assert_equal nil, o.omx_gift_wrap_level
 		assert_equal nil, o.omx_gift_message
 		assert_equal 'False', o.omx_gift_wrapping
 		
-		i = Factory(:mws_order_item, :mws_order => o)
-		i2 = Factory(:mws_order_item, :mws_order => o)
+		i = FactoryGirl.create(:mws_order_item, :mws_order => o)
+		i2 = FactoryGirl.create(:mws_order_item, :mws_order => o)
 		assert_equal 'False', o.reload.omx_gift_wrapping
 		
 		i2.gift_message_text = 'Happy Birthday'
@@ -192,12 +192,12 @@ class MwsOrderTest < ActiveSupport::TestCase
 	end
 
 	test "search should work" do
-		o = Factory(:mws_order, :name => 'Carmichel')
-		oi = Factory(:mws_order_item, :mws_order => o, :title => 'Ray-Bans')
-		oi2 = Factory(:mws_order_item, :mws_order => o, :title => 'Ray-Bans')
-		o2 = Factory(:mws_order, :name => 'Carmichel')
-		oi3 = Factory(:mws_order_item, :mws_order => o2, :asin => 'Ray-ABC345')
-		o3 = Factory(:mws_order, :name => 'Nonsense')
+		o = FactoryGirl.create(:mws_order, :name => 'Carmichel')
+		oi = FactoryGirl.create(:mws_order_item, :mws_order => o, :title => 'Ray-Bans')
+		oi2 = FactoryGirl.create(:mws_order_item, :mws_order => o, :title => 'Ray-Bans')
+		o2 = FactoryGirl.create(:mws_order, :name => 'Carmichel')
+		oi3 = FactoryGirl.create(:mws_order_item, :mws_order => o2, :asin => 'Ray-ABC345')
+		o3 = FactoryGirl.create(:mws_order, :name => 'Nonsense')
 		
 		# search term matching a single order via two items
 		arr = MwsOrder.search('Ray-Ban')

@@ -24,8 +24,7 @@ class Store < ActiveRecord::Base
 	MAX_FAILURE_COUNT = 2
 	ORDER_FAIL_WAIT = 60
 	
-	attr_accessor :mws_connection
-	attr_accessor :cutoff_time
+	attr_accessor :mws_connection, :cutoff_time
 	#@cutoff_time = nil
 
 	def get_orders_missing_items
@@ -51,7 +50,7 @@ class Store < ActiveRecord::Base
 		response_id = fetch_orders
 	end
 
-	def init_mws_connection	
+	def init_mws_connection
 		if self.name=='HDO'
 			self.mws_connection = Amazon::MWS::Base.new(
 				"access_key"=>"AKIAIIPPIV2ZWUHDD5HA",
@@ -71,8 +70,11 @@ class Store < ActiveRecord::Base
   			"merchant_id"=>"A39CG4I2IXB4I2",
   			"marketplace_id"=>US_MKT )
  		else
- 			self.mws_connection = "Error, no MWS connection defined for this store: #{self.name}"
- 			logger.debug "Error, no MWS connection defined for this store"
+			self.mws_connection = Amazon::MWS::Base.new(
+		  	"access_key"=>"DUMMY",
+  			"secret_access_key"=>"DUMMY",
+  			"merchant_id"=>"DUMMY",
+  			"marketplace_id"=>US_MKT )
  		end
 	end
 

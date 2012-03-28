@@ -1,9 +1,9 @@
 require 'test_helper'
 
 class StoreTest < ActiveSupport::TestCase
-  
+    
   test "store_type should be valid" do
-		s = Factory(:store)
+		s = FactoryGirl.create(:store)
 		
 		# valid name, invalid store type
 		assert_difference('Store.count',0) do
@@ -14,35 +14,24 @@ class StoreTest < ActiveSupport::TestCase
   end
   
   test "mws store should have valid connection and page size properties" do
-  	s = Factory.create(:store, :name => 'HDO')
-  	s = Store.find_by_name('HDO')
-  	
-  	# initialize connection
-  	assert_equal 'HDO', s.name
-  	assert_equal 'MWS', s.store_type
-		assert_instance_of Amazon::MWS::Base, s.mws_connection
-		
+  	s = FactoryGirl.create(:store, :store_type=>'MWS')		
 		s.name = 'Unique store name'
 		
-		assert_difference('Store.count',0) do
-			s.order_results_per_page = nil
-			Store.create(s.attributes)
-		end
-		
-		assert_difference('Store.count',0) do
-			s.max_order_pages = nil
-			Store.create(s.attributes)
-		end
+		# bad order results per page and max order pages
+		s2 = Store.new(s.attributes)
+		s2.order_results_per_page = nil
+		s2.max_order_pages = nil
+		assert s2.invalid?
+		assert s2.errors['order_results_per_page'].any?
+		assert s2.errors['max_order_pages'].any?		
 		
 		# Verify and Queue flags should default to safe test settings
 		assert_equal 'True', s.verify_flag
 		assert_equal 'False', s.queue_flag		
-		
 	end
   
-  test "store name should be unique" do
-  	
-		s = Factory(:store)
+  test "store name should be unique" do 	
+		s = FactoryGirl.create(:store)
 			
 		# duplicate name	
 		assert_difference('Store.count',0) do
@@ -65,7 +54,7 @@ class StoreTest < ActiveSupport::TestCase
 
 	# shopify stores should have an authenticated URL
 	test "shopify stores should have an authenticated URL" do
-		s = Factory(:store)
+		s = FactoryGirl.create(:store)
 		s.store_type = 'Shopify'
 		assert s.valid?
 		s.authenticated_url = nil
@@ -74,22 +63,24 @@ class StoreTest < ActiveSupport::TestCase
 	
 	test "get_orders_missing_items should work" do
 		assert_difference('MwsOrder.count',1) do
-			o = Factory(:mws_order)
+			o = FactoryGirl.create(:mws_order)
 			s = o.store
 			assert_equal 1, s.get_orders_missing_items.count
 		end
 
 		assert_difference('MwsOrder.count',2) do
-			o = Factory(:mws_order)
+			o = FactoryGirl.create(:mws_order)
 			s = o.store
-			o2 = Factory(:mws_order, :store => s)
+			o2 = FactoryGirl.create(:mws_order, :store => s)
 			assert_equal s, o2.store 
 			assert_equal 2, s.get_orders_missing_items.count
 		end
 	end
 
 	test "init_mws_connection should work" do
-		
+  	s = FactoryGirl.create(:store, :store_type=>'MWS')
+		assert_instance_of Amazon::MWS::Base, s.mws_connection
+		#s.mws_connection.stubs(:get).returns(xml_for('error',401))
 	end
 		
 end
