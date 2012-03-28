@@ -1,7 +1,8 @@
 pre {
   background-color: #eee;
   padding: 10px;
-  font-size: 11px; }
+  font-size: 11px; 
+}
 
 a {
   color: #000;
@@ -9,14 +10,16 @@ a {
     color: #666; }
   &:hover {
     color: #fff;
-    background-color: #000; } }
+    background-color: #000; } 
+}
 
 div {
-  &.field, &.actions {
-    margin-bottom: 10px; } }
+  &.field, &.actions { margin-bottom: 10px; }
+}
 
 #notice {
-  color: green; }
+  color: green;
+}
 
 .field_with_errors {
   padding: 2px;
@@ -41,4 +44,5 @@ div {
     color: #fff; }
   ul li {
     font-size: 12px;
-    list-style: square; } }
+    list-style: square; }
+}
