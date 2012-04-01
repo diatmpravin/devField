@@ -3,10 +3,13 @@
 		= "Type: #{omx_request.request_type} (Q:#{omx_request.queue_flag} V:#{omx_request.verify_flag}) - #{omx_request.created_at}"
 	%td
 		- r = omx_request.omx_response
-		="Success:#{r.success}"
-		- if r.ordermotion_response_id
-			= " - #{r.ordermotion_response_id}"
-		- if r.ordermotion_order_number
-			= " - OMX #:#{r.ordermotion_order_number}"
-		- if r.error_data
-			= " - #{r.error_data}"
+		- if !r.nil?
+			="Success:#{r.success}"
+			- if r.ordermotion_response_id
+				= " - #{r.ordermotion_response_id}"
+			- if r.ordermotion_order_number
+				= " - OMX #:#{r.ordermotion_order_number}"
+			- if r.error_data
+				= " - #{r.error_data}"
+		- else
+			= "No response from OMX"
