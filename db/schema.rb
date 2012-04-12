@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120130151711) do
+ActiveRecord::Schema.define(:version => 20120412024031) do
 
   create_table "brands", :force => true do |t|
     t.string   "name"
@@ -158,7 +158,7 @@ ActiveRecord::Schema.define(:version => 20120130151711) do
     t.string   "ordermotion_order_number"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string   "error_data"
+    t.text     "error_data"
   end
 
   add_index "omx_responses", ["omx_request_id"], :name => "index_omx_responses_on_omx_request_id"
@@ -231,6 +231,7 @@ ActiveRecord::Schema.define(:version => 20120130151711) do
     t.string   "icon_content_type"
     t.integer  "icon_file_size"
     t.datetime "icon_updated_at"
+    t.string   "authenticated_url"
   end
 
   create_table "sub_variants", :force => true do |t|
