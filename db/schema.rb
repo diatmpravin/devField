@@ -27,16 +27,6 @@ ActiveRecord::Schema.define(:version => 20120130151711) do
 
   add_index "brands", ["vendor_id"], :name => "index_brands_on_vendor_id"
 
-  create_table "imports", :force => true do |t|
-    t.string   "datatype"
-    t.integer  "processed"
-    t.string   "csv_file_name"
-    t.string   "csv_content_type"
-    t.integer  "csv_file_size"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
   create_table "mws_order_items", :force => true do |t|
     t.string   "asin"
     t.string   "amazon_order_item_id"
@@ -228,17 +218,6 @@ ActiveRecord::Schema.define(:version => 20120130151711) do
 
   add_index "states", ["raw_state"], :name => "index_states_on_raw_state"
 
-  create_table "store_products", :force => true do |t|
-    t.integer  "store_id"
-    t.integer  "product_id"
-    t.string   "foreign_id"
-    t.string   "handle"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  add_index "store_products", ["product_id"], :name => "index_store_products_on_product_id"
-
   create_table "stores", :force => true do |t|
     t.string   "name"
     t.string   "store_type",             :default => "MWS"
@@ -248,7 +227,6 @@ ActiveRecord::Schema.define(:version => 20120130151711) do
     t.integer  "max_order_pages",        :default => 10
     t.string   "queue_flag",             :default => "False"
     t.string   "verify_flag",            :default => "True"
-    t.string   "authenticated_url"
     t.string   "icon_file_name"
     t.string   "icon_content_type"
     t.integer  "icon_file_size"
@@ -258,9 +236,9 @@ ActiveRecord::Schema.define(:version => 20120130151711) do
   create_table "sub_variants", :force => true do |t|
     t.integer  "variant_id"
     t.string   "sku"
+    t.string   "upc"
     t.string   "size"
     t.string   "availability"
-    t.string   "upc"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.text     "asin"
